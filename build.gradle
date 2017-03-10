@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'android-apt'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/wyouflf/xUtils3'
+def gitUrl = 'https://github.com/wyouflf/xUtils3.git'
+group = "org.xutils"
+version = "3.3.42"
+
+android {
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 18
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    useLibrary 'org.apache.http.legacy'
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+//    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.orhanobut:logger:1.15'     //优秀Logger打印
+//    compile 'com.apkfuns.logutils:library:1.4.2.2'      //试用
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.beardedhen:androidbootstrap:2.3.1'
+//    apt 'com.jakewharton:butterknife-compiler:8.3.0'      //在库里面使用butterknife有问题，建议在应用中使用
+//    compile 'com.jakewharton:butterknife:8.3.0'
+}
