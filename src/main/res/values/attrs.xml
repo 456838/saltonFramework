@@ -8,4 +8,10 @@
         <attr name="warningColor" format="color"/>
         <attr name="consoleColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="EasyClearEditText">
+        <attr name="allowInteractive" format="boolean"/>
+        <attr name="tag" format="reference|integer"/>
+        <attr name="tipsIcon" format="reference"/>
+    </declare-styleable>
 </resources>

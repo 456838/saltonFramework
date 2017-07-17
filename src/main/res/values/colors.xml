@@ -8,4 +8,9 @@
 
     <color name="defaultTextColor">#FFFFFF</color>
     <color name="defaultConsoleColor">#000000</color>
+
+    <color name="colorPrimary">#1ec399</color>
+    <color name="colorPrimaryDark">#1ec399</color>
+    <color name="colorAccent">#1ec399</color>
+    <color name="default_background">#efeff4</color>
 </resources>
