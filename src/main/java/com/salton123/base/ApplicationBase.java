@@ -2,6 +2,7 @@ package com.salton123.base;
 
 import android.app.Application;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.salton123.app.BaseCrashHandler;
 import com.salton123.app.RebootThreadExceptionHandler;
 import com.salton123.common.image.FrescoImageLoader;
@@ -29,7 +30,7 @@ public class ApplicationBase extends Application {
         super.onCreate();
         mInstance = this;
         x.Ext.init(this);   //初始化Xutils
-//        TypefaceProvider.registerDefaultIconSets();
+        TypefaceProvider.registerDefaultIconSets();
         FrescoImageLoader.Init(this);
     }
 
