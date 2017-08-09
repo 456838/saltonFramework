@@ -18,8 +18,8 @@ import com.salton123.util.StringUtils;
 
 import java.io.Serializable;
 
+import io.reactivex.disposables.CompositeDisposable;
 import me.yokeyword.fragmentation.SupportFragment;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * User: 巫金生(newSalton@163.com)
@@ -141,12 +141,12 @@ public abstract class BaseSupportFragment extends SupportFragment {
         Logger.d(p_Msg);
     }
 
-    protected CompositeSubscription mCompositeSubscription = new CompositeSubscription();
+    protected CompositeDisposable mCompositeSubscription = new CompositeDisposable();
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeSubscription.unsubscribe();
+        mCompositeSubscription.dispose();
     }
 
     /**

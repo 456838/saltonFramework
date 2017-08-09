@@ -4,9 +4,10 @@ package com.salton123.mvp.presenter;
 import com.salton123.mvp.util.RxBus;
 import com.salton123.mvp.view.BaseView;
 
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by codeest on 2016/8/2.
@@ -15,27 +16,29 @@ import rx.subscriptions.CompositeSubscription;
 public class RxPresenter<T extends BaseView> implements BasePresenter<T> {
 
     protected T mView;
-    protected CompositeSubscription mCompositeSubscription;
+    protected CompositeDisposable mCompositeSubscription;
 
     protected void unSubscribe() {
         if (mCompositeSubscription != null) {
-            mCompositeSubscription.unsubscribe();
+            mCompositeSubscription.dispose();
         }
     }
 
-    protected void addSubscrebe(Subscription subscription) {
+    protected void addSubscrebe(Disposable subscription) {
         if (mCompositeSubscription == null) {
-            mCompositeSubscription = new CompositeSubscription();
+            mCompositeSubscription = new CompositeDisposable();
         }
         mCompositeSubscription.add(subscription);
     }
 
-    protected <U> void addRxBusSubscribe(Class<U> eventType, Action1<U> act) {
+    protected <U> void addRxBusSubscribe(Class<U> eventType, Consumer<U> act) {
         if (mCompositeSubscription == null) {
-            mCompositeSubscription = new CompositeSubscription();
+            mCompositeSubscription = new CompositeDisposable();
         }
         mCompositeSubscription.add(RxBus.getDefault().toDefaultObservable(eventType, act));
     }
+
+
 
     @Override
     public void attachView(T view) {

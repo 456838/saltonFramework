@@ -1,13 +1,17 @@
 package com.salton123.mvp.util;
 
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by codeest on 2016/8/3.
+ * Created by newsalton
  */
 public class RxUtil {
 
@@ -16,12 +20,11 @@ public class RxUtil {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<T, T> rxSchedulerHelper() {    //compose简化线程
-        return new Observable.Transformer<T, T>() {
+    public static <T> ObservableTransformer<T,T> rxSchedulerHelper(){
+        return new ObservableTransformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<T> observable) {
-                return observable.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+            public ObservableSource<T> apply(@NonNull Observable<T> upstream) {
+                return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
         };
     }
@@ -33,15 +36,15 @@ public class RxUtil {
      * @param <T>
      * @return
      */
-    public static <T> Observable<T> createData(final T t) {
-        return Observable.create(new Observable.OnSubscribe<T>() {
+    public static <T> Observable<T> createData(final T t){
+        return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public void subscribe(@NonNull ObservableEmitter<T> emitter) throws Exception {
                 try {
-                    subscriber.onNext(t);
-                    subscriber.onCompleted();
-                } catch (Exception e) {
-                    subscriber.onError(e);
+                    emitter.onNext(t);
+                    emitter.onComplete();
+                }catch (Exception e){
+                    emitter.onError(e);
                 }
             }
         });

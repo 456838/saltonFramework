@@ -1,21 +1,22 @@
 package com.salton123.mvp.util;
 
-import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action1;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
-import rx.subjects.Subject;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * Created by codeest on 2016/8/2.
  */
 public class RxBus {
     // 主题
-    private final Subject<Object, Object> bus;
+//    private final Subject<Object, Object> bus;
+    private final Subject<Object> bus ;
     // PublishSubject只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者
     private RxBus() {
-        bus = new SerializedSubject<>(PublishSubject.create());
+        bus =  PublishSubject.create().toSerialized();
     }
 
     public static RxBus getDefault() {
@@ -38,7 +39,7 @@ public class RxBus {
     }
 
     // 封装默认订阅
-    public <T> Subscription toDefaultObservable(Class<T> eventType, Action1<T> act) {
+    public <T> Disposable toDefaultObservable(Class<T> eventType, Consumer<T> act) {
         return bus.ofType(eventType).compose(RxUtil.<T>rxSchedulerHelper()).subscribe(act);
     }
 

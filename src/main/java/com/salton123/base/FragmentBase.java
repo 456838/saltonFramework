@@ -17,7 +17,7 @@ import com.salton123.util.StringUtils;
 
 import java.io.Serializable;
 
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
 
 
 /**
@@ -129,12 +129,12 @@ public abstract class FragmentBase extends Fragment {
         Logger.d(p_Msg);
     }
 
-    protected CompositeSubscription mCompositeSubscription = new CompositeSubscription();
+    protected CompositeDisposable mCompositeSubscription = new CompositeDisposable();
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeSubscription.unsubscribe();
+        mCompositeSubscription.dispose();
     }
 
     /**

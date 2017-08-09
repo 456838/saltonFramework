@@ -15,8 +15,8 @@ import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
 
+import io.reactivex.disposables.CompositeDisposable;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * User: 巫金生(newSalton@163.com)
@@ -141,12 +141,12 @@ public abstract class BaseSupportSwipeBackFragment extends SwipeBackFragment {
         Logger.d(p_Msg);
     }
 
-    protected CompositeSubscription mCompositeSubscription = new CompositeSubscription();
+    protected CompositeDisposable mCompositeSubscription = new CompositeDisposable();
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeSubscription.unsubscribe();
+        mCompositeSubscription.dispose();
     }
 
 }

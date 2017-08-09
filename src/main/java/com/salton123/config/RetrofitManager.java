@@ -1,7 +1,8 @@
 package com.salton123.config;
 
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -27,7 +28,7 @@ public class RetrofitManager {
                 .client(OkHttpClientManager.getInstance().okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
 //                .addConverterFactory()
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(url)
                 .build();
 

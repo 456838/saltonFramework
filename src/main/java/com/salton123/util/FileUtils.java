@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * File Utils
@@ -1011,5 +1012,57 @@ public class FileUtils {
             }
         }
         return dirSize;
+    }
+
+    private static Pattern FilePattern = Pattern.compile("[\\\\/:*?\"<>|]");
+
+    public static String filenameFilter(String str) {
+        return str == null ? null : FilePattern.matcher(str).replaceAll("");
+    }
+
+    /**
+     * open apk
+     *
+     * @param context
+     * @param apk
+     */
+    public static void openApk(Context context, File apk) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(apk),
+                "application/vnd.android.package-archive");
+        context.startActivity(intent);
+    }
+
+    /**
+     * 获取存放缓存的目录
+     *
+     * @return
+     */
+    public static String getCacheDir(Context context) {
+        File file = context.getExternalCacheDir();
+        return file.getPath();
+    }
+
+    /**
+     * 删除方法 这里只会删除某个文件夹下的文件<br/>
+     * 支持两级目录删除
+     */
+    public static void cleanCacheDir(Context context) {
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            File directory =context.getExternalCacheDir();
+            if (directory != null && directory.exists() && directory.isDirectory()) {
+                for (File item : directory.listFiles()) {
+                    if (item.isDirectory()) {
+                        for (File img : item.listFiles()) {
+                            img.delete();
+                        }
+                    }
+                    item.delete();
+                }
+            }
+        }
     }
 }
