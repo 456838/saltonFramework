@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
+import com.salton123.util.LogUtils;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -52,7 +52,7 @@ public abstract class ActivityBase extends Activity{
     }
 
     public void log(String p_Msg) {
-        Logger.d(p_Msg);
+        LogUtils.d(p_Msg);
     }
 
 

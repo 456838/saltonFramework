@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.orhanobut.logger.Logger;
+import com.salton123.util.LogUtils;
 
 
 /**
@@ -34,9 +34,9 @@ public class SafeDispatchHandler extends Handler {
         try {
             super.dispatchMessage(msg);
         } catch (Exception e) {
-            Logger.e(e.getMessage());
+            LogUtils.e(e.getMessage());
         } catch (Error error) {
-            Logger.e(error.getMessage());
+            LogUtils.e(error.getMessage());
         }
     }
 }

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
+import com.salton123.util.LogUtils;
 
 import java.io.Serializable;
 
@@ -138,7 +138,7 @@ public abstract class BaseSupportSwipeBackFragment extends SwipeBackFragment {
     }
 
     public void log(String p_Msg) {
-        Logger.d(p_Msg);
+        LogUtils.d(p_Msg);
     }
 
     protected CompositeDisposable mCompositeSubscription = new CompositeDisposable();

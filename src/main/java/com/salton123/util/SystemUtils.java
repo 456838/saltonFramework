@@ -3,6 +3,8 @@ package com.salton123.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
@@ -125,5 +127,36 @@ public class SystemUtils {
         }
         return null;
     }
+    /**
+     * 获取版本号
+     *
+     * @param context
+     * @return
+     */
+    public static String getAppVersionName(Context context) {
+        PackageManager manager = context.getPackageManager();
+        String appVersionName = "";
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            appVersionName = info.versionName; // 版本名，versionCode同理
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appVersionName;
+    }
+
+    public static int getAppVersionCode(Context context) {
+        PackageManager manager = context.getPackageManager();
+        int appVersionCode = 1;
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            appVersionCode = info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appVersionCode;
+    }
+
+
 
 }

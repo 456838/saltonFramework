@@ -13,8 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
+import com.salton123.util.LogUtils;
 import com.salton123.util.StringUtils;
+import com.salton123.util.ViewUtils;
 
 import java.io.Serializable;
 
@@ -109,7 +110,8 @@ public abstract class BaseSupportFragment extends SupportFragment {
      * @return
      */
     protected <VT extends View> VT f(@IdRes int id) {
-        return (VT) mContentView.findViewById(id);
+        return ViewUtils.f(mContentView, id);
+
     }
 
     /**
@@ -138,7 +140,7 @@ public abstract class BaseSupportFragment extends SupportFragment {
     }
 
     public void log(String p_Msg) {
-        Logger.d(p_Msg);
+        LogUtils.d(p_Msg);
     }
 
     protected CompositeDisposable mCompositeSubscription = new CompositeDisposable();
