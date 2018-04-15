@@ -27,36 +27,36 @@ public abstract class AdapterBase<T> extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-    public LayoutInflater GetLayoutInflater() {
+    public LayoutInflater getLayoutInflater() {
         return mLayoutInflater;
     }
 
-    public Context GetContext() {
+    public Context getContext() {
         return mContext;
     }
 
-    public List<T> GetList() {
+    public List<T> getList() {
         return mList;
     }
 
-    public void AddAll(List<T> p_List) {
-        GetList().clear();
-        GetList().addAll(p_List);
+    public void addAll(List<T> p_List) {
+        getList().clear();
+        getList().addAll(p_List);
         notifyDataSetChanged();
     }
 
-    public void AddToList(List<T> p_List) {
-        GetList().addAll(p_List);
+    public void addToList(List<T> p_List) {
+        getList().addAll(p_List);
         notifyDataSetChanged();
     }
 
-    public void AddNotify(T p_Object) {
-        GetList().add(p_Object);
+    public void addNotify(T p_Object) {
+        getList().add(p_Object);
         notifyDataSetChanged();
     }
 
-    public void Add(T p_Object) {
-        GetList().add(p_Object);
+    public void add(T p_Object) {
+        getList().add(p_Object);
     }
 
     @Override

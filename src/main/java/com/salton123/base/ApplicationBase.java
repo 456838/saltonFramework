@@ -2,12 +2,9 @@ package com.salton123.base;
 
 import android.app.Application;
 
-import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.salton123.app.BaseCrashHandler;
 import com.salton123.app.RebootThreadExceptionHandler;
-import com.salton123.common.image.FrescoImageLoader;
-
-import org.xutils.x;
+import com.salton123.manager.lifecycle.IActivityLifeCycle;
 
 
 /**
@@ -29,9 +26,7 @@ public class ApplicationBase extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        x.Ext.init(this);   //初始化Xutils
-        TypefaceProvider.registerDefaultIconSets();
-        FrescoImageLoader.Init(this);
+        IActivityLifeCycle.Factory.get().init(this);
     }
 
     /**
@@ -52,6 +47,7 @@ public class ApplicationBase extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+        IActivityLifeCycle.Factory.get().unInit();
     }
 
     // 在内存低时,发送广播可以释放一些内存
@@ -64,9 +60,9 @@ public class ApplicationBase extends Application {
      * 退出App
      */
     public void exitApp() {
-
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }
+
 
 }

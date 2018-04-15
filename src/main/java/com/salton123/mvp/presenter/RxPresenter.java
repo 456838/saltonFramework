@@ -1,7 +1,7 @@
 package com.salton123.mvp.presenter;
 
 
-import com.salton123.mvp.util.RxBus;
+import com.salton123.util.RxBus;
 import com.salton123.mvp.view.BaseView;
 
 import io.reactivex.disposables.CompositeDisposable;

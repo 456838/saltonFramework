@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.salton123.base.ApplicationBase;
 
@@ -71,6 +72,7 @@ public class SystemUtils {
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return wifiInfo != null;
     }
+
     /**
      * 检查手机网络(4G/3G/2G)是否连接
      */
@@ -80,6 +82,7 @@ public class SystemUtils {
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         return mobileNetworkInfo != null;
     }
+
     /**
      * 检查是否有可用网络
      */
@@ -90,6 +93,7 @@ public class SystemUtils {
 
     /**
      * 保存文字到剪贴板
+     *
      * @param context
      * @param text
      */
@@ -97,8 +101,9 @@ public class SystemUtils {
         ClipData clipData = ClipData.newPlainText("url", text);
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         manager.setPrimaryClip(clipData);
-        ToastUtil.showToast(context,"已复制到剪贴板");
+        Toast.makeText(context, "已复制到剪贴板", Toast.LENGTH_LONG).show();
     }
+
     /**
      * 获取进程号对应的进程名
      *
@@ -127,6 +132,7 @@ public class SystemUtils {
         }
         return null;
     }
+
     /**
      * 获取版本号
      *
@@ -156,7 +162,6 @@ public class SystemUtils {
         }
         return appVersionCode;
     }
-
 
 
 }
