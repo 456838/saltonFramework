@@ -1,6 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.salton123.saltonframework">
-
-    <application />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-</manifest>

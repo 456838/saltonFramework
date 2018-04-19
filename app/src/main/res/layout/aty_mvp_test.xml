@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+
+    >
+
+    <com.yy.mobile.memoryrecycle.views.YYTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/tv_hello"
+        android:text="sayhello"
+        android:gravity="center"
+        android:layout_gravity="center"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/fl_test"
+        ></FrameLayout>
+    <!--<fragment-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:id="@+id/fm_test"-->
+        <!--class="com.salton123.saltonframeworkdemo.mvp.MvpTestFragment"-->
+
+        <!--/>-->
+
+
+</LinearLayout>
