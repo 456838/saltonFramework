@@ -15,10 +15,12 @@ import me.yokeyword.fragmentation.SupportActivity
  */
 
 abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
+    private lateinit var mContentView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         initVariable(savedInstanceState)
         super.onCreate(savedInstanceState)
-        setContentView(getRootView())
+        mContentView = inflater().inflate(getLayout(), null)
+        setContentView(mContentView)
         initViewAndData()
         initListener()
     }
@@ -40,7 +42,7 @@ abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
     }
 
     override fun getRootView(): View {
-        return inflater().inflate(getLayout(), null)
+        return mContentView
     }
 
     override fun longToast(toast: String) {
