@@ -83,17 +83,8 @@ class FragmentDelegate(componentLife: IComponentLife) {
     companion object {
         open val ARG_ITEM = "arg_item"
 
-        open fun <T : Fragment> newInstance(clz: Class<T>): T? {
-            val bundle = Bundle()
-            var fragment: T? = null
-            try {
-                fragment = clz.newInstance()
-                fragment!!.arguments = bundle
-            } catch (e: Throwable) {
-
-            }
-
-            return fragment
+        open fun <T : Fragment> newInstance(clz: Class<T>): T {
+            return clz.newInstance()
         }
 
         open fun <T : Fragment> newInstance(clz: Class<T>, bundle: Bundle): T {

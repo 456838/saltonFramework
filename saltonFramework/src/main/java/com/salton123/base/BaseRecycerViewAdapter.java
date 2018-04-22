@@ -1,7 +1,6 @@
 package com.salton123.base;
 
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,16 +11,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class BaseRecycerViewAdapter<T,V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> {
+public abstract class BaseRecycerViewAdapter<T, V extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<V> {
     protected OnItemClickListener mClickListener;
     public static Context context;
-    public List<T> list;
+    private List<T> mData = new ArrayList<>();
     public LayoutInflater inflater;
 
-    public BaseRecycerViewAdapter(Context context, List<T> list) {
+    public BaseRecycerViewAdapter(Context context) {
         this.context = context;
-        this.list = new ArrayList<>();
-        this.addAll(list);
         inflater = LayoutInflater.from(context);
     }
 
@@ -29,9 +26,8 @@ public abstract class BaseRecycerViewAdapter<T,V extends RecyclerView.ViewHolder
         this.mClickListener = itemClickListener;
     }
 
-
-    public BaseRecycerViewAdapter(Context context) {
-        this(context,null);
+    public List<T> getData() {
+        return mData;
     }
 
     @Override
@@ -49,22 +45,22 @@ public abstract class BaseRecycerViewAdapter<T,V extends RecyclerView.ViewHolder
     public abstract void getBindViewHolder(V holder, int position);
 
     public void addAll(Collection<? extends T> collection) {
-        addAll(list.size(), collection);
+        addAll(mData.size(), collection);
     }
 
     public void addAll(int position, Collection<? extends T> collection) {
-        list.addAll(position, collection);
+        mData.addAll(position, collection);
         notifyItemRangeInserted(position, collection.size());
     }
 
     public void clear() {
-        list.clear();
+        mData.clear();
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return mData.size();
     }
 
     public interface OnItemClickListener {
