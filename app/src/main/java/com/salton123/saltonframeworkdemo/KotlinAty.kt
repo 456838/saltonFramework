@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.salton123.base.BaseSupportActivity
 import com.salton123.base.BaseSupportFragment
+import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.mvp.MvpTestFragment
 
 /**
@@ -19,7 +20,7 @@ class KotlinAty : BaseSupportActivity() {
     }
 
     override fun initVariable(savedInstanceState: Bundle?) {
-        BaseSupportFragment.newInstance(MvpTestFragment::class.java)
+        FragmentDelegate.newInstance(MvpTestFragment::class.java)
     }
 
     override fun initViewAndData() {

@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SaltonFrameworkDemo.iml" filepath="$PROJECT_DIR$/SaltonFrameworkDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/saltonFramework.iml" filepath="$PROJECT_DIR$/.idea/saltonFramework.iml" />
       <module fileurl="file://$PROJECT_DIR$/saltonFramework/saltonFramework.iml" filepath="$PROJECT_DIR$/saltonFramework/saltonFramework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saltonFramework/saltonFramework-saltonFramework.iml" filepath="$PROJECT_DIR$/saltonFramework/saltonFramework-saltonFramework.iml" />
     </modules>
   </component>
 </project>
