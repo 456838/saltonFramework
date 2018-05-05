@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.startActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -73,26 +74,26 @@ class FragmentDelegate(componentLife: IComponentLife) {
     }
 
     fun openActivity(clz: Class<*>, bundle: Bundle?) {
-        (mFragment as Activity).startActivity(Intent(mComponentLife.context(), clz).let { it.putExtras(bundle) })
+        mFragment.activity.startActivity(Intent(mComponentLife.context(), clz).let { it.putExtras(bundle) })
     }
 
     fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
-        (mFragment as Activity).startActivityForResult(Intent(mComponentLife.context(), clz).let { it.putExtras(bundle) }, requestCode)
+        mFragment.activity.startActivityForResult(Intent(mComponentLife.context(), clz).let { it.putExtras(bundle) }, requestCode)
     }
 
     companion object {
-        open val ARG_ITEM = "arg_item"
+        val ARG_ITEM = "arg_item"
 
-        open fun <T : Fragment> newInstance(clz: Class<T>): T {
+        fun <T : Fragment> newInstance(clz: Class<T>): T {
             return clz.newInstance()
         }
 
-        open fun <T : Fragment> newInstance(clz: Class<T>, bundle: Bundle): T {
+        fun <T : Fragment> newInstance(clz: Class<T>, bundle: Bundle): T {
             clz.newInstance().arguments
             return clz.newInstance().also { it.arguments = bundle }
         }
 
-        open fun <T : Fragment> newInstance(clz: Class<T>, value: Serializable): T {
+        fun <T : Fragment> newInstance(clz: Class<T>, value: Serializable): T {
             return clz.newInstance().also {
                 it.arguments = Bundle().also {
                     it.putSerializable(ARG_ITEM, value)
@@ -100,7 +101,7 @@ class FragmentDelegate(componentLife: IComponentLife) {
             }
         }
 
-        open fun <T : Fragment> newInstance(clz: Class<T>, value: Parcelable): T {
+        fun <T : Fragment> newInstance(clz: Class<T>, value: Parcelable): T {
             return clz.newInstance().also {
                 it.arguments = Bundle().also {
                     it.putParcelable(ARG_ITEM, value)

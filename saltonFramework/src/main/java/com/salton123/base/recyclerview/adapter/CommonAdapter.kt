@@ -15,7 +15,7 @@ import com.hazz.kotlinmvp.view.recyclerview.adapter.OnItemLongClickListener
  * desc: 通用的 Adapter
  */
 
-abstract class CommonAdapter<T>(var mContext: Context, var mLayoutId: Int) : RecyclerView.Adapter<ViewHolder>() {
+abstract class CommonAdapter<T>(var context: Context, var layoutId: Int) : RecyclerView.Adapter<ViewHolder>() {
     protected var mInflater: LayoutInflater? = null
     private var mTypeSupport: MultipleType<T>? = null
     private var mData: ArrayList<T> = ArrayList()
@@ -26,7 +26,7 @@ abstract class CommonAdapter<T>(var mContext: Context, var mLayoutId: Int) : Rec
     private var mItemLongClickListener: OnItemLongClickListener? = null
 
     init {
-        mInflater = LayoutInflater.from(mContext)
+        mInflater = LayoutInflater.from(context)
     }
 
     //需要多布局
@@ -37,10 +37,10 @@ abstract class CommonAdapter<T>(var mContext: Context, var mLayoutId: Int) : Rec
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (mTypeSupport != null) {
             //需要多布局
-            mLayoutId = viewType
+            layoutId = viewType
         }
         //创建view
-        val view = mInflater?.inflate(mLayoutId, parent, false)
+        val view = mInflater?.inflate(layoutId, parent, false)
         return ViewHolder(view!!)
     }
 
@@ -105,5 +105,9 @@ abstract class CommonAdapter<T>(var mContext: Context, var mLayoutId: Int) : Rec
     fun clear() {
         mData.clear()
         notifyDataSetChanged()
+    }
+
+    fun getData(): List<T> {
+        return mData
     }
 }

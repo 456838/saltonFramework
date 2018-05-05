@@ -2,6 +2,8 @@ package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.salton123.GlideApp;
 import com.salton123.base.FragmentBase;
 
 import org.jetbrains.annotations.Nullable;
@@ -30,6 +32,5 @@ public class JavaComponent extends FragmentBase {
 
     @Override
     public void initViewAndData() {
-
     }
 }

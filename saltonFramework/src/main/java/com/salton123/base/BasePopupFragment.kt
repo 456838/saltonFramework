@@ -2,19 +2,19 @@ package com.salton123.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 
 /**
- * User: 巫金生(newSalton@outlook.com)
- * Date: 2015/12/14 16:16
- * Time: 16:16
+ * User: newSalton@outlook.com
+ * Date: 2018/5/5 下午12:00
+ * ModifyTime: 下午12:00
  * Description:
  */
-abstract class FragmentBase : Fragment(), IComponentLife {
+abstract class BasePopupFragment : DialogFragment(), IComponentLife {
     private lateinit var mDelegate: FragmentDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {

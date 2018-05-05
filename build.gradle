@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '+'
+    ext.kotlin_version = '1.2.30'
     repositories {
         jcenter()
         maven { url 'https://jitpack.io' }
@@ -40,6 +40,8 @@ allprojects {
             force "com.android.support.constraint:constraint-layout:1.0.2"
             force "tv.danmaku.ijk.media:ijkplayer-java:${ijkplayer_version}"
             force "tv.danmaku.ijk.media:ijkplayer-armv7a:${ijkplayer_version}"
+            force "com.github.bumptech.glide:compiler:${glide_version}"
+            force "com.github.bumptech.glide:glide:${glide_version}"
         }
     }
 }
