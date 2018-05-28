@@ -18,7 +18,7 @@ import com.hazz.kotlinmvp.view.recyclerview.adapter.OnItemLongClickListener
 abstract class CommonAdapter<T>(var context: Context, var layoutId: Int) : RecyclerView.Adapter<ViewHolder>() {
     protected var mInflater: LayoutInflater? = null
     private var mTypeSupport: MultipleType<T>? = null
-    private var mData: ArrayList<T> = ArrayList()
+    private var mData: MutableList<T> = mutableListOf()
     //使用接口回调点击事件
     private var mItemClickListener: OnItemClickListener? = null
 
@@ -93,11 +93,19 @@ abstract class CommonAdapter<T>(var context: Context, var layoutId: Int) : Recyc
     }
 
 
-    fun addAll(collection: Collection<T>) {
+    fun add(item: T) {
+        mData.add(mData.size, item)
+    }
+
+    fun add(position: Int, item: T) {
+        mData.add(position, item)
+    }
+
+    fun addAll(collection: MutableList<T>) {
         addAll(mData.size, collection)
     }
 
-    fun addAll(position: Int, collection: Collection<T>) {
+    fun addAll(position: Int, collection: MutableList<T>) {
         mData.addAll(position, collection)
         notifyItemRangeInserted(position, collection.size)
     }
@@ -107,7 +115,7 @@ abstract class CommonAdapter<T>(var context: Context, var layoutId: Int) : Recyc
         notifyDataSetChanged()
     }
 
-    fun getData(): List<T> {
+    fun getData(): MutableList<T> {
         return mData
     }
 }

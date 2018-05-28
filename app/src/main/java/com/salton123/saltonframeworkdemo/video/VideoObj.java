@@ -7,7 +7,7 @@ package com.salton123.saltonframeworkdemo.video;
  * Description:
  */
 public class VideoObj {
-    Object[] mObjects = new Object[]{};
+    public Object[] mObjects = new Object[]{};
 
     public VideoObj(Object... items) {
         mObjects = items;

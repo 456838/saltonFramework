@@ -8,8 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.salton123.util.log.MLog;
-
 
 public class ScreenUtils {
 

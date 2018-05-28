@@ -3,14 +3,12 @@ package com.salton123.manager.lifecycle;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.salton123.util.log.MLog;
+import com.salton123.util.MLog;
 
 /**
  * User: newSalton@outlook.com

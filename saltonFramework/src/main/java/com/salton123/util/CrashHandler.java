@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
-import com.salton123.util.log.MLog;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;

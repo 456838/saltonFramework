@@ -1,13 +1,18 @@
 package com.salton123.saltonframeworkdemo.test;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.salton123.base.BaseSupportActivity;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
+import com.salton123.saltonframeworkdemo.UriProvider;
 import com.salton123.saltonframeworkdemo.video.OnStateChangeListener;
+import com.salton123.saltonframeworkdemo.video.VideoObj;
+import com.salton123.util.MLog;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -20,15 +25,24 @@ import org.jetbrains.annotations.Nullable;
 public class VideoTestAty extends BaseSupportActivity {
     private SaltonVideoView videoPlayer;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void initViewAndData() {
         videoPlayer = f(R.id.videoPlayer);
         videoPlayer.setCover(R.mipmap.video_bg_fingerprint);
-        videoPlayer.setUri();
+        videoPlayer.setVideoURI(UriProvider.getVideoPathUri("smart_gallery.mp4"));
+        videoPlayer.start();
+        videoPlayer.setInterval(50);
         videoPlayer.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(Message message) {
-                Log.i("aa", "[onStateChange] message.what=" + message.obj + ",obj=" + message.obj);
+                Log.i("aa", "[onStateChange] message.what=" + message.what + ",obj=" + message.obj);
+                if (message.what == 3) {
+                    VideoObj videoObj = (VideoObj) message.obj;
+                    int currentPosition = (int) videoObj.mObjects[0];
+                    int duration = (int) videoObj.mObjects[1];
+                    MLog.info("aa", currentPosition + ":" + duration);
+                }
             }
         });
     }

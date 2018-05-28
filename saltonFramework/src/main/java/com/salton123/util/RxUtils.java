@@ -1,8 +1,6 @@
 package com.salton123.util;
 
 
-import com.salton123.util.log.MLog;
-
 import org.reactivestreams.Publisher;
 
 import io.reactivex.Flowable;

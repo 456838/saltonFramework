@@ -23,7 +23,7 @@
             android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:background="@drawable/salton_load_pic"
+            tools:background="@mipmap/video_bg_fingerprint"
             />
     </FrameLayout>
 

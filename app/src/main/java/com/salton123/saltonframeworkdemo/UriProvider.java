@@ -3,7 +3,7 @@ package com.salton123.saltonframeworkdemo;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.salton123.util.log.MLog;
+import com.salton123.util.MLog;
 
 import java.io.File;
 

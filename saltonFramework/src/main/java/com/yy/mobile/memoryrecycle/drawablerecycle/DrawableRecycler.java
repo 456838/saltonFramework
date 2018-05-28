@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.salton123.saltonframework.BuildConfig;
-import com.salton123.util.log.MLog;
+import com.salton123.util.MLog;
 import com.yy.mobile.memoryrecycle.views.IImageRecycleView;
 import com.yy.mobile.memoryrecycle.views.IRecycleView;
 

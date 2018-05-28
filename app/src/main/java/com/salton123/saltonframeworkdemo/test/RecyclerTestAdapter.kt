@@ -9,6 +9,8 @@ import com.salton123.saltonframeworkdemo.R
 class RecyclerTestAdapter(mContext: Context, mLayoutId: Int)
     : CommonAdapter<String>(mContext, mLayoutId) {
 
+    init {
+    }
     override fun bindData(holder: ViewHolder, data: String, position: Int) {
         setData(holder, data)
     }
