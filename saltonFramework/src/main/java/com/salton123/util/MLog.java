@@ -1,8 +1,10 @@
 package com.salton123.util;
 
+
 public class MLog {
 
     public static void verbose(Object obj, String format, Object... args) {
+        
     }
 
 

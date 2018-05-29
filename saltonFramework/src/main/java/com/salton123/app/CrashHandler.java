@@ -1,4 +1,4 @@
-package com.salton123.util;
+package com.salton123.app;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
+import com.salton123.util.FileUtils;
+import com.salton123.util.MLog;
 
 import java.io.File;
 import java.io.FileOutputStream;
