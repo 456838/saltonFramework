@@ -1,61 +1,33 @@
 package com.salton123.util;
 
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.DiskLogAdapter;
+import com.orhanobut.logger.Logger;
+
 public class MLog {
 
-    public static void verbose(Object obj, String format, Object... args) {
-        
+    public static void init(){
+        Logger.addLogAdapter(new DiskLogAdapter());
+        Logger.addLogAdapter(new AndroidLogAdapter());
+    }
+    public static void verbose(String format, Object... args) {
+        Logger.v(format, args);
     }
 
-
-    public static void verboseWithoutLineNumber(Object obj, String format, Object... args) {
-
+    public static void debug(String format, Object... args) {
+        Logger.d(format,args);
     }
 
-
-    public static void debug(Object obj, String format, Object... args) {
-
+    public static void info(String format, Object... args) {
+        Logger.i(format, args);
     }
 
-    public static void debugWithoutLineNumber(Object obj, String format, Object... args) {
-
+    public static void warn(String format, Object... args) {
+        Logger.w(format, args);
     }
 
-
-    public static void info(Object obj, String format, Object... args) {
-
-    }
-
-    public static void infoWithoutLineNumber(Object obj, String format, Object... args) {
-
-    }
-
-
-    public static void warn(Object obj, String format, Object... args) {
-
-    }
-
-    public static void warnWithoutLineNumber(Object obj, String format, Object... args) {
-
-    }
-
-
-    public static void error(Object obj, String format, Object... args) {
-
-    }
-
-    public static void errorWithoutLineNumber(Object obj, String format, Object... args) {
-
-    }
-
-
-    public static void error(Object obj, String format, Throwable t, Object... args) {
-    }
-
-    public static void errorWithoutLineNumber(Object obj, String format, Throwable t, Object... args) {
-    }
-
-    public static void error(Object obj, Throwable t) {
-
+    public static void error(String format, Object... args) {
+        Logger.e(format, args);
     }
 }

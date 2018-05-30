@@ -6,6 +6,8 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.salton123.base.BaseSupportActivity;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
@@ -28,6 +30,8 @@ public class VideoTestAty extends BaseSupportActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void initViewAndData() {
+        MLog.init();
+
         videoPlayer = f(R.id.videoPlayer);
         videoPlayer.setCover(R.mipmap.video_bg_fingerprint);
         videoPlayer.setVideoURI(UriProvider.getVideoPathUri("smart_gallery.mp4"));
@@ -36,7 +40,11 @@ public class VideoTestAty extends BaseSupportActivity {
         videoPlayer.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(Message message) {
-                Log.i("aa", "[onStateChange] message.what=" + message.what + ",obj=" + message.obj);
+
+                MLog.info("[onStateChange] message.what=" + message.what + ",obj=" + message.obj);
+                Logger.i("[onStateChange] message.what=" + message.what + ",obj=" + message.obj);
+
+
                 if (message.what == 3) {
                     VideoObj videoObj = (VideoObj) message.obj;
                     int currentPosition = (int) videoObj.mObjects[0];
