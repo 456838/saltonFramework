@@ -8,13 +8,13 @@ import android.view.View
 import android.widget.Toast
 import com.salton123.util.LogUtils
 import com.salton123.util.ViewUtils
-import me.yokeyword.fragmentation.SupportActivity
+import me.yokeyword.fragmentation_swipeback.SwipeBackActivity
 
 /**
  * Created by Administrator on 2017/6/6.
  */
 
-abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
+abstract class BaseSupportActivity : SwipeBackActivity(), IComponentLife {
     private lateinit var mContentView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         initVariable(savedInstanceState)
