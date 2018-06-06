@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.hazz.kotlinmvp.view.recyclerview.adapter.OnItemClickListener
 import com.salton123.base.BaseSupportFragment
+import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.R
 import kotlinx.android.synthetic.main.cp_recycler_test.*
 import java.util.*
@@ -31,6 +32,7 @@ class RecyclerTestComponent : BaseSupportFragment() {
         mAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(obj: Any?, position: Int) {
                 longToast("position=$position" + ",obj=${obj.toString()}")
+                start(FragmentDelegate.newInstance(SwipeBackCp::class.java))
             }
         })
 
