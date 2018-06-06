@@ -93,29 +93,29 @@ abstract class CommonAdapter<T>(var context: Context, var layoutId: Int) : Recyc
     }
 
 
-    fun add(item: T) {
+    open fun add(item: T) {
         mData.add(mData.size, item)
     }
 
-    fun add(position: Int, item: T) {
+    open fun add(position: Int, item: T) {
         mData.add(position, item)
     }
 
-    fun addAll(collection: MutableList<T>) {
+    open fun addAll(collection: MutableList<T>) {
         addAll(mData.size, collection)
     }
 
-    fun addAll(position: Int, collection: MutableList<T>) {
+    open fun addAll(position: Int, collection: MutableList<T>) {
         mData.addAll(position, collection)
         notifyItemRangeInserted(position, collection.size)
     }
 
-    fun clear() {
+    open fun clear() {
         mData.clear()
         notifyDataSetChanged()
     }
 
-    fun getData(): MutableList<T> {
+    open fun getData(): MutableList<T> {
         return mData
     }
 }
