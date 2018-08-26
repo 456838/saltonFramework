@@ -1,6 +1,8 @@
 package com.salton123.manager.lifecycle;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.SparseArray;
 
 import com.salton123.core.IBaseCore;
 
@@ -14,6 +16,8 @@ public interface IFragmentLifeCycle extends IBaseCore {
     void init(FragmentManager fragmentManager);
 
     void unInit();
+
+    SparseArray<Fragment> getComponents();
 
     class Factory {
         public static IFragmentLifeCycle get() {

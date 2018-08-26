@@ -212,4 +212,9 @@ public class FragmentLifeCycleManager extends FragmentManager.FragmentLifecycleC
     public void unInit() {
 
     }
+
+    @Override
+    public SparseArray<Fragment> getComponents() {
+        return sActivityEventBusScopePool;
+    }
 }

@@ -13,8 +13,12 @@ import android.view.ViewGroup
  * Date: 2018/5/5 下午12:00
  * ModifyTime: 下午12:00
  * Description:
+ * set your style onCreate setStyle(DialogFragment.STYLE_NO_FRAME, R.style.FullScreenDialog)
+ *
+ *
+ *
  */
-abstract class BasePopupFragment : DialogFragment(), IComponentLife {
+abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
     private lateinit var mDelegate: FragmentDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {

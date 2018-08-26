@@ -84,27 +84,20 @@ class FragmentDelegate(componentLife: IComponentLife) {
     companion object {
         val ARG_ITEM = "arg_item"
 
-        fun <T : Fragment> newInstance(clz: Class<T>): T {
-            return clz.newInstance()
-        }
-
-        fun <T : Fragment> newInstance(clz: Class<T>, bundle: Bundle): T {
-            clz.newInstance().arguments
-            return clz.newInstance().also { it.arguments = bundle }
-        }
-
-        fun <T : Fragment> newInstance(clz: Class<T>, value: Serializable): T {
-            return clz.newInstance().also {
-                it.arguments = Bundle().also {
-                    it.putSerializable(ARG_ITEM, value)
-                }
-            }
-        }
-
-        fun <T : Fragment> newInstance(clz: Class<T>, value: Parcelable): T {
-            return clz.newInstance().also {
-                it.arguments = Bundle().also {
-                    it.putParcelable(ARG_ITEM, value)
+        fun <T : Fragment> newInstance(
+            clz: Class<T>
+            , bundle: Bundle? = null
+            , serial: Serializable? = null
+            , parcel: Parcelable? = null
+        ): T {
+            return clz.newInstance().apply {
+                if (bundle != null) {
+                    bundle.let { this.arguments = bundle }
+                    serial?.let { this.arguments = bundle.apply { this@apply.putSerializable(ARG_ITEM, it) } }
+                    parcel?.let { this.arguments = bundle.apply { this@apply.putParcelable(ARG_ITEM, it) } }
+                } else {
+                    serial?.let { this.arguments = Bundle.EMPTY.apply { this@apply.putSerializable(ARG_ITEM, it) } }
+                    parcel?.let { this.arguments = Bundle.EMPTY.apply { this@apply.putParcelable(ARG_ITEM, it) } }
                 }
             }
         }
