@@ -31,6 +31,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -332,10 +334,11 @@ public final class AppUtils {
                 .getSystemService(Context.ACTIVITY_SERVICE);
         // 获取正在运行的service列表
         List<RunningServiceInfo> serviceList = am.getRunningServices(100);
-        if (serviceList != null)
+        if (serviceList != null) {
             for (RunningServiceInfo service : serviceList) {
-                if (service.pid == android.os.Process.myPid())
+                if (service.pid == android.os.Process.myPid()) {
                     continue;
+                }
                 try {
                     android.os.Process.killProcess(service.pid);
                     count++;
@@ -343,10 +346,11 @@ public final class AppUtils {
                     e.getStackTrace();
                 }
             }
+        }
 
         // 获取正在运行的进程列表
         List<RunningAppProcessInfo> processList = am.getRunningAppProcesses();
-        if (processList != null)
+        if (processList != null) {
             for (RunningAppProcessInfo process : processList) {
                 // 一般数值大于RunningAppProcessInfo.IMPORTANCE_SERVICE的进程都长时间没用或者空进程了
                 // 一般数值大于RunningAppProcessInfo.IMPORTANCE_VISIBLE的进程都是非可见进程，也就是在后台运行着
@@ -366,6 +370,7 @@ public final class AppUtils {
                     }
                 }
             }
+        }
         if (DEBUG) {
             LogUtils.d(TAG, "清理了" + (getDeviceUsableMemory(context) - i) + "M内存");
         }
@@ -499,8 +504,9 @@ public final class AppUtils {
                 X509Certificate cert = (X509Certificate) cf
                         .generateCertificate(stream);
                 debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
-                if (debuggable)
+                if (debuggable) {
                     break;
+                }
             }
 
         } catch (NameNotFoundException e) {
@@ -511,6 +517,7 @@ public final class AppUtils {
 
     /**
      * 获取设备唯一标识
+     *
      * @param context
      * @return
      */
@@ -524,12 +531,15 @@ public final class AppUtils {
 
         UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
         String uniqueId = deviceUuid.toString();
-        if (BuildConfig.DEBUG) Log.d(TAG, "uuid=" + uniqueId);
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "uuid=" + uniqueId);
+        }
         return uniqueId;
     }
 
     /**
      * 是否是主线程
+     *
      * @return
      */
     public static boolean isMainProcess(Context context) {
@@ -545,4 +555,11 @@ public final class AppUtils {
         return false;
     }
 
+    @NonNull
+    public static <T> T checkNotNull(@Nullable final T obj) {
+        if (obj == null) {
+            throw new NullPointerException();
+        }
+        return obj;
+    }
 }

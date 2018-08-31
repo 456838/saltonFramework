@@ -52,22 +52,17 @@ abstract class CommonAdapter<T>(var context: Context, var layoutId: Int) : Recyc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //绑定数据
         bindData(holder, mData[position], position)
-
-//        if (mItemClickListener != null) {
-//            holder.itemView.setOnClickListener { mItemClickListener!!.onItemClick(mData[position], position) }
-//        }
-//        //长按点击事件
-//        if (mItemLongClickListener != null) {
-//            holder.itemView.setOnLongClickListener { mItemLongClickListener!!.onItemLongClick(mData[position], position) }
-//        }
         //条目点击事件
         mItemClickListener?.let {
-            holder.itemView.setOnClickListener { mItemClickListener!!.onItemClick(mData[position], position) }
+            holder.itemView.setOnClickListener {
+                mItemClickListener!!.onItemClick(mData[position], position)
+            }
         }
-
         //长按点击事件
         mItemLongClickListener?.let {
-            holder.itemView.setOnLongClickListener { mItemLongClickListener!!.onItemLongClick(mData[position], position) }
+            holder.itemView.setOnLongClickListener {
+                mItemLongClickListener!!.onItemLongClick(mData[position], position)
+            }
         }
     }
 

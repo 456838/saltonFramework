@@ -1,11 +1,9 @@
 package com.salton123.base
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.startActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -23,6 +21,7 @@ import java.io.Serializable
 class FragmentDelegate(componentLife: IComponentLife) {
     private var mComponentLife: IComponentLife = componentLife
     private var mFragment: Fragment
+    private lateinit var rootView: View
 
     init {
         if (mComponentLife !is Fragment) {
@@ -33,11 +32,12 @@ class FragmentDelegate(componentLife: IComponentLife) {
 
     fun onCreate(savedInstanceState: Bundle?) {
         mComponentLife.initVariable(savedInstanceState)
-        IFragmentLifeCycle.Factory.get().init(mFragment.fragmentManager)
+//        IFragmentLifeCycle.Factory.get().init(mFragment.fragmentManager)
     }
 
     fun onCreateView(): View? {
-        return getRootView()
+        rootView = inflater().inflate(mComponentLife.getLayout(), null)
+        return rootView
     }
 
     fun onViewCreated() {
@@ -46,7 +46,7 @@ class FragmentDelegate(componentLife: IComponentLife) {
     }
 
     fun onDestroy() {
-        IFragmentLifeCycle.Factory.get().unInit()
+//        IFragmentLifeCycle.Factory.get().unInit()
     }
 
     fun log(msg: String) {
@@ -62,11 +62,11 @@ class FragmentDelegate(componentLife: IComponentLife) {
     }
 
     fun <VT : View> f(id: Int): VT {
-        return ViewUtils.f(getRootView(), id)
+        return ViewUtils.f(rootView, id)
     }
 
     fun getRootView(): View {
-        return inflater().inflate(mComponentLife.getLayout(), null)
+        return rootView
     }
 
     fun inflater(): LayoutInflater {

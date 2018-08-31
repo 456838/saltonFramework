@@ -6,8 +6,6 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
 import com.salton123.base.BaseSupportActivity;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
@@ -18,6 +16,8 @@ import com.salton123.util.MLog;
 
 import org.jetbrains.annotations.Nullable;
 
+import static com.salton123.saltonframeworkdemo.video.StateType.STATE_PROGRESSING;
+
 /**
  * User: newSalton@outlook.com
  * Date: 2018/5/11 下午11:20
@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class VideoTestAty extends BaseSupportActivity {
     private SaltonVideoView videoPlayer;
+    private static final String TAG = "VideoTestAty";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -34,22 +35,16 @@ public class VideoTestAty extends BaseSupportActivity {
 
         videoPlayer = f(R.id.videoPlayer);
         videoPlayer.setCover(R.mipmap.video_bg_fingerprint);
-        videoPlayer.setVideoURI(UriProvider.getVideoPathUri("smart_gallery.mp4"));
+        videoPlayer.setVideoURI(UriProvider.getVideoPathUri("video_fingerprint.mp4"));
         videoPlayer.start();
-        videoPlayer.setInterval(50);
         videoPlayer.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(Message message) {
-
-                MLog.info("[onStateChange] message.what=" + message.what + ",obj=" + message.obj);
-                Logger.i("[onStateChange] message.what=" + message.what + ",obj=" + message.obj);
-
-
-                if (message.what == 3) {
+                if (message.what == STATE_PROGRESSING) {
                     VideoObj videoObj = (VideoObj) message.obj;
                     int currentPosition = (int) videoObj.mObjects[0];
                     int duration = (int) videoObj.mObjects[1];
-                    MLog.info("aa", currentPosition + ":" + duration);
+                    Log.i(TAG, currentPosition + ":" + duration);
                 }
             }
         });

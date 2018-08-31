@@ -10,7 +10,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import android.widget.VideoView;
 import com.salton123.saltonframeworkdemo.video.OnStateChangeListener;
 import com.salton123.saltonframeworkdemo.video.StateType;
 import com.salton123.saltonframeworkdemo.video.VideoObj;
-import com.salton123.util.RxUtils;
 
 import java.util.Map;
 import java.util.Timer;
@@ -37,14 +35,24 @@ public class SaltonVideoView extends FrameLayout
         , MediaPlayer.OnInfoListener
         , MediaPlayer.OnPreparedListener
         , MediaPlayer.OnCompletionListener
-        , MediaPlayer.OnBufferingUpdateListener, MediaController.MediaPlayerControl {
+        , MediaPlayer.OnBufferingUpdateListener
+        , MediaController.MediaPlayerControl {
+
     private final String TAG = "SaltonVideoView";
+    private OnStateChangeListener mOnStateChangeListener;
+
+    private VideoView mVideoView;
+    private ImageView mCover;
+    private FrameLayout mFlController;
+
+    int currentPos = 0;
+
+    private Timer mUpdateProgressTimer;
+    private TimerTask mUpdateProgressTimerTask;
 
     public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
         mOnStateChangeListener = onStateChangeListener;
     }
-
-    private OnStateChangeListener mOnStateChangeListener;
 
     public SaltonVideoView(Context context) {
         super(context);
@@ -61,12 +69,11 @@ public class SaltonVideoView extends FrameLayout
         initView();
     }
 
-    private VideoView mVideoView;
-    private ImageView mCover;
-    private FrameLayout mFlController;
-
     private void initView() {
-        LayoutInflater.from(getContext()).inflate(R.layout.salton_video_view, this, true);
+        LayoutInflater.from(getContext()).inflate(
+                R.layout.salton_video_view,
+                this,
+                true);
         mVideoView = findViewById(R.id.videoView);
         mFlController = findViewById(R.id.flController);
         mCover = findViewById(R.id.cover);
@@ -74,26 +81,7 @@ public class SaltonVideoView extends FrameLayout
         mVideoView.setOnInfoListener(this);
         mVideoView.setOnPreparedListener(this);
         mVideoView.setOnCompletionListener(this);
-        mVideoView.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                // Log.e(TAG, "[surfaceCreated] action=startUpdateProgressTimer ");
-                // startUpdateProgressTimer();
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-                Log.e(TAG, "[surfaceDestroyed] action=unInit ");
-                unInit();
-            }
-        });
     }
-
 
     public void setCover(int resId) {
         mFlController.setVisibility(View.VISIBLE);
@@ -117,10 +105,6 @@ public class SaltonVideoView extends FrameLayout
         mFlController.setVisibility(View.VISIBLE);
     }
 
-    public void restart() {
-        // mVideoView.
-    }
-
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         if (mOnStateChangeListener != null) {
@@ -129,44 +113,34 @@ public class SaltonVideoView extends FrameLayout
             message.obj = new VideoObj(mp, what, extra);
             mOnStateChangeListener.onStateChange(message);
         }
-        Log.e(TAG, "[onError] action=cancelUpdateProgressTimer ");
-        cancelUpdateProgressTimer();
+        cancelUpdateProgressTimer("onError");
         return false;
     }
 
     @Override
     public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+            mFlController.setVisibility(View.GONE);
+            mCover.setBackgroundColor(Color.TRANSPARENT);
+        }
         if (mOnStateChangeListener != null) {
             Message message = Message.obtain();
             message.what = StateType.STATE_INFO;
             message.obj = new VideoObj(mp, what, extra);
             mOnStateChangeListener.onStateChange(message);
         }
-        return false;
+        startUpdateProgressTimer();
+        return true;
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-            @Override
-            public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                    // mVideoView.setBackgroundColor(Color.TRANSPARENT);
-                    mFlController.setVisibility(View.GONE);
-                    mCover.setBackgroundColor(Color.TRANSPARENT);
-                }
-                return true;
-            }
-        });
         if (mOnStateChangeListener != null) {
             Message message = Message.obtain();
             message.what = StateType.STATE_PREPARE;
             message.obj = new VideoObj(mp);
             mOnStateChangeListener.onStateChange(message);
         }
-        startUpdateProgressTimer();
-        Log.e(TAG, "[onPrepared] action=startUpdateProgressTimer ");
-
     }
 
     @Override
@@ -177,8 +151,7 @@ public class SaltonVideoView extends FrameLayout
             message.obj = new VideoObj(mp);
             mOnStateChangeListener.onStateChange(message);
         }
-        Log.e(TAG, "[onCompletion] action=cancelUpdateProgressTimer ");
-        cancelUpdateProgressTimer();
+        cancelUpdateProgressTimer("onCompletion");
     }
 
     @Override
@@ -191,11 +164,8 @@ public class SaltonVideoView extends FrameLayout
         }
     }
 
-    private Timer mUpdateProgressTimer;
-    private TimerTask mUpdateProgressTimerTask;
-
     private void startUpdateProgressTimer() {
-        cancelUpdateProgressTimer();
+        cancelUpdateProgressTimer("startUpdateProgressTimer");
         if (mUpdateProgressTimer == null) {
             mUpdateProgressTimer = new Timer();
         }
@@ -208,7 +178,8 @@ public class SaltonVideoView extends FrameLayout
                     int pos = mVideoView.getCurrentPosition();
                     int duration = mVideoView.getDuration();
                     message.obj = new VideoObj(pos, duration);
-                    Log.e(TAG, "[startUpdateProgressTimer] update progress,pos=" + pos + ",duration=" + duration);
+                    // Log.e(TAG, "[startUpdateProgressTimer] update progress,pos=" + pos
+                    //         + ",duration=" + duration);
                     if (mOnStateChangeListener != null) {
                         mOnStateChangeListener.onStateChange(message);
                     }
@@ -218,18 +189,23 @@ public class SaltonVideoView extends FrameLayout
         mUpdateProgressTimer.schedule(mUpdateProgressTimerTask, getInterval(), getInterval());
     }
 
-    int currentPos = 0;
+    private void cancelUpdateProgressTimer(String from) {
+        Log.i(TAG, "[startUpdateProgressTimer] from = " + from);
+        if (mUpdateProgressTimer != null) {
+            mUpdateProgressTimer.cancel();
+            mUpdateProgressTimer = null;
+        }
+        if (mUpdateProgressTimerTask != null) {
+            mUpdateProgressTimerTask.cancel();
+            mUpdateProgressTimerTask = null;
+        }
+    }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         currentPos = mVideoView.getCurrentPosition();
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        seekTo(currentPos);
+        unInit();
     }
 
     public int getInterval() {
@@ -242,23 +218,12 @@ public class SaltonVideoView extends FrameLayout
 
     private int interval = 500;
 
-    private void cancelUpdateProgressTimer() {
-        if (mUpdateProgressTimer != null) {
-            mUpdateProgressTimer.cancel();
-            mUpdateProgressTimer = null;
-        }
-        if (mUpdateProgressTimerTask != null) {
-            mUpdateProgressTimerTask.cancel();
-            mUpdateProgressTimerTask = null;
-        }
-    }
-
 
     private void unInit() {
         if (mOnStateChangeListener != null) {
             mOnStateChangeListener = null;
         }
-        cancelUpdateProgressTimer();
+        cancelUpdateProgressTimer("unInit");
     }
 
 

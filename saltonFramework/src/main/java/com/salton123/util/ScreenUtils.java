@@ -272,19 +272,19 @@ public class ScreenUtils {
         return bp;
     }
 
-    public static double getAspectRatio(Activity activity){
+    public static double getAspectRatio(Activity activity) {
         int screentWidth = ScreenUtils.getScreenWidth(activity);
         int screenHeight = ScreenUtils.getScreenHeight(activity);
-        return screenHeight/screentWidth ;
+        return screenHeight / screentWidth;
     }
 
-    public static double getLandscapeAspectRatio(Activity activity){
-        double screentWidth =getScreenWidth(activity);
+    public static double getLandscapeAspectRatio(Activity activity) {
+        double screentWidth = getScreenWidth(activity);
         double screenHeight = getScreenHeight(activity);
-        double temp = screentWidth*2 ;
-        double ratio = screenHeight/temp;
-        MLog.info("ScreenUtils","getLandscapeAspectRatio="+ratio);
-        return ratio ;
+        double temp = screentWidth * 2;
+        double ratio = screenHeight / temp;
+        MLog.info("getLandscapeAspectRatio=" + ratio);
+        return ratio;
     }
 
 
@@ -308,7 +308,7 @@ public class ScreenUtils {
      * @return 屏幕宽度
      */
     public static int getScreenW(Activity activity) {
-        DisplayMetrics dm ;
+        DisplayMetrics dm;
         dm = activity.getResources().getDisplayMetrics();
         int w = dm.widthPixels;
         return w;

@@ -33,8 +33,8 @@ abstract class BaseSupportFragment : SupportFragment(), IComponentLife, ISwipeBa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mFragmentDelegate.onViewCreated()
         mDelegate.onViewCreated(view, savedInstanceState)
+        mFragmentDelegate.onViewCreated()
     }
 
 

@@ -10,9 +10,9 @@ apply plugin: 'maven'
 def siteUrl = 'https://github.com/456838/saltonFramework'
 def gitUrl = 'https://github.com/456838/saltonFramework.git'
 group = "com.salton123"
-version = "0.1.1.6"
+version = "0.1.1.21"
 
-//gradlew clean build bintrayUpload
+//.gradlew clean build bintrayUpload
 android {
     compileSdkVersion "${compile_sdk_version}" as Integer
     buildToolsVersion "${build_tools_version}"

@@ -9,7 +9,7 @@ import android.view.View
  * ModifyTime: 下午2:55
  * Description:
  */
-abstract class SingleClickListener(private var interval: Int) : View.OnClickListener {
+abstract class SingleClickListener(var interval: Int = 1000) : View.OnClickListener {
     private var lastClickTime: Long = 0
 
     override fun onClick(v: View) {
