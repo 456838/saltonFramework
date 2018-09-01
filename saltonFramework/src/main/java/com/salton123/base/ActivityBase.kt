@@ -17,11 +17,12 @@ import com.salton123.util.ViewUtils
  * Description:
  */
 abstract class ActivityBase : AppCompatActivity(), IComponentLife {
-
+    private lateinit var mContentView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         initVariable(savedInstanceState)
         super.onCreate(savedInstanceState)
-        setContentView(getRootView())
+        mContentView = inflater().inflate(getLayout(), null)
+        setContentView(mContentView)
         initViewAndData()
         initListener()
     }
@@ -43,7 +44,7 @@ abstract class ActivityBase : AppCompatActivity(), IComponentLife {
     }
 
     override fun getRootView(): View {
-        return inflater().inflate(getLayout(), null)
+        return mContentView
     }
 
     override fun longToast(toast: String) {
@@ -66,4 +67,5 @@ abstract class ActivityBase : AppCompatActivity(), IComponentLife {
     override fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
         startActivityForResult(Intent(this, clz).apply { bundle?.let { this@apply.putExtras(it) } }, requestCode)
     }
+
 }

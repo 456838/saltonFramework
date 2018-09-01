@@ -27,6 +27,7 @@ class KotlinAty : BaseSupportActivity() {
         var imageView = ImageView(context())
         imageView.setImageResource(R.mipmap.ic_launcher_round)
         (getRootView() as ViewGroup).addView(imageView)
+        openActivity(MainActivity::class.java)
 
     }
 }

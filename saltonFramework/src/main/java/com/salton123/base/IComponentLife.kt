@@ -35,7 +35,7 @@ interface IComponentLife {
 
     fun <VT : View> f(@IdRes id: Int): VT
 
-    fun openActivity(clz: Class<*>, bundle: Bundle?)
+    fun openActivity(clz: Class<*>, bundle: Bundle?= Bundle.EMPTY)
     
     fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int)
 

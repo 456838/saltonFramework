@@ -46,7 +46,7 @@ public class MvpTestAty extends BaseSupportPresenterActivity<MvpTestContract.Pre
         fl_test = f(R.id.fl_test);
         FragmentManager fragmentManager = getSupportFragmentManager();
         // loadRootFragment(R.id.fl_test, MvpTestFragment.Companion.newInstance(MvpTestFragment.class));
-        loadRootFragment(R.id.fl_test, FragmentDelegate.Companion.newInstance(RecyclerTestComponent.class));
+        // loadRootFragment(R.id.fl_test, FragmentDelegate.Companion.newInstance(RecyclerTestComponent.class));
     }
 
     @Override
