@@ -24,7 +24,7 @@ class KotlinAty : BaseSupportActivity() {
     }
 
     override fun initViewAndData() {
-        var imageView = ImageView(context())
+        var imageView = ImageView(activity())
         imageView.setImageResource(R.mipmap.ic_launcher_round)
         (getRootView() as ViewGroup).addView(imageView)
         openActivity(MainActivity::class.java)

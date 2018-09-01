@@ -2,6 +2,7 @@ package com.salton123.base
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +43,24 @@ abstract class BaseSupportSwipeBackFragment : SwipeBackFragment(), IComponentLif
 
     }
 
-    override fun context(): Context {
-        return this.context
+    override fun setListener(vararg ids: Int) {
+        for (id in ids) {
+            f<View>(id).setOnClickListener(this)
+        }
+    }
+
+    override fun setListener(vararg views: View) {
+        for (view in views) {
+            view.setOnClickListener(this)
+        }
+    }
+
+    override fun activity(): AppCompatActivity {
+        return this.activity as AppCompatActivity
+    }
+
+    override fun onClick(v: View?) {
+
     }
 
     override fun log(msg: String) {

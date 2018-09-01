@@ -54,11 +54,11 @@ class FragmentDelegate(componentLife: IComponentLife) {
     }
 
     fun longToast(toast: String) {
-        Toast.makeText(mComponentLife.context(), toast, Toast.LENGTH_LONG).show()
+        Toast.makeText(mComponentLife.activity(), toast, Toast.LENGTH_LONG).show()
     }
 
     fun shortToast(toast: String) {
-        Toast.makeText(mComponentLife.context(), toast, Toast.LENGTH_SHORT).show()
+        Toast.makeText(mComponentLife.activity(), toast, Toast.LENGTH_SHORT).show()
     }
 
     fun <VT : View> f(id: Int): VT {
@@ -70,15 +70,15 @@ class FragmentDelegate(componentLife: IComponentLife) {
     }
 
     fun inflater(): LayoutInflater {
-        return LayoutInflater.from(mComponentLife.context())
+        return LayoutInflater.from(mComponentLife.activity())
     }
 
     fun openActivity(clz: Class<*>, bundle: Bundle?) {
-        mFragment.activity.startActivity(Intent(mComponentLife.context(), clz).let { it.putExtras(bundle) })
+        mFragment.activity.startActivity(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) })
     }
 
     fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
-        mFragment.activity.startActivityForResult(Intent(mComponentLife.context(), clz).let { it.putExtras(bundle) }, requestCode)
+        mFragment.activity.startActivityForResult(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) }, requestCode)
     }
 
     companion object {

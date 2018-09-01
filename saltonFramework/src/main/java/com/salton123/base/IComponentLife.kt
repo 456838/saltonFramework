@@ -1,8 +1,8 @@
 package com.salton123.base
 
-import android.content.Context
 import android.os.Bundle
 import android.support.annotation.IdRes
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 
@@ -12,7 +12,7 @@ import android.view.View
  * ModifyTime: 16:57
  * Description: Aty和Fm通用接口
  */
-interface IComponentLife {
+interface IComponentLife : View.OnClickListener {
     fun getLayout(): Int    //当前布局
 
     fun getRootView(): View
@@ -27,7 +27,7 @@ interface IComponentLife {
 
     fun shortToast(toast: String)   //短Toast
 
-    fun context(): Context
+    fun activity(): AppCompatActivity
 
     fun log(msg: String)
 
@@ -35,8 +35,11 @@ interface IComponentLife {
 
     fun <VT : View> f(@IdRes id: Int): VT
 
-    fun openActivity(clz: Class<*>, bundle: Bundle?= Bundle.EMPTY)
-    
+    fun openActivity(clz: Class<*>, bundle: Bundle? = Bundle.EMPTY)
+
     fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int)
 
+    fun setListener(vararg ids: Int)
+
+    fun setListener(vararg views: View)
 }

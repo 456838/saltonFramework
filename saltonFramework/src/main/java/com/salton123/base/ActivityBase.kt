@@ -31,8 +31,24 @@ abstract class ActivityBase : AppCompatActivity(), IComponentLife {
 
     }
 
-    override fun context(): Context {
+    override fun setListener(vararg ids: Int) {
+        for (id in ids) {
+            f<View>(id).setOnClickListener(this)
+        }
+    }
+
+    override fun setListener(vararg views: View) {
+        for (view in views) {
+            view.setOnClickListener(this)
+        }
+    }
+
+    override fun activity(): AppCompatActivity {
         return this
+    }
+
+    override fun onClick(v: View?) {
+
     }
 
     override fun log(msg: String) {

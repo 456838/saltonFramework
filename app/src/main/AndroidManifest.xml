@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:name=".SaltonApplication"
         android:theme="@style/AppTheme">
-        <activity android:name=".test.VideoTestAty">
+        <activity android:name=".test.DrawTestAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

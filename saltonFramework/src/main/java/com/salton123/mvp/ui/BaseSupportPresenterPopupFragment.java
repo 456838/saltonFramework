@@ -3,7 +3,6 @@ package com.salton123.mvp.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.salton123.base.BaseSupportFragment;
 import com.salton123.base.BaseSupportPopupFragment;
 import com.salton123.mvp.presenter.BasePresenter;
 import com.salton123.mvp.view.BaseView;
