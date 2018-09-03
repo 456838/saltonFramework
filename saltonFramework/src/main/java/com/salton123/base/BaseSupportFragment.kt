@@ -1,15 +1,11 @@
 package com.salton123.base
 
 import android.os.Bundle
-import android.support.annotation.FloatRange
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import me.yokeyword.fragmentation.SupportFragment
-import me.yokeyword.fragmentation.SwipeBackLayout
-import me.yokeyword.fragmentation_swipeback.core.ISwipeBackFragment
-import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
 
 /**
  * User: 巫金生(newSalton@163.com)
@@ -17,67 +13,20 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
  * Description:
  * Updated:
  */
-abstract class BaseSupportFragment : SupportFragment(), IComponentLife, ISwipeBackFragment {
-    internal val mFragmentDelegate by lazy { FragmentDelegate(this) }
-    internal val mDelegate by lazy { SwipeBackFragmentDelegate(this) }
+abstract class BaseSupportFragment : SupportFragment(), IComponentLife {
+    private val mFragmentDelegate by lazy { FragmentDelegate(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
-        mDelegate.onCreate(savedInstanceState)
-        setSwipeBackEnable(false)
         super.onCreate(savedInstanceState)
         mFragmentDelegate.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return mFragmentDelegate.onCreateView()?.let { attachToSwipeBack(it) }
+        return mFragmentDelegate.onCreateView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mDelegate.onViewCreated(view, savedInstanceState)
         mFragmentDelegate.onViewCreated()
-    }
-
-
-    override fun attachToSwipeBack(view: View): View {
-        return mDelegate.attachToSwipeBack(view)
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        mDelegate.onHiddenChanged(hidden)
-    }
-
-    override fun getSwipeBackLayout(): SwipeBackLayout {
-        return mDelegate.swipeBackLayout
-    }
-
-    /**
-     * 是否可滑动
-     *
-     * @param enable
-     */
-    override fun setSwipeBackEnable(enable: Boolean) {
-        mDelegate.setSwipeBackEnable(enable)
-    }
-
-    override fun setEdgeLevel(edgeLevel: SwipeBackLayout.EdgeLevel) {
-        mDelegate.setEdgeLevel(edgeLevel)
-    }
-
-    override fun setEdgeLevel(widthPixel: Int) {
-        mDelegate.setEdgeLevel(widthPixel)
-    }
-
-    /**
-     * Set the offset of the parallax slip.
-     */
-    override fun setParallaxOffset(@FloatRange(from = 0.0, to = 1.0) offset: Float) {
-        mDelegate.setParallaxOffset(offset)
-    }
-
-    override fun onDestroyView() {
-        mDelegate.onDestroyView()
-        super.onDestroyView()
     }
 
     override fun onDestroy() {
@@ -141,5 +90,4 @@ abstract class BaseSupportFragment : SupportFragment(), IComponentLife, ISwipeBa
     override fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
         mFragmentDelegate.openActivityForResult(clz, bundle, requestCode)
     }
-
 }

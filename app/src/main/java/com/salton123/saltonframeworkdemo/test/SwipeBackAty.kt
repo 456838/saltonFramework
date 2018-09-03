@@ -2,6 +2,7 @@ package com.salton123.saltonframeworkdemo.test
 
 import android.os.Bundle
 import com.salton123.base.BaseSupportActivity
+import com.salton123.base.BaseSupportSwipeBackActivity
 import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.R
 
@@ -12,7 +13,7 @@ import com.salton123.saltonframeworkdemo.R
  * Description:
  */
 
-class SwipeBackAty : BaseSupportActivity() {
+class SwipeBackAty : BaseSupportSwipeBackActivity() {
     override fun getLayout(): Int = R.layout.salton_fm_container
 
     override fun initVariable(savedInstanceState: Bundle?) {

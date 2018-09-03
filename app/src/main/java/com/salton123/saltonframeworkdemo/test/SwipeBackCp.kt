@@ -2,6 +2,7 @@ package com.salton123.saltonframeworkdemo.test
 
 import android.os.Bundle
 import com.salton123.base.BaseSupportFragment
+import com.salton123.base.BaseSupportSwipeBackFragment
 import com.salton123.saltonframeworkdemo.R
 
 /**
@@ -10,7 +11,7 @@ import com.salton123.saltonframeworkdemo.R
  * ModifyTime: 下午5:21
  * Description:
  */
-class SwipeBackCp : BaseSupportFragment() {
+class SwipeBackCp : BaseSupportSwipeBackFragment() {
     override fun getLayout(): Int = R.layout.cp_java
 
     override fun initVariable(savedInstanceState: Bundle?) {

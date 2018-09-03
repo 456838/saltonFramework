@@ -5,19 +5,25 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import me.yokeyword.fragmentation.SupportActivity
+import me.yokeyword.fragmentation.SwipeBackLayout
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackActivity
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
 
 /**
  * Created by Administrator on 2017/6/6.
  */
 
-abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
+abstract class BaseSupportSwipeBackActivity : SupportActivity(), IComponentLife, ISwipeBackActivity {
+    private val mDelegate by lazy { SwipeBackActivityDelegate(this) }
     private val mActivityDelegate by lazy { ActivityDelegate(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
+        mDelegate.onCreate(savedInstanceState)
         mActivityDelegate.onCreate(savedInstanceState)
         super.onCreate(savedInstanceState)
         setContentView(mActivityDelegate.onCreateView())
         mActivityDelegate.onViewCreated()
+        setSwipeBackEnable(false)
         fragmentAnimator = DefaultHorizontalAnimator()
     }
 
@@ -74,6 +80,39 @@ abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
         mActivityDelegate.openActivityForResult(clz, bundle, requestCode)
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        mDelegate.onPostCreate(savedInstanceState)
+    }
+
+    override fun getSwipeBackLayout(): SwipeBackLayout {
+        return mDelegate.swipeBackLayout
+    }
+
+    /**
+     * 是否可滑动
+     * @param enable
+     */
+    override fun setSwipeBackEnable(enable: Boolean) {
+        mDelegate.setSwipeBackEnable(enable)
+    }
+
+    override fun setEdgeLevel(edgeLevel: SwipeBackLayout.EdgeLevel) {
+        mDelegate.setEdgeLevel(edgeLevel)
+    }
+
+    override fun setEdgeLevel(widthPixel: Int) {
+        mDelegate.setEdgeLevel(widthPixel)
+    }
+
+    /**
+     * 限制SwipeBack的条件,默认栈内Fragment数 <= 1时 , 优先滑动退出Activity , 而不是Fragment
+     *
+     * @return true: Activity优先滑动退出;  false: Fragment优先滑动退出
+     */
+    override fun swipeBackPriority(): Boolean {
+        return mDelegate.swipeBackPriority()
+    }
     override fun onDestroy() {
         mActivityDelegate.onDestroy()
         super.onDestroy()

@@ -4,12 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.Toast
-import com.salton123.manager.lifecycle.IFragmentLifeCycle
-import com.salton123.util.LogUtils
-import com.salton123.util.ViewUtils
+import android.support.v7.app.AppCompatActivity
 import java.io.Serializable
 
 /**
@@ -18,67 +13,28 @@ import java.io.Serializable
  * ModifyTime: 17:14
  * Description:
  */
-class FragmentDelegate(componentLife: IComponentLife) {
-    private var mComponentLife: IComponentLife = componentLife
-    private var mFragment: Fragment
-    private lateinit var rootView: View
+class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLife) {
+    override fun activity(): AppCompatActivity = mHost.activity as AppCompatActivity
+
+    private var mHost: Fragment
 
     init {
         if (mComponentLife !is Fragment) {
-            throw RuntimeException("Must extends Fragment")
+            throw RuntimeException("instance must Fragment")
         }
-        mFragment = componentLife as Fragment
+        mHost = componentLife as Fragment
     }
 
-    fun onCreate(savedInstanceState: Bundle?) {
-        mComponentLife.initVariable(savedInstanceState)
-//        IFragmentLifeCycle.Factory.get().init(mFragment.fragmentManager)
-    }
-
-    fun onCreateView(): View? {
-        rootView = inflater().inflate(mComponentLife.getLayout(), null)
-        return rootView
-    }
-
-    fun onViewCreated() {
-        mComponentLife.initViewAndData()
-        mComponentLife.initListener()
-    }
-
-    fun onDestroy() {
-//        IFragmentLifeCycle.Factory.get().unInit()
-    }
-
-    fun log(msg: String) {
-        LogUtils.d(msg)
-    }
-
-    fun longToast(toast: String) {
-        Toast.makeText(mComponentLife.activity(), toast, Toast.LENGTH_LONG).show()
-    }
-
-    fun shortToast(toast: String) {
-        Toast.makeText(mComponentLife.activity(), toast, Toast.LENGTH_SHORT).show()
-    }
-
-    fun <VT : View> f(id: Int): VT {
-        return ViewUtils.f(rootView, id)
-    }
-
-    fun getRootView(): View {
-        return rootView
-    }
-
-    fun inflater(): LayoutInflater {
-        return LayoutInflater.from(mComponentLife.activity())
+    fun openActivity(clz: Class<*>) {
+        activity().startActivity(Intent(mComponentLife.activity(), clz))
     }
 
     fun openActivity(clz: Class<*>, bundle: Bundle?) {
-        mFragment.activity.startActivity(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) })
+        mHost.startActivity(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) })
     }
 
     fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
-        mFragment.activity.startActivityForResult(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) }, requestCode)
+        mHost.startActivityForResult(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) }, requestCode)
     }
 
     companion object {
@@ -116,7 +72,7 @@ class FragmentDelegate(componentLife: IComponentLife) {
          */
         fun <T : Fragment> newInstance(
             clz: Class<T>
-            ,  bundle: Bundle? = null
+            , bundle: Bundle? = null
             , serial: Serializable? = null
             , parcel: Parcelable? = null
         ): T {

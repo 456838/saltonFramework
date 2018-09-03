@@ -1,12 +1,15 @@
 package com.salton123.base
 
-import android.content.Context
 import android.os.Bundle
+import android.support.annotation.FloatRange
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import me.yokeyword.fragmentation_swipeback.SwipeBackFragment
+import me.yokeyword.fragmentation.SupportFragment
+import me.yokeyword.fragmentation.SwipeBackLayout
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackFragment
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
 
 /**
  * User: 巫金生(newSalton@163.com)
@@ -14,28 +17,72 @@ import me.yokeyword.fragmentation_swipeback.SwipeBackFragment
  * Description: 必须要在onViewCreated中return attachToSwipeBack(mContentView);
  * Updated:
  */
-abstract class BaseSupportSwipeBackFragment : SwipeBackFragment(), IComponentLife {
+abstract class BaseSupportSwipeBackFragment : SupportFragment(), IComponentLife, ISwipeBackFragment {
 
-    private lateinit var mDelegate: FragmentDelegate
-
+    internal val mFragmentDelegate by lazy { FragmentDelegate(this) }
+    internal val mDelegate by lazy { SwipeBackFragmentDelegate(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
-        mDelegate = FragmentDelegate(this)
         mDelegate.onCreate(savedInstanceState)
+        setSwipeBackEnable(false)
         super.onCreate(savedInstanceState)
-        setParallaxOffset(0.5f)
+        mFragmentDelegate.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return mDelegate.onCreateView()
+        return mFragmentDelegate.onCreateView()?.let { attachToSwipeBack(it) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mDelegate.onViewCreated()
+        mDelegate.onViewCreated(view, savedInstanceState)
+        mFragmentDelegate.onViewCreated()
+    }
+
+
+    override fun attachToSwipeBack(view: View): View {
+        return mDelegate.attachToSwipeBack(view)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        mDelegate.onHiddenChanged(hidden)
+    }
+
+    override fun getSwipeBackLayout(): SwipeBackLayout {
+        return mDelegate.swipeBackLayout
+    }
+
+    /**
+     * 是否可滑动
+     *
+     * @param enable
+     */
+    override fun setSwipeBackEnable(enable: Boolean) {
+        mDelegate.setSwipeBackEnable(enable)
+    }
+
+    override fun setEdgeLevel(edgeLevel: SwipeBackLayout.EdgeLevel) {
+        mDelegate.setEdgeLevel(edgeLevel)
+    }
+
+    override fun setEdgeLevel(widthPixel: Int) {
+        mDelegate.setEdgeLevel(widthPixel)
+    }
+
+    /**
+     * Set the offset of the parallax slip.
+     */
+    override fun setParallaxOffset(@FloatRange(from = 0.0, to = 1.0) offset: Float) {
+        mDelegate.setParallaxOffset(offset)
+    }
+
+    override fun onDestroyView() {
+        mDelegate.onDestroyView()
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
-        mDelegate.onDestroy()
+        mFragmentDelegate.onDestroy()
         super.onDestroy()
     }
 
@@ -64,36 +111,36 @@ abstract class BaseSupportSwipeBackFragment : SwipeBackFragment(), IComponentLif
     }
 
     override fun log(msg: String) {
-        mDelegate.log(msg)
+        mFragmentDelegate.log(msg)
     }
 
 
     override fun longToast(toast: String) {
-        mDelegate.longToast(toast)
+        mFragmentDelegate.longToast(toast)
     }
 
     override fun shortToast(toast: String) {
-        mDelegate.shortToast(toast)
+        mFragmentDelegate.shortToast(toast)
     }
 
     override fun <VT : View> f(id: Int): VT {
-        return mDelegate.f(id)
+        return mFragmentDelegate.f(id)
     }
 
     override fun getRootView(): View {
-        return mDelegate.getRootView()
+        return mFragmentDelegate.getRootView()
     }
 
     override fun inflater(): LayoutInflater {
-        return mDelegate.inflater()
+        return mFragmentDelegate.inflater()
     }
 
     override fun openActivity(clz: Class<*>, bundle: Bundle?) {
-        mDelegate.openActivity(clz, bundle)
+        mFragmentDelegate.openActivity(clz, bundle)
     }
 
     override fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
-        mDelegate.openActivityForResult(clz, bundle, requestCode)
+        mFragmentDelegate.openActivityForResult(clz, bundle, requestCode)
     }
 
 }

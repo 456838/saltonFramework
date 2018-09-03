@@ -1,13 +1,11 @@
 package com.salton123.base
 
-import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.salton123.event.PopupStyle
 
 
 /**
@@ -17,46 +15,30 @@ import com.salton123.event.PopupStyle
  * Description:
  * set your style onCreate setStyle(DialogFragment.STYLE_NO_FRAME, R.style.FullScreenDialog)
  *
- *
- *
  */
 abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
-    private lateinit var mDelegate: FragmentDelegate
-
+    private val mFragmentDelegate by lazy { FragmentDelegate(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
-        mDelegate = FragmentDelegate(this)
-        mDelegate.onCreate(savedInstanceState)
         super.onCreate(savedInstanceState)
-        setStyle(popupStyle().style, popupStyle().theme)
+        mFragmentDelegate.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return mDelegate.onCreateView()
+        return mFragmentDelegate.onCreateView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mDelegate.onViewCreated()
+        mFragmentDelegate.onViewCreated()
     }
 
     override fun onDestroy() {
-        mDelegate.onDestroy()
+        mFragmentDelegate.onDestroy()
         super.onDestroy()
     }
 
+    override fun initListener() {
 
-    fun popupStyle(): PopupStyle {
-        return PopupStyle()
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        var dialog = super.onCreateDialog(savedInstanceState)
-        dialog.setCanceledOnTouchOutside(popupStyle().canceledOnTouchOutside)
-        dialog.window.setWindowAnimations(popupStyle().anim)
-        dialog.window.setBackgroundDrawableResource(popupStyle().backgroundDrawableResource)
-        dialog.window.setLayout(popupStyle().layoutWidth, popupStyle().layoutHeight)
-        dialog.window.setGravity(popupStyle().gravity)
-        return dialog
     }
 
     override fun setListener(vararg ids: Int) {
@@ -79,41 +61,38 @@ abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
 
     }
 
-    override fun initListener() {
-
-    }
-
     override fun log(msg: String) {
-        mDelegate.log(msg)
+        mFragmentDelegate.log(msg)
     }
 
 
     override fun longToast(toast: String) {
-        mDelegate.longToast(toast)
+        mFragmentDelegate.longToast(toast)
     }
 
     override fun shortToast(toast: String) {
-        mDelegate.shortToast(toast)
+        mFragmentDelegate.shortToast(toast)
     }
 
     override fun <VT : View> f(id: Int): VT {
-        return mDelegate.f(id)
+        return mFragmentDelegate.f(id)
     }
 
     override fun getRootView(): View {
-        return mDelegate.getRootView()
+        return mFragmentDelegate.getRootView()
     }
 
     override fun inflater(): LayoutInflater {
-        return mDelegate.inflater()
+        return mFragmentDelegate.inflater()
     }
 
     override fun openActivity(clz: Class<*>, bundle: Bundle?) {
-        mDelegate.openActivity(clz, bundle)
+        mFragmentDelegate.openActivity(clz, bundle)
     }
 
     override fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
-        mDelegate.openActivityForResult(clz, bundle, requestCode)
+        mFragmentDelegate.openActivityForResult(clz, bundle, requestCode)
     }
+
 
 }

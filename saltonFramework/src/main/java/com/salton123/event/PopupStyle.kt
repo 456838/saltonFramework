@@ -14,7 +14,7 @@ import com.salton123.saltonframework.R
 data class PopupStyle(
     var style: Int = DialogFragment.STYLE_NORMAL,
     var theme: Int = R.style.salton_full_screen_dialog,
-    var anim: Int = R.style.salton_dialog_horizontal_anim,
+    var anim: Int = R.style.salton_dialog_right_anim,
     var canceledOnTouchOutside: Boolean = true,
     var backgroundDrawableResource: Int = android.R.color.transparent,
     var layoutWidth: Int = WindowManager.LayoutParams.MATCH_PARENT,
