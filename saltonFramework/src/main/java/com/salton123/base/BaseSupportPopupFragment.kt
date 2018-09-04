@@ -1,11 +1,13 @@
 package com.salton123.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.salton123.event.PopupStyle
 
 
 /**
@@ -21,6 +23,21 @@ abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFragmentDelegate.onCreate(savedInstanceState)
+        setStyle(popupStyle().style, popupStyle().theme)
+    }
+
+    open fun popupStyle(): PopupStyle {
+        return PopupStyle()
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        var dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setCanceledOnTouchOutside(popupStyle().canceledOnTouchOutside)
+        dialog.window.setWindowAnimations(popupStyle().anim)
+        dialog.window.setBackgroundDrawableResource(popupStyle().backgroundDrawableResource)
+        dialog.window.setLayout(popupStyle().layoutWidth, popupStyle().layoutHeight)
+        dialog.window.setGravity(popupStyle().gravity)
+        return dialog
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
