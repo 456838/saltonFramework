@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.salton123.event.PopupStyle
+import com.salton123.util.PopupStyleHelper
 
 
 /**
@@ -31,7 +32,7 @@ abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        var dialog = super.onCreateDialog(savedInstanceState)
+        var dialog = PopupStyleHelper.fullScreenStyle(super.onCreateDialog(savedInstanceState))
         dialog.setCanceledOnTouchOutside(popupStyle().canceledOnTouchOutside)
         dialog.window.setWindowAnimations(popupStyle().anim)
         dialog.window.setBackgroundDrawableResource(popupStyle().backgroundDrawableResource)
