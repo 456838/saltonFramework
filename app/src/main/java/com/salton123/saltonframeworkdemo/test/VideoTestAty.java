@@ -12,7 +12,6 @@ import com.salton123.saltonframeworkdemo.SaltonVideoView;
 import com.salton123.saltonframeworkdemo.UriProvider;
 import com.salton123.saltonframeworkdemo.video.OnStateChangeListener;
 import com.salton123.saltonframeworkdemo.video.VideoObj;
-import com.salton123.util.MLog;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +30,6 @@ public class VideoTestAty extends BaseSupportActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void initViewAndData() {
-        MLog.init();
 
         videoPlayer = f(R.id.videoPlayer);
         videoPlayer.setCover(R.mipmap.video_bg_fingerprint);

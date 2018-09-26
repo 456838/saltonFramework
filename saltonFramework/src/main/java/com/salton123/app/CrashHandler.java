@@ -6,14 +6,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
 
-import com.salton123.util.FileUtils;
-import com.salton123.util.MLog;
+import com.salton123.log.XLog;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -89,7 +84,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
         // 设置该 CrashHandler 为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
-        MLog.debug("TEST", "Crash:init");
     }
 
     /**
@@ -104,7 +98,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                MLog.error(TAG, "error : ", e);
+                XLog.e(e.getMessage());
             }
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -160,7 +154,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 infos.put("versionCode", versionCode);
             }
         } catch (NameNotFoundException e) {
-            Log.e(TAG, "an error occured when collect package info", e);
+            XLog.e("an error occured when collect package info" + e);
         }
 
         Field[] fields = Build.class.getDeclaredFields();
@@ -168,9 +162,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
             try {
                 field.setAccessible(true);
                 infos.put(field.getName(), field.get(null).toString());
-                Log.d(TAG, field.getName() + " : " + field.get(null));
             } catch (Exception e) {
-                Log.e(TAG, "an error occured when collect crash info", e);
+                XLog.e("an error occured when collect crash info", e);
             }
         }
     }
@@ -199,24 +192,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
             String fileName = "crash-" + time + "-" + timestamp + ".txt";
-
-            if (Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED)) {
-                String path = FileUtils.getCacheDir(mContext)
-                        + "/crash/";
-
-                File dir = new File(path);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                FileOutputStream fos = new FileOutputStream(path + fileName);
-                fos.write(sb.toString().getBytes());
-                fos.close();
-            }
-
+            XLog.e("crash start \n" + sb.toString());
             return fileName;
         } catch (Exception e) {
-            Log.e(TAG, "an error occured while writing file...", e);
+            XLog.e(e);
         }
 
         return null;
@@ -242,7 +221,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
                     .append("; line: ").append(stacks[i].getLineNumber())
                     .append(";  Exception: ").append(ex.toString() + "\n");
         }
-        Log.d(TAG, sb.toString());
         return sb;
     }
 
@@ -255,7 +233,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         Pattern pattern;
         Matcher matcher;
         for (Entry<String, String> m : regexMap.entrySet()) {
-            Log.d(TAG, e + "key:" + m.getKey() + "; value:" + m.getValue());
             pattern = Pattern.compile(m.getKey());
             matcher = pattern.matcher(e);
             if (matcher.matches()) {
@@ -280,7 +257,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         // OutOfMemoryError 
         // StackOverflowError 
         // RuntimeException 
-/*        regexMap.put(".*NullPointerException.*", "嘿，无中生有~Boom!");
+        regexMap.put(".*NullPointerException.*", "嘿，无中生有~Boom!");
         regexMap.put(".*ClassNotFoundException.*", "你确定你能找得到它？");
         regexMap.put(".*ArithmeticException.*", "我猜你的数学是体育老师教的，对吧？");
         regexMap.put(".*ArrayIndexOutOfBoundsException.*", "恩，无下限=无节操，请不要跟我搭话");
@@ -290,7 +267,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         regexMap.put(".*NumberFormatException.*", "想要改变一下自己形象？去泰国吧，包你满意");
         regexMap.put(".*OutOfMemoryError.*", "或许你该减减肥了");
         regexMap.put(".*StackOverflowError.*", "啊，啊，憋不住了！");
-        regexMap.put(".*RuntimeException.*", "你的人生走错了方向，重来吧");*/
+        regexMap.put(".*RuntimeException.*", "你的人生走错了方向，重来吧");
         regexMap.put(".*NullPointerException.*", "空指针异常");
         regexMap.put(".*ClassNotFoundException.*", "无法找到对应的类");
         regexMap.put(".*ArithmeticException.*", "数字运算错误");

@@ -9,4 +9,5 @@ import com.salton123.base.ApplicationBase;
  * Description:
  */
 public class SaltonApplication extends ApplicationBase{
+
 }

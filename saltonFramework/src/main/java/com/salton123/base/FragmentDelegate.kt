@@ -38,19 +38,7 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
     }
 
     companion object {
-        val ARG_ITEM = "arg_item"
-        /**
-         * 兼容java调kt
-         */
-        fun <T : Fragment> newInstance(clz: Class<T>): T {
-            return clz.newInstance()
-        }
-
-        fun <T : Fragment> newInstance(clz: Class<T>, bundle: Bundle): T {
-            clz.newInstance().arguments
-            return clz.newInstance().also { it.arguments = bundle }
-        }
-
+        const val ARG_ITEM = "arg_item"
         fun <T : Fragment> newInstance(clz: Class<T>, value: Serializable): T {
             return clz.newInstance().also {
                 it.arguments = Bundle().also {
@@ -70,6 +58,7 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
         /**
          * 兼容java调kt end
          */
+        @JvmOverloads
         fun <T : Fragment> newInstance(
             clz: Class<T>
             , bundle: Bundle? = null

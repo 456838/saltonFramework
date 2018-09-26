@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.VideoView;
 
+import com.salton123.base.FragmentDelegate;
+
 /**
  * User: newSalton@outlook.com
  * Date: 2018/5/16 下午6:25
