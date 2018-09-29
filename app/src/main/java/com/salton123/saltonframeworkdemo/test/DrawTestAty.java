@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
@@ -21,6 +22,8 @@ import com.salton123.log.XLog;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
 import com.salton123.saltonframeworkdemo.ui.fm.TestPopupComp;
+import com.salton123.saltonframeworkdemo.widget.CoolToast;
+import com.salton123.util.ScreenUtils;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +40,7 @@ public class DrawTestAty extends ActivityBase {
     private SaltonVideoView mVideoView;
     private boolean hasPermission;
     private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 1;
+
     @Override
     public int getLayout() {
         return R.layout.draw_test;
@@ -49,12 +53,16 @@ public class DrawTestAty extends ActivityBase {
                 .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
                 .transparentBar().transparentNavigationBar();
         mImmersionBar.init();
-
+        Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
+        // new CoolToast(this).show();
+        // CoolToast.displayToast(this);
+        // CoolToast.displayToast(this, "hello", R.mipmap.ic_emoji,ScreenUtils.dip2px(this, 100));
+        // CoolToast.displayToast(this, "有你便是晴天");
     }
 
     @Override
     public void initViewAndData() {
-        XLog.e( "hello initViewAndData");
+        XLog.e("hello initViewAndData");
         FragmentDelegate.Companion.newInstance(TestPopupComp.class)
                 .show(getSupportFragmentManager()
                         , "TestPopupComp");
