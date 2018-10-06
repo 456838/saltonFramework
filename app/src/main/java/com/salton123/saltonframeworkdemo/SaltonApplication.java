@@ -8,6 +8,6 @@ import com.salton123.base.ApplicationBase;
  * ModifyTime: 下午11:25
  * Description:
  */
-public class SaltonApplication extends ApplicationBase{
+public class SaltonApplication extends ApplicationBase {
 
 }

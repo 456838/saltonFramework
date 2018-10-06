@@ -21,10 +21,9 @@ public class ScreenUtils {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-    /**
-     * The context.
-     */
-    private static Context mContext = ApplicationBase.mInstance;
+    public static Resources getSystemResources() {
+        return Resources.getSystem();
+    }
 
     /**
      * dp转 px.
@@ -33,19 +32,7 @@ public class ScreenUtils {
      * @return the int
      */
     public static int dp2px(float value) {
-        final float scale = mContext.getResources().getDisplayMetrics().densityDpi;
-        return (int) (value * (scale / 160) + 0.5f);
-    }
-
-    /**
-     * dp转 px.
-     *
-     * @param value   the value
-     * @param context the context
-     * @return the int
-     */
-    public static int dp2px(float value, Context context) {
-        final float scale = context.getResources().getDisplayMetrics().densityDpi;
+        final float scale = getSystemResources().getDisplayMetrics().densityDpi;
         return (int) (value * (scale / 160) + 0.5f);
     }
 
@@ -56,19 +43,7 @@ public class ScreenUtils {
      * @return the int
      */
     public static int px2dp(float value) {
-        final float scale = mContext.getResources().getDisplayMetrics().densityDpi;
-        return (int) ((value * 160) / scale + 0.5f);
-    }
-
-    /**
-     * px转dp.
-     *
-     * @param value   the value
-     * @param context the context
-     * @return the int
-     */
-    public static int px2dp(float value, Context context) {
-        final float scale = context.getResources().getDisplayMetrics().densityDpi;
+        final float scale = getSystemResources().getDisplayMetrics().densityDpi;
         return (int) ((value * 160) / scale + 0.5f);
     }
 
@@ -79,33 +54,10 @@ public class ScreenUtils {
      * @return the int
      */
     public static int sp2px(float value) {
-        Resources r;
-        if (mContext == null) {
-            r = Resources.getSystem();
-        } else {
-            r = mContext.getResources();
-        }
-        float spvalue = value * r.getDisplayMetrics().scaledDensity;
+        float spvalue = value * getSystemResources().getDisplayMetrics().scaledDensity;
         return (int) (spvalue + 0.5f);
     }
 
-    /**
-     * sp转px.
-     *
-     * @param value   the value
-     * @param context the context
-     * @return the int
-     */
-    public static int sp2px(float value, Context context) {
-        Resources r;
-        if (context == null) {
-            r = Resources.getSystem();
-        } else {
-            r = context.getResources();
-        }
-        float spvalue = value * r.getDisplayMetrics().scaledDensity;
-        return (int) (spvalue + 0.5f);
-    }
 
     /**
      * px转sp.
@@ -114,98 +66,32 @@ public class ScreenUtils {
      * @return the int
      */
     public static int px2sp(float value) {
-        final float scale = mContext.getResources().getDisplayMetrics().scaledDensity;
+        final float scale = getSystemResources().getDisplayMetrics().scaledDensity;
         return (int) (value / scale + 0.5f);
     }
 
     /**
-     * px转sp.
+     * 获取屏幕宽度
      *
-     * @param value   the value
-     * @param context the context
-     * @return the int
+     * @return 屏幕宽度
      */
-    public static int px2sp(float value, Context context) {
-        final float scale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (value / scale + 0.5f);
-    }
-
-
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     *
-     * @param context 上下文
-     * @param dpValue 尺寸dip
-     * @return 像素值
-     */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public static int getScreenWidth() {
+        DisplayMetrics dm = getSystemResources().getDisplayMetrics();
+        int w = dm.widthPixels;
+        return w;
     }
 
     /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     * 获取屏幕高度
      *
-     * @param context 上下文
-     * @param pxValue 尺寸像素
-     * @return DIP值
+     * @return 屏幕高度
      */
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+    public static int getScreenHeight() {
+        DisplayMetrics dm = getSystemResources().getDisplayMetrics();
+        int h = dm.heightPixels;
+        return h;
     }
 
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 sp
-     *
-     * @param context 上下文
-     * @param pxValue 尺寸像素
-     * @return SP值
-     */
-    public static int px2sp(Context context, float pxValue) {
-        float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (pxValue / fontScale + 0.5f);
-    }
-
-    /**
-     * 根据手机的分辨率从 sp 的单位 转成为 px
-     *
-     * @param context 上下文
-     * @param spValue SP值
-     * @return 像素值
-     */
-    public static int sp2px(Context context, float spValue) {
-        float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-
-    /**
-     * 获得屏幕高度
-     *
-     * @param context
-     * @return
-     */
-    public static int getScreenWidth(Context context) {
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(outMetrics);
-        return outMetrics.widthPixels;
-    }
-
-    /**
-     * 获得屏幕宽度
-     *
-     * @param context
-     * @return
-     */
-    public static int getScreenHeight(Context context) {
-        WindowManager wm = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(outMetrics);
-        return outMetrics.heightPixels;
-    }
 
     /**
      * 获得状态栏的高度
@@ -239,8 +125,8 @@ public class ScreenUtils {
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         Bitmap bmp = view.getDrawingCache();
-        int width = getScreenWidth(activity);
-        int height = getScreenHeight(activity);
+        int width = getScreenWidth();
+        int height = getScreenHeight();
         Bitmap bp = null;
         bp = Bitmap.createBitmap(bmp, 0, 0, width, height);
         view.destroyDrawingCache();
@@ -263,8 +149,8 @@ public class ScreenUtils {
         activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int statusBarHeight = frame.top;
 
-        int width = getScreenWidth(activity);
-        int height = getScreenHeight(activity);
+        int width = getScreenWidth();
+        int height = getScreenHeight();
         Bitmap bp = null;
         bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height
                 - statusBarHeight);
@@ -273,14 +159,14 @@ public class ScreenUtils {
     }
 
     public static double getAspectRatio(Activity activity) {
-        int screentWidth = ScreenUtils.getScreenWidth(activity);
-        int screenHeight = ScreenUtils.getScreenHeight(activity);
+        int screentWidth = ScreenUtils.getScreenWidth();
+        int screenHeight = ScreenUtils.getScreenHeight();
         return screenHeight / screentWidth;
     }
 
     public static double getLandscapeAspectRatio(Activity activity) {
-        double screentWidth = getScreenWidth(activity);
-        double screenHeight = getScreenHeight(activity);
+        double screentWidth = getScreenWidth();
+        double screenHeight = getScreenHeight();
         double temp = screentWidth * 2;
         double ratio = screenHeight / temp;
         MLog.info("getLandscapeAspectRatio=" + ratio);
@@ -301,31 +187,6 @@ public class ScreenUtils {
         return w;
     }
 
-    /**
-     * 获取屏幕宽度
-     *
-     * @param activity Activity
-     * @return 屏幕宽度
-     */
-    public static int getScreenW(Activity activity) {
-        DisplayMetrics dm;
-        dm = activity.getResources().getDisplayMetrics();
-        int w = dm.widthPixels;
-        return w;
-    }
-
-    /**
-     * 获取屏幕高度
-     *
-     * @param activity Activity
-     * @return 屏幕高度
-     */
-    public static int getScreenH(Activity activity) {
-        DisplayMetrics dm = new DisplayMetrics();
-        dm = activity.getResources().getDisplayMetrics();
-        int h = dm.heightPixels;
-        return h;
-    }
 
     /**
      * Toggle keyboard If the keyboard is visible,then hidden it,if it's

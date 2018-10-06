@@ -68,7 +68,7 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
     }
 
     private fun createFile(): String {
-        var formatter: DateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA) as DateFormat
+        var formatter: DateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA)
         val time = formatter.format(Date())
         return "crash_$time.txt"
     }

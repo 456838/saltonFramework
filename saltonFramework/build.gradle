@@ -10,7 +10,7 @@ apply plugin: 'maven'
 def siteUrl = 'https://github.com/456838/saltonFramework'
 def gitUrl = 'https://github.com/456838/saltonFramework.git'
 group = "com.salton123"
-version = "0.1.2.5"
+version = "0.1.2.8"
 
 //gradlew clean build bintrayUpload
 android {
@@ -69,7 +69,7 @@ dependencies {
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile 'com.github.bumptech.glide:glide:4.7.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
-    compile 'com.salton123:xlog:0.0.0.2'
+    compile 'com.salton123:xlog:+'
 }
 
 install {
