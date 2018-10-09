@@ -48,10 +48,10 @@ public class DrawTestAty extends ActivityBase {
 
     @Override
     public void initVariable(@Nullable Bundle savedInstanceState) {
-        mImmersionBar = ImmersionBar.with(this)
-                .statusBarDarkFont(true)
-                .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
-                .transparentBar().transparentNavigationBar();
+        // mImmersionBar = ImmersionBar.with(this)
+        //         .statusBarDarkFont(true)
+        //         .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
+        //         .transparentBar().transparentNavigationBar();
         mImmersionBar.init();
         Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_LONG).show();
         // new CoolToast(this).show();

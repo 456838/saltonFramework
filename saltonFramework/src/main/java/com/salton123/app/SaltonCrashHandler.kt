@@ -8,9 +8,12 @@ import com.salton123.base.ApplicationBase
 import com.salton123.io.FlushWriter
 import com.salton123.log.XLog
 import java.io.File
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * User: newSalton@outlook.com
@@ -53,17 +56,39 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
         )
         flush.changeLogPath(crashPath)
         flush.write(collectDeviceInfo(ApplicationBase.getInstance()) + "\n")
-        flush.write(ex.message+"\n")
-        flush.write(printStackTrace(ex.stackTrace))
+        flush.write(printCause(ex))
+        flush.write(printStackTrace(ex))
+        flush.write(ex.message + "\n")
         flush.flushAsync()
         flush.release()
     }
 
-    internal fun printStackTrace(errorReason: Array<StackTraceElement>): String {
-        val stringBuilder = StringBuilder()
-        for (item in errorReason) {
-            stringBuilder.append(item.toString() + "\n")
+    private fun printCause(ex: Throwable): String? {
+        var stringBuilder = StringBuilder()
+//        stringBuilder.append("--cause start--- \n")
+        val sw = StringWriter()
+        val pw = PrintWriter(sw)
+        var cause = ex.cause
+        while (cause != null) {
+            //异常链
+            cause.printStackTrace(pw)
+            pw.flush()
+            stringBuilder.append(sw.toString()).append("\n")
+            cause = cause.cause
         }
+//        stringBuilder.append("--cause end--- \n")
+        return stringBuilder.toString()
+    }
+
+    internal fun printStackTrace(ex: Throwable): String {
+        var stringBuilder = StringBuilder()
+//        stringBuilder.append("--stack start--- \n")
+        val sw = StringWriter()
+        val pw = PrintWriter(sw)
+        ex.printStackTrace(pw)
+        pw.flush()
+        stringBuilder.append(sw.toString()).append("\n")
+//        stringBuilder.append("--stack end--- \n")
         return stringBuilder.toString()
     }
 
@@ -111,7 +136,7 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
                     pi.versionName
                 val versionCode = pi.versionCode.toString() + ""
                 sb.append("versionName:$versionName\n")
-                sb.append("versionCode$versionCode\n")
+                sb.append("versionCode:$versionCode\n")
             }
         } catch (e: PackageManager.NameNotFoundException) {
             XLog.e("an error occured when collect package info$e")
