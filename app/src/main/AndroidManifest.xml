@@ -33,6 +33,9 @@
         <activity android:name=".test.TestAty" />
         <activity android:name=".MainActivity" />
         <activity android:name=".KotlinAty" />
+        <activity android:name="com.salton123.CrashPanelAty"
+            android:process=":crashreport"
+            ></activity>
     </application>
 
 </manifest>

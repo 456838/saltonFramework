@@ -17,6 +17,7 @@ package com.salton123.util;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -31,6 +32,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -48,6 +50,8 @@ import android.view.View;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -327,8 +331,9 @@ public final class BitmapUtil {
 
     /**
      * 合并Bitmap
+     *
      * @param bgd 背景Bitmap
-     * @param fg 前景Bitmap
+     * @param fg  前景Bitmap
      * @return 合成后的Bitmap
      */
     public static Bitmap combineImages(Bitmap bgd, Bitmap fg) {
@@ -352,8 +357,9 @@ public final class BitmapUtil {
 
     /**
      * 合并
+     *
      * @param bgd 后景Bitmap
-     * @param fg 前景Bitmap
+     * @param fg  前景Bitmap
      * @return 合成后Bitmap
      */
     public static Bitmap combineImagesToSameSize(Bitmap bgd, Bitmap fg) {
@@ -386,8 +392,8 @@ public final class BitmapUtil {
      * 放大缩小图片
      *
      * @param bitmap 源Bitmap
-     * @param w 宽
-     * @param h 高
+     * @param w      宽
+     * @param h      高
      * @return 目标Bitmap
      */
     public static Bitmap zoom(Bitmap bitmap, int w, int h) {
@@ -405,7 +411,7 @@ public final class BitmapUtil {
     /**
      * 获得圆角图片的方法
      *
-     * @param bitmap 源Bitmap
+     * @param bitmap  源Bitmap
      * @param roundPx 圆角大小
      * @return 期望Bitmap
      */
@@ -1698,11 +1704,82 @@ public final class BitmapUtil {
                                                 int width, int height) {
         byte[] rotatedData = new byte[sourceData.length];
         for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; x++) {
                 rotatedData[x * height + height - y - 1] = sourceData[x + y
                         * width];
+            }
         }
         return rotatedData;
     }
+
+    /**
+     * 截取屏幕(全屏)并保存
+     *
+     * @param pActivity
+     * @param isSaveStatusBar 是否保留状态栏
+     * @param pSavePath       保存路径
+     */
+    public static void saveScreenAsImage(Activity pActivity, boolean isSaveStatusBar, File pSavePath) {
+        View pView = pActivity.getWindow().getDecorView();
+        pView.setDrawingCacheEnabled(true);
+        pView.buildDrawingCache();
+        Bitmap srcBitmap = pView.getDrawingCache();
+        // 图片大小
+        Point point = new Point();
+        pActivity.getWindowManager().getDefaultDisplay().getSize(point);
+        int width = pView.getWidth();//point.x;
+        int height = pView.getHeight();//point.y;
+        // 标题栏高度
+        int statusBarHeight = 0;
+        if (isSaveStatusBar == false) {
+            Rect frame = new Rect();
+            pActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+            statusBarHeight = frame.top;
+            height = height - statusBarHeight;
+        }
+        // 创建存储的bitmap
+        Bitmap bitmap = Bitmap.createBitmap(srcBitmap, 0, statusBarHeight, width, height);
+        // 清理掉缓存图片,防止内存溢出
+        pView.destroyDrawingCache();
+        // 保存图片
+        saveBitmap(bitmap, pSavePath);
+    }
+
+    /**
+     * 保存图片到存储盘 -> 创建临时文件名称
+     * * 图片名为随机的 JPEG 格式图片
+     */
+    public static void saveBitmap(Bitmap pBitmap, File savePath) {
+        saveBitmap(pBitmap, savePath, String.valueOf(RandomUtils.getRandomNumbers(10)) + ".jpg", null);
+    }
+
+    /**
+     * 保存图片到存储盘
+     *
+     * @param pBitmap  存储的bitmap对象
+     * @param savePath 存储路径
+     * @param fileName 文件名 (带后缀名)
+     * @param format   图片格式 (默认 JPEG 格式)
+     */
+    public static void saveBitmap(Bitmap pBitmap, File savePath, String fileName, Bitmap.CompressFormat format) {
+        if (format == null) {
+            format = Bitmap.CompressFormat.JPEG;
+        }
+        FileUtils.makeDirs(savePath.getAbsolutePath());
+        // 保存图片
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(new File(savePath, fileName));
+            if (fos != null) {
+                pBitmap.compress(format, 100, fos);
+                fos.flush();
+            }
+        } catch (IOException pE) {
+            Log.e(TAG, pE.getLocalizedMessage());
+        } finally {
+            IOUtils.closeQuietly(fos);
+        }
+    }
+
 
 }

@@ -5,7 +5,6 @@ import android.os.Environment
 import android.util.Log
 import com.salton123.app.IFutureTaskPriority
 import com.salton123.app.InitializeLoader
-import com.salton123.app.RebootThreadExceptionHandler
 import com.salton123.app.SaltonCrashHandler
 import com.salton123.log.LogConfiguration
 import com.salton123.log.LogLevel
@@ -31,15 +30,7 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
         mInstance = this
         InitializeLoader.init(this).subscribe()
     }
-
-    /**
-     * 程序异常关闭1s之后重新启动
-     */
-    fun openRestartHandler() {
-        RebootThreadExceptionHandler(baseContext)
-    }
-
-
+    
     override fun onTerminate() {
         super.onTerminate()
         IActivityLifeCycle.Factory.get().unInit()

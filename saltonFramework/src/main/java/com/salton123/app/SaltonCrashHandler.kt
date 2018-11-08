@@ -42,25 +42,31 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
 
     private fun handleException(ex: Throwable?): Boolean {
         getWriter(ex!!)
+
         return false
     }
 
     private fun getWriter(ex: Throwable) {
         var path = File(Environment.getExternalStorageDirectory(), "salton").path
         path = path + File.separator + ApplicationBase.getInstance<ApplicationBase>().packageName
-        val crashPath = path + File.separator + createFile();
+        val crashPath = path + File.separator + createFile()
         var flush: FlushWriter = FlushWriter(path + File.separator + "crash_buf",
             8192,
             crashPath
             , false
         )
+        var stringBuilder = StringBuilder()
         flush.changeLogPath(crashPath)
-        flush.write(collectDeviceInfo(ApplicationBase.getInstance()) + "\n")
-        flush.write(printCause(ex))
-        flush.write(printStackTrace(ex))
-        flush.write(ex.message + "\n")
+        stringBuilder.append(collectDeviceInfo(ApplicationBase.getInstance()) + "\n")
+            .append(printCause(ex))
+            .append(printStackTrace(ex))
+            .append(ex.message + "\n")
+        flush.write(stringBuilder.toString())
         flush.flushAsync()
         flush.release()
+//        var intent = Intent(ApplicationBase.getInstance(), CrashPanelAty::class.java)
+//        intent.putExtra("crashInfo", stringBuilder.toString())
+//        ApplicationBase.getInstance<ApplicationBase>().startActivity(intent)
     }
 
     private fun printCause(ex: Throwable): String? {
