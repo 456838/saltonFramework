@@ -145,7 +145,7 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
                 sb.append("versionCode:$versionCode\n")
             }
         } catch (e: PackageManager.NameNotFoundException) {
-            XLog.e("an error occured when collect package info$e")
+            XLog.e(this@SaltonCrashHandler, "an error occured when collect package info$e")
         }
 
         val fields = Build::class.java.declaredFields

@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.salton123.util.MLog;
+import com.salton123.log.XLog;
 
 /**
  * User: newSalton@outlook.com
@@ -87,7 +87,7 @@ public class FragmentLifeCycleManager extends FragmentManager.FragmentLifecycleC
      */
     public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
         sActivityEventBusScopePool.put(f.hashCode(), f);
-        MLog.info(TAG, "[onFragmentCreated]  -> " + f.getClass().getName());
+        XLog.i(TAG, "[onFragmentCreated]  -> " + f.getClass().getName());
     }
 
     /**
@@ -188,7 +188,7 @@ public class FragmentLifeCycleManager extends FragmentManager.FragmentLifecycleC
 
         if (sActivityEventBusScopePool.get(f.hashCode()) == f) {
             sActivityEventBusScopePool.remove(f.hashCode());
-            MLog.info(TAG, "[onFragmentDestroyed]  -> " + f.getClass().getName());
+            XLog.i(TAG, "[onFragmentDestroyed]  -> " + f.getClass().getName());
         }
     }
 

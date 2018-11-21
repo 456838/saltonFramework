@@ -15,8 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.salton123.log.XLog;
 import com.salton123.saltonframework.BuildConfig;
-import com.salton123.util.MLog;
 import com.yy.mobile.memoryrecycle.views.IImageRecycleView;
 import com.yy.mobile.memoryrecycle.views.IRecycleView;
 
@@ -43,7 +43,7 @@ public class DrawableRecycler {
         }
 
         sSwitch = switchOn;
-        MLog.info(TAG, "updateSwitch :" + switchOn);
+        XLog.i(TAG, "updateSwitch :" + switchOn);
     }
 
     public static void closeAutoRecycle(View view) {
@@ -64,7 +64,7 @@ public class DrawableRecycler {
         if (view.getVisibility() == View.GONE) {
             int size = recycleViewDrawable((IRecycleView) view);
             if (size > 0 && BuildConfig.DEBUG) {
-                MLog.info(TAG, "recycle size by VIEW.GONE :" + size);
+                XLog.i(TAG, "recycle size by VIEW.GONE :" + size);
             }
         }
     }
@@ -100,12 +100,12 @@ public class DrawableRecycler {
 
             if (sDebug) {
                 if (bgDrawableId != INVALID_DRAWABLE_ID || srcDrawableId != INVALID_DRAWABLE_ID) {
-                    MLog.debug(TAG, "onAttributesUpdated view " + "src " + srcDrawableId + " bg " + bgDrawableId + " " + view);
+                    XLog.d(TAG, "onAttributesUpdated view " + "src " + srcDrawableId + " bg " + bgDrawableId + " " + view);
                 }
             }
 
         } catch (Exception e) {
-            MLog.error("DrawableRecycler", "onAttributesUpdated" + e.toString());
+            XLog.e("DrawableRecycler", "onAttributesUpdated" + e.toString());
         }
 
         array.recycle();
@@ -126,7 +126,7 @@ public class DrawableRecycler {
             }
 
             if (size > 0 && sDebug) {
-                MLog.info(TAG, "recycle size by VIEW.GONE :" + size);
+                XLog.i(TAG, "recycle size by VIEW.GONE :" + size);
             }
         }
     }
@@ -196,7 +196,7 @@ public class DrawableRecycler {
                     if (srcId != null && srcId instanceof Integer && ((Integer) srcId) != INVALID_DRAWABLE_ID) {
                         ((ImageView) v).setImageResource((Integer) srcId);
                         if (sDebug) {
-                            MLog.info(TAG, "recovery image:" + Integer.toHexString((Integer) srcId) + " from view:" + view.hashCode());
+                            XLog.i(TAG, "recovery image:" + Integer.toHexString((Integer) srcId) + " from view:" + view.hashCode());
                         }
                     }
                 }
@@ -215,7 +215,7 @@ public class DrawableRecycler {
                 if (bgId != null && bgId instanceof Integer && ((Integer) bgId) != INVALID_DRAWABLE_ID) {
                     v.setBackgroundResource((Integer) bgId);
                     if (sDebug) {
-                        MLog.info(TAG, "recovery bg:" + Integer.toHexString((Integer) bgId) + " from view:" + view.hashCode());
+                        XLog.i(TAG, "recovery bg:" + Integer.toHexString((Integer) bgId) + " from view:" + view.hashCode());
                     }
                 }
             }
@@ -268,7 +268,7 @@ public class DrawableRecycler {
 
                         ((IImageRecycleView) view).setImageDrawableToNull();
                         if (sDebug) {
-                            MLog.info(TAG, "recycle image:" + Integer.toHexString((Integer) srcId) + " from view:" + view.hashCode());
+                            XLog.i(TAG, "recycle image:" + Integer.toHexString((Integer) srcId) + " from view:" + view.hashCode());
                             recycleSize += getBitmapSize(srcDrawable);
                         }
 
@@ -292,7 +292,7 @@ public class DrawableRecycler {
                 if (bgId != null && bgId instanceof Integer && ((Integer) bgId) != INVALID_DRAWABLE_ID) {
                     view.setBackgroundToNull();
                     if (sDebug) {
-                        MLog.info(TAG, "recycle bg:" + Integer.toHexString((Integer) bgId) + " from view:" + view.hashCode());
+                        XLog.i(TAG, "recycle bg:" + Integer.toHexString((Integer) bgId) + " from view:" + view.hashCode());
                         recycleSize += getBitmapSize(bgDrawable);
                     }
 
@@ -333,7 +333,7 @@ public class DrawableRecycler {
                 }
 
                 if (size > 0 && sDebug) {
-                    MLog.info(TAG, "recycle size by VIEW.GONE Changed:" + size);
+                    XLog.i(TAG, "recycle size by VIEW.GONE Changed:" + size);
                 }
             }
         } else {
@@ -343,7 +343,7 @@ public class DrawableRecycler {
 
             recoveryViewDrawable(view);
             if (sDebug) {
-                MLog.info(TAG, "reccvery by visible");
+                XLog.i(TAG, "reccvery by visible");
             }
         }
     }
@@ -365,21 +365,21 @@ public class DrawableRecycler {
             if (countInt == 0) {
                 int size = recycleViewDrawable(view);
                 if (size > 0 && sDebug) {
-                    MLog.info(TAG, "recycle size by Detached :" + size);
+                    XLog.i(TAG, "recycle size by Detached :" + size);
                 }
 
                 theView.setTag(TAG_KEY_ATTACH_COUNT_ID, countInt);
             } else {
                 theView.setTag(TAG_KEY_ATTACH_COUNT_ID, countInt);
                 if (sDebug) {
-                    MLog.debug("DrawableRecycler", "onDetachedFromWindow but attach count is not 0");
+                    XLog.d("DrawableRecycler", "onDetachedFromWindow but attach count is not 0");
                 }
             }
 
         } else {
             int size = recycleViewDrawable(view);
             if (size > 0 && sDebug) {
-                MLog.info(TAG, "recycle size by Detached :" + size);
+                XLog.i(TAG, "recycle size by Detached :" + size);
             }
         }
     }

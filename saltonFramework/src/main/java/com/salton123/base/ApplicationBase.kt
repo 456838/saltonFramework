@@ -6,13 +6,9 @@ import android.util.Log
 import com.salton123.app.IFutureTaskPriority
 import com.salton123.app.InitializeLoader
 import com.salton123.app.SaltonCrashHandler
-import com.salton123.log.LogConfiguration
-import com.salton123.log.LogLevel
 import com.salton123.log.XLog
-import com.salton123.log.flattener.ClassicFlattener
-import com.salton123.log.printer.AndroidPrinter
-import com.salton123.log.printer.file.FilePrinter
-import com.salton123.log.printer.file.naming.DateFileNameGenerator
+import com.salton123.log.XLogConfig
+import com.salton123.log.printer.FilePrinter
 import com.salton123.manager.lifecycle.IActivityLifeCycle
 import java.io.File
 
@@ -30,7 +26,7 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
         mInstance = this
         InitializeLoader.init(this).subscribe()
     }
-    
+
     override fun onTerminate() {
         super.onTerminate()
         IActivityLifeCycle.Factory.get().unInit()
@@ -72,26 +68,11 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
      * Initialize XLog.
      */
     private fun initXlog() {
-        val config = LogConfiguration.Builder()
-            .logLevel(if (isLogDebug)
-                LogLevel.ALL             // Specify log level, logs below this level won't be printed, default: LogLevel.ALL
-            else
-                LogLevel.NONE)
-            .tag("salton")                   // Specify TAG, default: "X-LOG"
-            .st(2)
-            .build()
         var path = File(Environment.getExternalStorageDirectory(), "salton").path
         path = path + File.separator + ApplicationBase.mInstance.packageName
-        val androidPrinter = AndroidPrinter()             // Printer that print the log using android.util.Log
-        val filePrinter = FilePrinter.Builder(path)     // Specify the path to save log file
-            .fileNameGenerator(DateFileNameGenerator())        // Default: ChangelessFileNameGenerator("log")
-            .logFlattener(ClassicFlattener())                  // Default: DefaultFlattener
-            .build()
-
-        XLog.init(                                                 // Initialize XLog
-            config, // Specify the log configuration, if not specified, will use new LogConfiguration.Builder().build()
-            androidPrinter, // Specify printers, if no printer is specified, AndroidPrinter(for Android)/ConsolePrinter(for java) will be used.
-            filePrinter)
+        XLogConfig.init(XLogConfig.Builder()
+            .setSavePath(path)
+            .build())
     }
 
     @Suppress("UNCHECKED_CAST")

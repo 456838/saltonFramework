@@ -1,6 +1,8 @@
 package com.salton123.util;
 
 
+import com.salton123.log.XLog;
+
 import org.reactivestreams.Publisher;
 
 import io.reactivex.Flowable;
@@ -62,7 +64,7 @@ public class RxUtils {
         RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                MLog.error("RxJavaPlugins", "rxjava throwable:" + throwable.getCause() + ",content:" + printStackTrace(throwable.getStackTrace()));
+                XLog.e("RxJavaPlugins", "rxjava throwable:" + throwable.getCause() + ",content:" + printStackTrace(throwable.getStackTrace()));
                 throwable.printStackTrace();
             }
         });
@@ -106,7 +108,7 @@ public class RxUtils {
         return new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                MLog.error(TAG, printStackTrace(throwable.getStackTrace()));
+                XLog.e(TAG, printStackTrace(throwable.getStackTrace()));
             }
         };
     }

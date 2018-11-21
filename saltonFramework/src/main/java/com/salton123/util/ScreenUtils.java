@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.salton123.base.ApplicationBase;
+import com.salton123.log.XLog;
 
 
 public class ScreenUtils {
@@ -169,7 +170,7 @@ public class ScreenUtils {
         double screenHeight = getScreenHeight();
         double temp = screentWidth * 2;
         double ratio = screenHeight / temp;
-        MLog.info("getLandscapeAspectRatio=" + ratio);
+        XLog.i(ScreenUtils.class, "getLandscapeAspectRatio=" + ratio);
         return ratio;
     }
 

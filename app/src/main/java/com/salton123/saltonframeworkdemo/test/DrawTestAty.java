@@ -58,7 +58,6 @@ public class DrawTestAty extends ActivityBase {
 
     @Override
     public void initViewAndData() {
-        XLog.e("hello initViewAndData");
         FragmentDelegate.Companion.newInstance(TestPopupComp.class)
                 .show(getSupportFragmentManager()
                         , "TestPopupComp");

@@ -3,7 +3,7 @@ package com.salton123.saltonframeworkdemo;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.salton123.util.MLog;
+import com.salton123.log.XLog;
 
 import java.io.File;
 
@@ -41,7 +41,7 @@ public class UriProvider {
         String packageName = SaltonApplication.getInstance().getPackageName();
         String resName = resNameWithSuffix.substring(0, resNameWithSuffix.lastIndexOf("."));
         int resId = SaltonApplication.getInstance().getResources().getIdentifier(resName, "raw", packageName);
-        MLog.info(TAG, "[getVideoPathWithoutSuffix] uri=" + "android.resource://" + packageName + "/" + resId);
+        XLog.i(TAG, "[getVideoPathWithoutSuffix] uri=" + "android.resource://" + packageName + "/" + resId);
         return "android.resource://" + packageName + "/" + resId;//*R.raw.handle_02*//*;
     }
 

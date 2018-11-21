@@ -10,7 +10,7 @@ apply plugin: 'maven'
 def siteUrl = 'https://github.com/456838/saltonFramework'
 def gitUrl = 'https://github.com/456838/saltonFramework.git'
 group = "com.salton123"
-version = "0.1.2.9"
+version = "0.1.3.0"
 
 //gradlew clean build bintrayUpload
 android {
@@ -65,11 +65,11 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'io.reactivex.rxjava2:rxjava:2.1.12'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    compile 'org.greenrobot:eventbus:3.1.0'
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile 'com.github.bumptech.glide:glide:4.7.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
-    compile 'com.salton123:xlog:+'
+    compile 'com.salton123:xlog:0.0.0.5'
+    compile 'com.hwangjr.rxbus:rxbus:2.0.0'
 }
 
 install {

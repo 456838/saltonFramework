@@ -5,16 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
-import com.salton123.saltonframeworkdemo.test.RxData;
 import com.salton123.saltonframeworkdemo.test.TestAty;
-import com.salton123.util.RxBus;
 
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
