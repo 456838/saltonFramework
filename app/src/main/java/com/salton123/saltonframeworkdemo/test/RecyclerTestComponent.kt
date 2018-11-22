@@ -25,7 +25,7 @@ class RecyclerTestComponent : BaseSupportFragment() {
     }
 
     override fun initViewAndData() {
-        mAdapter = RecyclerTestAdapter(context, R.layout.item_recycler_test)
+        mAdapter = RecyclerTestAdapter(_mActivity, R.layout.item_recycler_test)
         recyclerView.adapter = mAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         mAdapter.addAll(Arrays.asList("hello", "tom"))

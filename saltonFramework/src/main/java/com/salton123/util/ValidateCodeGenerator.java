@@ -69,7 +69,8 @@ public class ValidateCodeGenerator {
 //            drawLine(c, paint);
 //        }
         //保存
-        c.save(Canvas.ALL_SAVE_FLAG);
+        c.save();
+        // c.save(Canvas.ALL_SAVE_FLAG);
         c.restore();
 
         return bp;
