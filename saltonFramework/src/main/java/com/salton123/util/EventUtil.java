@@ -1,18 +1,20 @@
 package com.salton123.util;
 
-import com.hwangjr.rxbus.RxBus;
+import org.greenrobot.eventbus.EventBus;
 
 public class EventUtil {
 
     public static void register(Object context) {
-        RxBus.get().register(context);
+        if (!EventBus.getDefault().isRegistered(context)) {
+            EventBus.getDefault().register(context);
+        }
     }
 
     public static void unregister(Object context) {
-        RxBus.get().unregister(context);
+        EventBus.getDefault().unregister(context);
     }
 
     public static void sendEvent(Object object) {
-        RxBus.get().post(object);
+        EventBus.getDefault().post(object);
     }
 }

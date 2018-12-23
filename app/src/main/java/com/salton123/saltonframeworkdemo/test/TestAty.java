@@ -2,9 +2,9 @@ package com.salton123.saltonframeworkdemo.test;
 
 import android.os.Bundle;
 
-import com.hwangjr.rxbus.RxBus;
 import com.salton123.base.BaseSupportActivity;
 import com.salton123.saltonframeworkdemo.R;
+import com.salton123.util.EventUtil;
 
 /**
  * User: newSalton@outlook.com
@@ -20,7 +20,7 @@ public class TestAty extends BaseSupportActivity{
 
     @Override
     public void initVariable(Bundle savedInstanceState) {
-        RxBus.get().post(new RxData(1,"小牛之家"));
+        EventUtil.sendEvent(new RxData(1,"小牛之家"));
     }
 
     @Override

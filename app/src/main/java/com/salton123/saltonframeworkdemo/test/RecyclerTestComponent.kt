@@ -3,6 +3,7 @@ package com.salton123.saltonframeworkdemo.test
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.hazz.kotlinmvp.view.recyclerview.adapter.OnItemClickListener
+import com.salton123.base.BaseRecycerViewAdapter.context
 import com.salton123.base.BaseSupportFragment
 import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.R
