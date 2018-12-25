@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-import com.salton123.util.LogUtils;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

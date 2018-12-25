@@ -42,7 +42,6 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
 
     private fun handleException(ex: Throwable?): Boolean {
         getWriter(ex!!)
-
         return false
     }
 
@@ -50,7 +49,7 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
         var path = File(Environment.getExternalStorageDirectory(), "salton").path
         path = path + File.separator + ApplicationBase.getInstance<ApplicationBase>().packageName
         val crashPath = path + File.separator + createFile()
-        var flush: FlushWriter = FlushWriter(path + File.separator + "crash_buf",
+        var flush = FlushWriter(path + File.separator + "crash_buf",
             8192,
             crashPath
             , false
@@ -71,7 +70,6 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
 
     private fun printCause(ex: Throwable): String? {
         var stringBuilder = StringBuilder()
-//        stringBuilder.append("--cause start--- \n")
         val sw = StringWriter()
         val pw = PrintWriter(sw)
         var cause = ex.cause
@@ -82,19 +80,16 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
             stringBuilder.append(sw.toString()).append("\n")
             cause = cause.cause
         }
-//        stringBuilder.append("--cause end--- \n")
         return stringBuilder.toString()
     }
 
     internal fun printStackTrace(ex: Throwable): String {
         var stringBuilder = StringBuilder()
-//        stringBuilder.append("--stack start--- \n")
         val sw = StringWriter()
         val pw = PrintWriter(sw)
         ex.printStackTrace(pw)
         pw.flush()
         stringBuilder.append(sw.toString()).append("\n")
-//        stringBuilder.append("--stack end--- \n")
         return stringBuilder.toString()
     }
 
@@ -102,25 +97,6 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
         var formatter: DateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA)
         val time = formatter.format(Date())
         return "crash_$time.txt"
-    }
-
-    /**
-     * 整理异常信息
-     *
-     * @param e
-     * @return
-     */
-    fun getTraceInfo(e: Throwable): String {
-        val sb = StringBuffer()
-        val ex = if (e.cause == null) e else e.cause
-        val stacks = ex!!.stackTrace
-        for (i in stacks.indices) {
-            sb.append("class: ").append(stacks[i].className)
-                .append("; method: ").append(stacks[i].methodName)
-                .append("; line: ").append(stacks[i].lineNumber)
-                .append(";  Exception: ").append(ex.toString() + "\n")
-        }
-        return sb.toString()
     }
 
     /**

@@ -33,14 +33,6 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
         System.gc()
     }
 
-    /**
-     * 退出App
-     */
-    fun exitApp() {
-        android.os.Process.killProcess(android.os.Process.myPid())
-        System.exit(0)
-    }
-
     override fun highPriority(): Boolean {
         return true
     }
@@ -53,7 +45,6 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
     override fun lowPriority(): Boolean {
         openCrashHanlder()
         initXlog()
-        Log.e("newsalton", "lowPriority:" + Thread.currentThread())
         return true
     }
 

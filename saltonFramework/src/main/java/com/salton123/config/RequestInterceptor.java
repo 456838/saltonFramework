@@ -1,7 +1,5 @@
 package com.salton123.config;
 
-import com.salton123.util.LogUtils;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;

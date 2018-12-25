@@ -4,8 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.salton123.util.LogUtils;
-
 
 /**
  * 可安全分发任务的Handler

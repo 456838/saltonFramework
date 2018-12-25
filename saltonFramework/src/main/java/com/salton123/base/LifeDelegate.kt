@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import com.salton123.util.LogUtils
 import com.salton123.util.ViewUtils
 
 /**
