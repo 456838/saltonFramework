@@ -38,19 +38,21 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
     }
 
     override fun highPriority(): Boolean {
+        Thread.sleep(500)
         Log.e(TAG, "step two high:" + Thread.currentThread().name)
         return true
     }
 
     override fun mediumPriority(): Boolean {
+        Thread.sleep(1000)
         Log.e(TAG, "step two medium:" + Thread.currentThread().name)
         IActivityLifeCycle.Factory.get().init(mInstance)
         return true
     }
 
     override fun lowPriority(): Boolean {
-        Log.e(TAG, "step two low:" + Thread.currentThread().name)
         Thread.sleep(1000)
+        Log.e(TAG, "step two low:" + Thread.currentThread().name)
         openCrashHanlder()
         initXlog()
         return true
