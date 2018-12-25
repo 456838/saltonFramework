@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.salton123.log.XLog;
+
 
 /**
  * 可安全分发任务的Handler
@@ -32,9 +34,7 @@ public class SafeDispatchHandler extends Handler {
         try {
             super.dispatchMessage(msg);
         } catch (Exception e) {
-            LogUtils.e(e.getMessage());
-        } catch (Error error) {
-            LogUtils.e(error.getMessage());
+            XLog.e(this,e.getMessage());
         }
     }
 }

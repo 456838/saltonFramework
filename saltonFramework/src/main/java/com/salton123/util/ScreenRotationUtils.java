@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo;
 import android.os.Looper;
 import android.view.WindowManager;
 
+import com.salton123.log.XLog;
+
 /**
  * User: 巫金生(newSalton@outlook.com)
  * Date: 2017/7/1 11:25
@@ -23,7 +25,7 @@ public class ScreenRotationUtils {
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             }
         } catch (Throwable throwable) {
-            LogUtils.e(TAG, "setScreenPortrait throwable = " + throwable.getMessage()   );
+            XLog.e(TAG, "setScreenPortrait throwable = " + throwable.getMessage()   );
         }
     }
 
@@ -38,7 +40,7 @@ public class ScreenRotationUtils {
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
             }
         } catch (Throwable throwable) {
-            LogUtils.e(TAG, "setScreenPortrait throwable = " + throwable.getMessage());
+            XLog.e(TAG, "setScreenPortrait throwable = " + throwable.getMessage());
         }
     }
 }

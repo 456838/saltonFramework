@@ -1654,23 +1654,4 @@ public final class DateUtils implements Serializable {
         return mArray[curMonth];
     }
 
-    public static void main(String[] args) {
-        LogUtils.e(DateUtils.getCurrentDateTime());
-        LogUtils.e("first=" + changeDateWithSplit("2000.1", ""));
-        LogUtils.e("second=" + changeDateWithSplit("2000.1", "/"));
-        String[] t = getArrayDiffDays("2008/02/15", "2008/02/19");
-        for (int i = 0; i < t.length; i++) {
-            LogUtils.e(t[i]);
-        }
-        t = getArrayDiffDays("2008-02-15", "2008-02-19");
-        for (int i = 0; i < t.length; i++) {
-            LogUtils.e(t[i]);
-        }
-        LogUtils.e(getNextMonthDays("2008/02/15") + "||" + getCurrentMonth() + "||"
-                + DateUtils.changeDate("1999"));
-        LogUtils.e(DateUtils.changeDate("1999.1"));
-        LogUtils.e(DateUtils.changeDate("1999.11"));
-        LogUtils.e(DateUtils.changeDate("1999.1.2"));
-        LogUtils.e(DateUtils.changeDate("1999.11.12"));
-    }
 }

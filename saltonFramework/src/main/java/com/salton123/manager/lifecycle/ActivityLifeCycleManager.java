@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 
+import com.salton123.log.XLog;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,7 +43,7 @@ public enum ActivityLifeCycleManager implements Application.ActivityLifecycleCal
                         @Override
                         public void run() {
                             sActivityPool.get(keyItem).finish();
-                            LogUtils.d(TAG, "[onActivityDestroyed] finishAty -> " + atyClz.getSimpleName());
+                            XLog.d(TAG, "[onActivityDestroyed] finishAty -> " + atyClz.getSimpleName());
                         }
                     });
                 }
@@ -58,7 +60,7 @@ public enum ActivityLifeCycleManager implements Application.ActivityLifecycleCal
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         if (activity != null) {
             sActivityPool.put(activity.toString(), activity);
-            LogUtils.d("[onActivityCreated] activity created -> " + activity.toString());
+            XLog.d(this, "[onActivityCreated] activity created -> " + activity.toString());
         }
 
     }
@@ -95,7 +97,7 @@ public enum ActivityLifeCycleManager implements Application.ActivityLifecycleCal
                 @Override
                 public void run() {
                     sActivityPool.remove(activity.toString());
-                    LogUtils.d("[onActivityDestroyed] activity destroy -> " + activity.getClass().getName());
+                    XLog.d(this, "[onActivityDestroyed] activity destroy -> " + activity.getClass().getName());
                 }
             });
         }

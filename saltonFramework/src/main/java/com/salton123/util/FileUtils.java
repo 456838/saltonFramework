@@ -974,19 +974,6 @@ public class FileUtils {
         }
     }
 
-    public static String getCacheSize(Context mContext) {
-        // 计算缓存大小
-        long fileSize = 0;
-        String cacheSize = "0KB";
-        File filesDir = mContext.getFilesDir();
-        File cacheDir = mContext.getCacheDir();
-
-        fileSize += getDirSize(cacheDir);
-
-        if (fileSize > 0)
-            cacheSize = SizeUtils.FormetFileSize(fileSize);
-        return cacheSize;
-    }
 
     /**
      * 获取目录文件大小

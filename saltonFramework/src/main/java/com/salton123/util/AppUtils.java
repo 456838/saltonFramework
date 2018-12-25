@@ -37,6 +37,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.salton123.log.XLog;
 import com.salton123.saltonframework.BuildConfig;
 
 import java.io.ByteArrayInputStream;
@@ -359,7 +360,7 @@ public final class AppUtils {
                     String[] pkgList = process.pkgList;
                     for (String pkgName : pkgList) {
                         if (DEBUG) {
-                            LogUtils.d(TAG, "======正在杀死包名：" + pkgName);
+                            XLog.d(TAG, "======正在杀死包名：" + pkgName);
                         }
                         try {
                             am.killBackgroundProcesses(pkgName);
@@ -372,7 +373,7 @@ public final class AppUtils {
             }
         }
         if (DEBUG) {
-            LogUtils.d(TAG, "清理了" + (getDeviceUsableMemory(context) - i) + "M内存");
+            XLog.d(TAG, "清理了" + (getDeviceUsableMemory(context) - i) + "M内存");
         }
         return count;
     }

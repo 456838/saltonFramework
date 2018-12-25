@@ -1,5 +1,7 @@
 package com.salton123.config;
 
+import com.salton123.log.XLog;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -20,11 +22,11 @@ public class RequestInterceptor implements Interceptor {
         long t1 = System.nanoTime();
 //        LogUtils.i(String.format("Sending request %s on %s%n%s",
 //                request.url(), chain.connection(), request.headers()));
-        LogUtils.i(request.url().toString());
+        XLog.i(this,request.url().toString());
         Response response = chain.proceed(request);
 
         long t2 = System.nanoTime();
-        LogUtils.i(String.format("Received response %s",
+        XLog.i(this,String.format("Received response %s",
                response.body().string()));
         return response;
     }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import com.salton123.log.XLog
 import com.salton123.util.ViewUtils
 
 /**
@@ -30,7 +31,7 @@ abstract class LifeDelegate(var mComponentLife: IComponentLife) {
     }
 
     fun log(msg: String) {
-        LogUtils.d(msg)
+        XLog.i(this, msg)
     }
 
     fun longToast(toast: String) {

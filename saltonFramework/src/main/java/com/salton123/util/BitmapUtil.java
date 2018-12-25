@@ -48,6 +48,8 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.view.View;
 
+import com.salton123.log.XLog;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -975,12 +977,12 @@ public final class BitmapUtil {
         if (radius < 0) {
             radius = 0;
             if (DEBUG) {
-                LogUtils.w(TAG, "radius must be 0 < r < 25 , forcing radius=0");
+                XLog.w(TAG, "radius must be 0 < r < 25 , forcing radius=0");
             }
         } else if (radius > 25) {
             radius = 25;
             if (DEBUG) {
-                LogUtils.w(TAG, "radius must be 0 < r < 25 , forcing radius=25");
+                XLog.w(TAG, "radius must be 0 < r < 25 , forcing radius=25");
             }
         }
 
