@@ -6,6 +6,7 @@ import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.CountDownLatch
 
 /**
  * User: newSalton@outlook.com
@@ -15,20 +16,23 @@ import io.reactivex.schedulers.Schedulers
  */
 
 object InitializeLoader {
-    private val TAG = "InitializeLoader";
+    private val TAG = "InitializeLoader"
     private lateinit var mPriority: IFutureTaskPriority
-    fun init(priority: IFutureTaskPriority): Observable<Boolean> {
+    private lateinit var mLatch: CountDownLatch //定义一个CountDownLatch只保证高优先级初始化操作执行完后主线程继续执行
+
+    fun init(priority: IFutureTaskPriority, latch: CountDownLatch): Observable<Boolean> {
         this.mPriority = priority
+        this.mLatch = latch
         return Observable.zip(
-            highPriority(),
-            mediumPriority(),
-            lowPriority(),
-            Function3<Boolean, Boolean, Boolean, Boolean> { t1, t2, t3 ->
-                Log.e(TAG, "t1=$t1, t2=$t2, t3=$t3")
-                t1 and t2 and t3
-            })
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
+                highPriority(),
+                mediumPriority(),
+                lowPriority(),
+                Function3<Boolean, Boolean, Boolean, Boolean> { t1, t2, t3 ->
+                    Log.e(TAG, "t1=$t1, t2=$t2, t3=$t3")
+                    t1 and t2 and t3
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun lowPriority(): Observable<Boolean> {
@@ -36,6 +40,7 @@ object InitializeLoader {
             Log.e(TAG, "lowPriority start:" + Thread.currentThread())
             emitter.onNext(mPriority.lowPriority())
             Log.e(TAG, "lowPriority:end" + Thread.currentThread())
+            mLatch.countDown()
             emitter.onComplete()
         }).observeOn(Schedulers.newThread()).subscribeOn(Schedulers.newThread())
     }
