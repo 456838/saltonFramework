@@ -37,12 +37,19 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
         mHost.startActivityForResult(Intent(mComponentLife.activity(), clz).let { it.putExtras(bundle) }, requestCode)
     }
 
+    fun openActivityForResult(clz: Class<*>, requestCode: Int) {
+        mHost.startActivityForResult(Intent(mComponentLife.activity(), clz), requestCode)
+    }
+
     companion object {
         const val ARG_ITEM = "arg_item"
+
+        @JvmStatic
         fun <T : Fragment> newInstance(clz: Class<T>): T {
             return clz.newInstance()
         }
 
+        @JvmStatic
         fun <T : Fragment> newInstance(clz: Class<T>, value: Serializable): T {
             return clz.newInstance().also {
                 it.arguments = Bundle().also {
@@ -51,6 +58,7 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
             }
         }
 
+        @JvmStatic
         fun <T : Fragment> newInstance(clz: Class<T>, value: Parcelable): T {
             return clz.newInstance().also {
                 it.arguments = Bundle().also {
@@ -59,33 +67,12 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
             }
         }
 
+        @JvmStatic
         fun <T : Fragment> newInstance(clz: Class<T>, value: Bundle): T {
             return clz.newInstance().also {
                 it.arguments = value
             }
         }
-
-//        /**
-//         * 兼容java调kt end
-//         */
-//        @JvmOverloads
-//        fun <T : Fragment> newInstance(
-//            clz: Class<T>
-//            , bundle: Bundle? = null
-//            , serial: Serializable? = null
-//            , parcel: Parcelable? = null
-//        ): T {
-//            return clz.newInstance().apply {
-//                if (bundle != null) {
-//                    bundle.let { this.arguments = bundle }
-//                    serial?.let { this.arguments = bundle.apply { putSerializable(ARG_ITEM, it) } }
-//                    parcel?.let { this.arguments = bundle.apply { putParcelable(ARG_ITEM, it) } }
-//                } else {
-//                    serial?.let { this.arguments = Bundle.EMPTY.apply { putSerializable(ARG_ITEM, it) } }
-//                    parcel?.let { this.arguments = Bundle.EMPTY.apply { putParcelable(ARG_ITEM, it) } }
-//                }
-//            }
-//        }
     }
 
 

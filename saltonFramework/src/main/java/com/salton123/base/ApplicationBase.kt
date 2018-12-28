@@ -3,13 +3,11 @@ package com.salton123.base
 import android.app.Application
 import android.os.Environment
 import android.util.Log
-import com.salton123.app.IFutureTaskPriority
-import com.salton123.app.InitializeLoader
 import com.salton123.app.SaltonCrashHandler
 import com.salton123.log.XLogConfig
 import com.salton123.manager.lifecycle.IActivityLifeCycle
+import com.za.youth.FutureTaskApplication
 import java.io.File
-import java.util.concurrent.CountDownLatch
 
 
 /**
@@ -19,16 +17,11 @@ import java.util.concurrent.CountDownLatch
  * Desc:捕获应用异常Application以及完成整个应用退出；在这里进行全局变量的传递；
  * 在这里完成低内存的释放；在这里捕获未抓住的异常；用于应用配置, 预加载处理
  */
-open class ApplicationBase : Application(), IFutureTaskPriority {
-    val mCountDownLatch = CountDownLatch(1)
+open class ApplicationBase : FutureTaskApplication() {
     val TAG = "ApplicationBase"
     override fun onCreate() {
         super.onCreate()
         mInstance = this
-        Log.e(TAG, "step one:" + Thread.currentThread().name)
-        InitializeLoader.init(this, mCountDownLatch).subscribe()
-        mCountDownLatch.await()
-        Log.e(TAG, "step three:" + Thread.currentThread().name)
     }
 
     override fun onTerminate() {
@@ -38,20 +31,15 @@ open class ApplicationBase : Application(), IFutureTaskPriority {
     }
 
     override fun highPriority(): Boolean {
-        Thread.sleep(500)
-        Log.e(TAG, "step two high:" + Thread.currentThread().name)
         return true
     }
 
     override fun mediumPriority(): Boolean {
-        Thread.sleep(1000)
-        Log.e(TAG, "step two medium:" + Thread.currentThread().name)
         IActivityLifeCycle.Factory.get().init(mInstance)
         return true
     }
 
     override fun lowPriority(): Boolean {
-        Thread.sleep(1000)
         Log.e(TAG, "step two low:" + Thread.currentThread().name)
         openCrashHanlder()
         initXlog()

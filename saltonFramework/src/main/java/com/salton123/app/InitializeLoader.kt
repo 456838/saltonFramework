@@ -66,16 +66,6 @@ object InitializeLoader {
         }).zipWith(lowPriority(), BiFunction<Boolean, Boolean, Boolean> { t1, t2 ->
             t1 and t2
         }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread())
-//        return Observable.zip(
-//                highPriority(),
-//                mediumPriority(),
-//                lowPriority(),
-//                Function3<Boolean, Boolean, Boolean, Boolean> { t1, t2, t3 ->
-//                    Log.e(TAG, "t1=$t1, t2=$t2, t3=$t3")
-//                    t1 and t2 and t3
-//                })
-//                .subscribeOn(Schedulers.computation())
-//                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun lowPriority(): Observable<Boolean> {
