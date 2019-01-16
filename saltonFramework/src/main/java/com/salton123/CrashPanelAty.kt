@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.widget.ScrollView
 import com.salton123.base.ActivityBase
 import com.salton123.saltonframework.R
-import com.salton123.util.BitmapUtil
 import kotlinx.android.synthetic.main.salton_aty_crash_panel.*
-import java.io.File
 
 /**
  * User: newSalton@outlook.com
@@ -26,7 +24,7 @@ class CrashPanelAty : ActivityBase() {
         longToast("发生崩溃了")
         tvCrashInfo.text = intent.getStringExtra("crashInfo")
         tvCrashInfo.post {
-            BitmapUtil.saveBitmap(getScrollViewBitmap(scrollView), File("/sdcard/"))
+//            BitmapUtil.saveBitmap(getScrollViewBitmap(scrollView), File("/sdcard/"))
         }
     }
 

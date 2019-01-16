@@ -90,4 +90,8 @@ abstract class BaseSupportFragment : SupportFragment(), IComponentLife {
     override fun openActivityForResult(clz: Class<*>, bundle: Bundle?, requestCode: Int) {
         mFragmentDelegate.openActivityForResult(clz, bundle, requestCode)
     }
+
+    override fun getTitleBar(): View? {
+        return null
+    }
 }

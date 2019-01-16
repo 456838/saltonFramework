@@ -32,4 +32,8 @@ class TestPopupComp : BaseSupportPopupFragment() {
         var bitmap = Bitmap.createBitmap(view.drawingCache)
         return BitmapUtil.blur(view.context, bitmap, radius)
     }
+
+    override fun getTitleBar(): View? {
+        return inflater().inflate(R.layout.title_bar, null)
+    }
 }

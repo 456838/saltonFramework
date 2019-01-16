@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.salton123.log.XLog
+import com.salton123.saltonframework.R
 import com.salton123.util.ViewUtils
 
 /**
@@ -15,14 +19,47 @@ import com.salton123.util.ViewUtils
  * Description:
  */
 abstract class LifeDelegate(var mComponentLife: IComponentLife) {
-    private lateinit var rootView: View
+    private lateinit var rootView: ViewGroup
+
     fun onCreate(savedInstanceState: Bundle?) {
         mComponentLife.initVariable(savedInstanceState)
     }
 
     fun onCreateView(): View? {
-        rootView = inflater().inflate(mComponentLife.getLayout(), null)
+        rootView = buildRootView()
         return rootView
+    }
+
+    private fun buildRootView(): ViewGroup {
+        val mainContentView = inflater().inflate(mComponentLife.getLayout(), null)
+        if (getTitleBar() != null) {
+            var topLayout = LinearLayout(activity())
+            topLayout.id = R.id.salton_id_top_layout
+            topLayout.orientation = LinearLayout.VERTICAL
+            topLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
+            var titleLayout = LinearLayout(activity())
+            titleLayout.id = R.id.salton_id_title_layout
+            titleLayout.orientation = LinearLayout.VERTICAL
+            titleLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            titleLayout.addView(getTitleBar())
+            topLayout.addView(titleLayout)
+
+            var contentLayout = FrameLayout(activity())
+            contentLayout.id = R.id.salton_id_content_layout
+            contentLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            contentLayout.addView(mainContentView)
+            topLayout.addView(contentLayout)
+            
+            return topLayout
+        } else {
+            return mainContentView as ViewGroup
+        }
+
+    }
+
+    fun getTitleBar(): View? {
+        return mComponentLife.getTitleBar()
     }
 
     fun onViewCreated() {

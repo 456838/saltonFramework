@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion "${compile_sdk_version}" as Integer
     buildToolsVersion "${build_tools_version}" as String
@@ -11,8 +11,7 @@ android {
         applicationId "com.salton123.saltonframeworkdemo"
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -27,16 +26,9 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api "com.android.support:appcompat-v7:${support_version}"
     api project(':saltonFramework')
-//    compile "com.salton123:saltonFramework:+"
-//    compile 'com.jakewharton.timber:timber:4.5.1'
-//    compile 'com.orhanobut:logger:2.1.1'     //优ß秀Logger打印
-
     api 'com.android.support:multidex:1.0.2'
-    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-//    compile 'com.elvishew:xlog:1.4.0'
-//    compile 'com.orhanobut:logger:+'
+    api 'com.hjq:titlebar:5.0'
 }
 
 repositories {

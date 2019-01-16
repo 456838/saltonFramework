@@ -94,4 +94,7 @@ abstract class FragmentBase : Fragment(), IComponentLife {
         mDelegate.openActivityForResult(clz, bundle, requestCode)
     }
 
+    override fun getTitleBar(): View? {
+        return null
+    }
 }

@@ -40,6 +40,10 @@ abstract class ActivityBase : AppCompatActivity(), IComponentLife {
 
     }
 
+    override fun getTitleBar(): View? {
+        return null
+    }
+
     override fun log(msg: String) {
         mActivityDelegate.log(msg)
     }

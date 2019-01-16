@@ -14,6 +14,7 @@ import java.io.Serializable
  * Description:
  */
 class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLife) {
+
     override fun activity(): AppCompatActivity = mHost.activity as AppCompatActivity
 
     private var mHost: Fragment
@@ -74,6 +75,5 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
             }
         }
     }
-
 
 }

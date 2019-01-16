@@ -117,4 +117,8 @@ abstract class BaseSupportSwipeBackActivity : SupportActivity(), IComponentLife,
         mActivityDelegate.onDestroy()
         super.onDestroy()
     }
+
+    override fun getTitleBar(): View? {
+        return null
+    }
 }

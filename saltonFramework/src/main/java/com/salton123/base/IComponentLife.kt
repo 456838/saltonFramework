@@ -17,6 +17,8 @@ interface IComponentLife : View.OnClickListener {
 
     fun getRootView(): View
 
+    fun getTitleBar(): View?
+
     fun initVariable(savedInstanceState: Bundle?)    //在setContentView之前初始化数据
 
     fun initViewAndData()  //初始化数据在View之后

@@ -112,5 +112,8 @@ abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
         mFragmentDelegate.openActivityForResult(clz, bundle, requestCode)
     }
 
+    override fun getTitleBar(): View? {
+        return null
+    }
 
 }

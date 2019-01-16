@@ -143,5 +143,8 @@ abstract class BaseSupportSwipeBackFragment : SupportFragment(), IComponentLife,
         mFragmentDelegate.openActivityForResult(clz, bundle, requestCode)
     }
 
+    override fun getTitleBar(): View? {
+        return null
+    }
 }
 

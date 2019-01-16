@@ -25,6 +25,10 @@ abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
 
     }
 
+    override fun getTitleBar(): View? {
+        return null
+    }
+    
     override fun setListener(vararg ids: Int) {
         mActivityDelegate.setListener(*ids)
     }
