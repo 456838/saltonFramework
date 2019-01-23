@@ -2,8 +2,9 @@ package com.salton123.saltonframeworkdemo.test
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import com.hazz.kotlinmvp.view.recyclerview.adapter.OnItemClickListener
-import com.salton123.base.BaseRecycerViewAdapter.context
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import com.salton123.adapter.recyclerview.RvMultiTypeAdapter
 import com.salton123.base.BaseSupportFragment
 import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.R
@@ -30,10 +31,14 @@ class RecyclerTestComponent : BaseSupportFragment() {
         recyclerView.adapter = mAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         mAdapter.addAll(Arrays.asList("hello", "tom"))
-        mAdapter.setOnItemClickListener(object : OnItemClickListener {
-            override fun onItemClick(obj: Any?, position: Int) {
-                longToast("position=$position" + ",obj=${obj.toString()}")
+        mAdapter.setOnItemClickListener(object : RvMultiTypeAdapter.OnItemClickListener {
+            override fun onItemClick(view: View?, holder: RecyclerView.ViewHolder?, position: Int) {
+                longToast("position=$position" + ",obj=${holder.toString()}")
                 start(FragmentDelegate.newInstance(SwipeBackCp::class.java))
+            }
+
+            override fun onItemLongClick(view: View?, holder: RecyclerView.ViewHolder?, position: Int): Boolean {
+                return true;
             }
         })
 

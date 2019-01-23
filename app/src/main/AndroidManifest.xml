@@ -15,12 +15,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".SaltonApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".SaltonApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".test.DrawTestAty">
             <intent-filter>
@@ -33,9 +33,6 @@
         <activity android:name=".test.TestAty" />
         <activity android:name=".MainActivity" />
         <activity android:name=".KotlinAty" />
-        <activity android:name="com.salton123.CrashPanelAty"
-            android:process=":crashreport"
-            ></activity>
     </application>
 
 </manifest>

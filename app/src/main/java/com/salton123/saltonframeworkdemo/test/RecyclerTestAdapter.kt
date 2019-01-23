@@ -2,24 +2,15 @@ package com.salton123.saltonframeworkdemo.test
 
 import android.content.Context
 import android.widget.ImageView
-import com.hazz.kotlinmvp.view.recyclerview.ViewHolder
-import com.salton123.base.recyclerview.adapter.CommonAdapter
+import com.bumptech.glide.Glide
+import com.salton123.adapter.base.ViewHolder
+import com.salton123.adapter.recyclerview.CommonRvAdapter
 import com.salton123.saltonframeworkdemo.R
 
 class RecyclerTestAdapter(mContext: Context, mLayoutId: Int)
-    : CommonAdapter<String>(mContext, mLayoutId) {
-
-    override fun bindData(holder: ViewHolder, data: String, position: Int) {
-        setData(holder, data)
+    : CommonRvAdapter<String>(mContext, mLayoutId) {
+    override fun convert(holder: ViewHolder, t: String, position: Int) {
+        Glide.with(holder.itemView).load(t).into(holder.getView(R.id.ivImage))
     }
-
-    private fun setData(holder: ViewHolder, data: String) {
-//        holder.getView<TextView>(R.id.tv_test).text = "$data"
-        holder.setImagePath(R.id.ivImage, object : ViewHolder.HolderImageLoader(data) {
-            override fun loadImage(iv: ImageView, path: String) {
-            }
-        })
-    }
-
 
 }
