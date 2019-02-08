@@ -1,6 +1,7 @@
 package com.salton123.adapter.abslistview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class MultiLvAdapter<T> extends BaseAdapter {
         return viewHolder.getConvertView();
     }
 
-    protected void convert(ViewHolder viewHolder, T item, int position) {
+    protected void convert(@NonNull ViewHolder viewHolder, @NonNull T item, int position) {
         mItemViewDelegateManager.convert(viewHolder, item, position);
     }
 

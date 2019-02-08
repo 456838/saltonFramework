@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.salton123.base.feature.IFeature
 import me.yokeyword.fragmentation.SupportFragment
 import me.yokeyword.fragmentation.SwipeBackLayout
 import me.yokeyword.fragmentation_swipeback.core.ISwipeBackFragment
 import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate
+import java.util.ArrayList
 
 /**
  * User: 巫金生(newSalton@163.com)
@@ -21,11 +23,19 @@ abstract class BaseSupportSwipeBackFragment : SupportFragment(), IComponentLife,
 
     internal val mFragmentDelegate by lazy { FragmentDelegate(this) }
     internal val mDelegate by lazy { SwipeBackFragmentDelegate(this) }
+    private val mFeatures = ArrayList<IFeature>()
+
+    fun addFeature(feature: IFeature) {
+        this.mFeatures.add(feature)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         mDelegate.onCreate(savedInstanceState)
         setSwipeBackEnable(false)
         super.onCreate(savedInstanceState)
         mFragmentDelegate.onCreate(savedInstanceState)
+        for (item in mFeatures) {
+            item.onBind()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -77,13 +87,16 @@ abstract class BaseSupportSwipeBackFragment : SupportFragment(), IComponentLife,
     }
 
     override fun onDestroyView() {
-        mDelegate.onDestroyView()
         super.onDestroyView()
+        mDelegate.onDestroyView()
     }
 
     override fun onDestroy() {
-        mFragmentDelegate.onDestroy()
         super.onDestroy()
+        mFragmentDelegate.onDestroy()
+        for (item in mFeatures) {
+            item.onUnBind()
+        }
     }
 
     override fun initListener() {

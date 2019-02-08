@@ -1,13 +1,15 @@
 package com.salton123.adapter.base;
 
 
+import android.support.annotation.NonNull;
+
 public interface ItemViewDelegate<T>
 {
 
     int getItemViewLayoutId();
 
-    boolean isForViewType(T item, int position);
+    boolean isForViewType(@NonNull T item, int position);
 
-    void convert(ViewHolder holder, T t, int position);
+    void convert(@NonNull ViewHolder holder,@NonNull T t, int position);
 
 }

@@ -1,11 +1,14 @@
 package com.salton123.base
 
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import com.salton123.base.feature.IFeature
 import me.yokeyword.fragmentation.SupportActivity
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
+import java.util.ArrayList
 
 /**
  * Created by Administrator on 2017/6/6.
@@ -13,9 +16,17 @@ import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
 
 abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
     private val mActivityDelegate by lazy { ActivityDelegate(this) }
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val mFeatures = ArrayList<IFeature>()
+
+    fun addFeature(feature: IFeature) {
+        this.mFeatures.add(feature)
+    }
+    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         mActivityDelegate.onCreate(savedInstanceState)
         super.onCreate(savedInstanceState)
+        for (item in mFeatures) {
+            item.onBind()
+        }
         setContentView(mActivityDelegate.onCreateView())
         mActivityDelegate.onViewCreated()
         fragmentAnimator = DefaultHorizontalAnimator()
@@ -79,7 +90,10 @@ abstract class BaseSupportActivity : SupportActivity(), IComponentLife {
     }
 
     override fun onDestroy() {
-        mActivityDelegate.onDestroy()
         super.onDestroy()
+        mActivityDelegate.onDestroy()
+        for (item in mFeatures) {
+            item.onUnBind()
+        }
     }
 }

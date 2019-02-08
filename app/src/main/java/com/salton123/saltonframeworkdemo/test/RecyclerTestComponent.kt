@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.salton123.adapter.recyclerview.RvMultiTypeAdapter
+import com.salton123.adapter.recyclerview.MultiRvAdapter
 import com.salton123.base.BaseSupportFragment
 import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.R
@@ -18,7 +18,7 @@ import java.util.*
  * Description:
  */
 class RecyclerTestComponent : BaseSupportFragment() {
-    lateinit var mAdapter: RecyclerTestAdapter
+    lateinit var mAdapter: RecyclerTestRvAdapter
     override fun getLayout(): Int {
         return R.layout.cp_recycler_test
     }
@@ -27,11 +27,11 @@ class RecyclerTestComponent : BaseSupportFragment() {
     }
 
     override fun initViewAndData() {
-        mAdapter = RecyclerTestAdapter(_mActivity, R.layout.item_recycler_test)
+        mAdapter = RecyclerTestRvAdapter(_mActivity, R.layout.item_recycler_test)
         recyclerView.adapter = mAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         mAdapter.addAll(Arrays.asList("hello", "tom"))
-        mAdapter.setOnItemClickListener(object : RvMultiTypeAdapter.OnItemClickListener {
+        mAdapter.setOnItemClickListener(object : MultiRvAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, holder: RecyclerView.ViewHolder?, position: Int) {
                 longToast("position=$position" + ",obj=${holder.toString()}")
                 start(FragmentDelegate.newInstance(SwipeBackCp::class.java))

@@ -15,9 +15,8 @@ import android.widget.Toast;
 
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
-import com.salton123.base.ActivityBase;
+import com.salton123.base.BaseSupportActivity;
 import com.salton123.base.FragmentDelegate;
-import com.salton123.log.XLog;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
 import com.salton123.saltonframeworkdemo.ui.fm.TestPopupComp;
@@ -30,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  * ModifyTime: 下午6:24
  * Description:
  */
-public class DrawTestAty extends ActivityBase {
+public class DrawTestAty extends BaseSupportActivity {
     ImmersionBar mImmersionBar;
     private SaltonVideoView mVideoView;
     private boolean hasPermission;

@@ -1,6 +1,7 @@
 package com.salton123.adapter.abslistview;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.salton123.adapter.base.ItemViewDelegate;
 import com.salton123.adapter.base.ViewHolder;
@@ -22,7 +23,7 @@ public abstract class CommonLvAdapter<T> extends MultiLvAdapter<T> {
             }
 
             @Override
-            public void convert(ViewHolder holder, T t, int position) {
+            public void convert(@NonNull ViewHolder holder,@NonNull T t, int position) {
                 CommonLvAdapter.this.convert(holder, t, position);
             }
         });

@@ -2,13 +2,16 @@ package com.salton123.base
 
 import android.app.Dialog
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.salton123.base.feature.IFeature
 import com.salton123.event.PopupStyle
 import com.salton123.util.PopupStyleHelper
+import java.util.ArrayList
 
 
 /**
@@ -21,10 +24,19 @@ import com.salton123.util.PopupStyleHelper
  */
 abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
     private val mFragmentDelegate by lazy { FragmentDelegate(this) }
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val mFeatures = ArrayList<IFeature>()
+
+    fun addFeature(feature: IFeature) {
+        this.mFeatures.add(feature)
+    }
+
+    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFragmentDelegate.onCreate(savedInstanceState)
         setStyle(popupStyle().style, popupStyle().theme)
+        for (item in mFeatures) {
+            item.onBind()
+        }
     }
 
     open fun popupStyle(): PopupStyle {
@@ -51,8 +63,11 @@ abstract class BaseSupportPopupFragment : DialogFragment(), IComponentLife {
     }
 
     override fun onDestroy() {
-        mFragmentDelegate.onDestroy()
         super.onDestroy()
+        mFragmentDelegate.onDestroy()
+        for (item in mFeatures) {
+            item.onUnBind()
+        }
     }
 
     override fun initListener() {

@@ -2,9 +2,7 @@ package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
 
-import com.bumptech.glide.Glide;
-import com.salton123.GlideApp;
-import com.salton123.base.FragmentBase;
+import com.salton123.base.BaseSupportFragment;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -14,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
  * ModifyTime: 18:17
  * Description:
  */
-public class JavaComponent extends FragmentBase {
+public class JavaComponent extends BaseSupportFragment {
     @Override
     public int getLayout() {
         return R.layout.cp_java;

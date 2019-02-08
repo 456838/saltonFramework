@@ -1,11 +1,14 @@
 package com.salton123.base
 
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.salton123.base.feature.IFeature
 import me.yokeyword.fragmentation.SupportFragment
+import java.util.ArrayList
 
 /**
  * User: 巫金生(newSalton@163.com)
@@ -15,9 +18,18 @@ import me.yokeyword.fragmentation.SupportFragment
  */
 abstract class BaseSupportFragment : SupportFragment(), IComponentLife {
     private val mFragmentDelegate by lazy { FragmentDelegate(this) }
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val mFeatures = ArrayList<IFeature>()
+
+    fun addFeature(feature: IFeature) {
+        this.mFeatures.add(feature)
+    }
+
+    override fun onCreate(@Nullable savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFragmentDelegate.onCreate(savedInstanceState)
+        for (item in mFeatures) {
+            item.onBind()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,8 +42,11 @@ abstract class BaseSupportFragment : SupportFragment(), IComponentLife {
     }
 
     override fun onDestroy() {
-        mFragmentDelegate.onDestroy()
         super.onDestroy()
+        mFragmentDelegate.onDestroy()
+        for (item in mFeatures) {
+            item.onUnBind()
+        }
     }
 
     override fun initListener() {
@@ -94,4 +109,5 @@ abstract class BaseSupportFragment : SupportFragment(), IComponentLife {
     override fun getTitleBar(): View? {
         return null
     }
+
 }

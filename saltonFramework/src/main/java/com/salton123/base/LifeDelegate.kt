@@ -1,6 +1,7 @@
 package com.salton123.base
 
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ import com.salton123.util.ViewUtils
 abstract class LifeDelegate(var mComponentLife: IComponentLife) {
     private lateinit var rootView: ViewGroup
 
-    fun onCreate(savedInstanceState: Bundle?) {
+    fun onCreate(@Nullable savedInstanceState: Bundle?) {
         mComponentLife.initVariable(savedInstanceState)
     }
 

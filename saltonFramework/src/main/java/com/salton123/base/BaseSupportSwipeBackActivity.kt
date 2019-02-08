@@ -1,14 +1,17 @@
 package com.salton123.base
 
 import android.os.Bundle
+import android.support.annotation.Nullable
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
+import com.salton123.base.feature.IFeature
 import me.yokeyword.fragmentation.SupportActivity
 import me.yokeyword.fragmentation.SwipeBackLayout
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator
 import me.yokeyword.fragmentation_swipeback.core.ISwipeBackActivity
 import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
+import java.util.ArrayList
 
 /**
  * Created by Administrator on 2017/6/6.
@@ -17,6 +20,12 @@ import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate
 abstract class BaseSupportSwipeBackActivity : SupportActivity(), IComponentLife, ISwipeBackActivity {
     private val mDelegate by lazy { SwipeBackActivityDelegate(this) }
     private val mActivityDelegate by lazy { ActivityDelegate(this) }
+    private val mFeatures = ArrayList<IFeature>()
+
+    fun addFeature(feature: IFeature) {
+        this.mFeatures.add(feature)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         mDelegate.onCreate(savedInstanceState)
         mActivityDelegate.onCreate(savedInstanceState)
@@ -25,6 +34,9 @@ abstract class BaseSupportSwipeBackActivity : SupportActivity(), IComponentLife,
         mActivityDelegate.onViewCreated()
         setSwipeBackEnable(false)
         fragmentAnimator = DefaultHorizontalAnimator()
+        for (item in mFeatures) {
+            item.onBind()
+        }
     }
 
     override fun initListener() {
@@ -113,9 +125,13 @@ abstract class BaseSupportSwipeBackActivity : SupportActivity(), IComponentLife,
     override fun swipeBackPriority(): Boolean {
         return mDelegate.swipeBackPriority()
     }
+
     override fun onDestroy() {
-        mActivityDelegate.onDestroy()
         super.onDestroy()
+        mActivityDelegate.onDestroy()
+        for (item in mFeatures) {
+            item.onUnBind()
+        }
     }
 
     override fun getTitleBar(): View? {

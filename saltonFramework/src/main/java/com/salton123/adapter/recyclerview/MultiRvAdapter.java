@@ -13,7 +13,7 @@ import com.salton123.adapter.base.ViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RvMultiTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public class MultiRvAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected Context mContext;
     private List<T> mDatas = new ArrayList<>();
 
@@ -21,7 +21,7 @@ public class RvMultiTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected OnItemClickListener mOnItemClickListener;
 
 
-    public RvMultiTypeAdapter(Context context) {
+    public MultiRvAdapter(Context context) {
         mContext = context;
         mItemViewDelegateManager = new ItemViewDelegateManager();
     }
@@ -127,12 +127,12 @@ public class RvMultiTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         return mDatas.get(position);
     }
 
-    public RvMultiTypeAdapter addItemViewDelegate(ItemViewDelegate<T> itemViewDelegate) {
+    public MultiRvAdapter addItemViewDelegate(ItemViewDelegate<T> itemViewDelegate) {
         mItemViewDelegateManager.addDelegate(itemViewDelegate);
         return this;
     }
 
-    public RvMultiTypeAdapter addItemViewDelegate(int viewType, ItemViewDelegate<T> itemViewDelegate) {
+    public MultiRvAdapter addItemViewDelegate(int viewType, ItemViewDelegate<T> itemViewDelegate) {
         mItemViewDelegateManager.addDelegate(viewType, itemViewDelegate);
         return this;
     }

@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import com.salton123.adapter.base.ItemViewDelegate;
 import com.salton123.adapter.base.ViewHolder;
 
-import java.util.List;
-
-public abstract class CommonRvAdapter<T> extends RvMultiTypeAdapter<T> {
+public abstract class CommonRvAdapter<T> extends MultiRvAdapter<T> {
     protected Context mContext;
     protected int mLayoutId;
     protected LayoutInflater mInflater;

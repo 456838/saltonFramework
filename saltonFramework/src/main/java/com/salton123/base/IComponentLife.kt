@@ -2,6 +2,7 @@ package com.salton123.base
 
 import android.os.Bundle
 import android.support.annotation.IdRes
+import android.support.annotation.Nullable
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,7 @@ interface IComponentLife : View.OnClickListener {
 
     fun getTitleBar(): View?
 
-    fun initVariable(savedInstanceState: Bundle?)    //在setContentView之前初始化数据
+    fun initVariable(@Nullable savedInstanceState: Bundle?)    //在setContentView之前初始化数据
 
     fun initViewAndData()  //初始化数据在View之后
 

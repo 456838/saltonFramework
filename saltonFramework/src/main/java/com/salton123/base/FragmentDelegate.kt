@@ -3,7 +3,10 @@ package com.salton123.base
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import java.io.Serializable
 
@@ -74,6 +77,20 @@ class FragmentDelegate(componentLife: IComponentLife) : LifeDelegate(componentLi
                 it.arguments = value
             }
         }
+
+        fun showPopupComp(@NonNull fragment: Fragment, @NonNull fragmentManager: FragmentManager) {
+            val ft = fragmentManager.beginTransaction()
+            ft.add(fragment, fragment.javaClass.simpleName)
+            ft.commitAllowingStateLoss()
+        }
+
+        fun <T : Fragment> showPopupComp(
+            @NonNull clz: Class<T>,
+            @NonNull fragmentManager: FragmentManager) {
+            var fragment = newInstance(clz)
+            showPopupComp(fragment, fragmentManager)
+        }
+
     }
 
 }

@@ -49,8 +49,7 @@ public class PermissionFeature extends Fragment implements IFeature {
 
     public String[] getPermissionArr() {
         return new String[]{
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE
         };
     }
 
