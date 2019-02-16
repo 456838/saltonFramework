@@ -7,10 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.salton123.base.ApplicationBase;
 import com.salton123.log.XLog;
 
 

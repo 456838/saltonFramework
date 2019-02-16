@@ -1,12 +1,14 @@
 package com.salton123.app
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
-import com.salton123.base.ApplicationBase
 import com.salton123.io.FlushWriter
 import com.salton123.log.XLog
+import com.zhenai.crashpanel.CrashPanelAty.Companion.FLAG_INFO
+import com.zhenai.crashpanel.CrashService
 import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -28,11 +30,12 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
      */
     private var mDefaultHandler: Thread.UncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
 
-
     init {
         // 设置该 CrashHandler 为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this)
     }
+
+    var isShowCrashPanel: Boolean = false
 
     override fun uncaughtException(t: Thread?, e: Throwable?) {
         if (!handleException(e)) {
@@ -46,8 +49,8 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
     }
 
     private fun getWriter(ex: Throwable) {
-        var path = File(Environment.getExternalStorageDirectory(), "salton").path
-        path = path + File.separator + ApplicationBase.getInstance<ApplicationBase>().packageName
+        var path = File(Environment.getExternalStorageDirectory(), "crash").path
+        path = path + File.separator + BaseApplication.getInstance<BaseApplication>().packageName
         val crashPath = path + File.separator + createFile()
         var flush = FlushWriter(path + File.separator + "crash_buf",
             8192,
@@ -56,16 +59,18 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
         )
         var stringBuilder = StringBuilder()
         flush.changeLogPath(crashPath)
-        stringBuilder.append(collectDeviceInfo(ApplicationBase.getInstance()) + "\n")
+        stringBuilder.append(collectDeviceInfo(BaseApplication.getInstance()) + "\n")
             .append(printCause(ex))
             .append(printStackTrace(ex))
             .append(ex.message + "\n")
         flush.write(stringBuilder.toString())
         flush.flushAsync()
         flush.release()
-//        var intent = Intent(ApplicationBase.getInstance(), CrashPanelAty::class.java)
-//        intent.putExtra("crashInfo", stringBuilder.toString())
-//        ApplicationBase.getInstance<ApplicationBase>().startActivity(intent)
+        if (isShowCrashPanel) {
+            var intent = Intent(BaseApplication.getInstance(), CrashService::class.java)
+            intent.putExtra(FLAG_INFO, stringBuilder.toString())
+            BaseApplication.getInstance<BaseApplication>().startService(intent)
+        }
     }
 
     private fun printCause(ex: Throwable): String? {

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import com.salton123.base.BaseSupportPopupFragment
 import com.salton123.saltonframeworkdemo.R
-import com.salton123.util.BitmapUtil
 import kotlinx.android.synthetic.main.cp_popup_test.*
 
 /**
@@ -30,7 +29,7 @@ class TestPopupComp : BaseSupportPopupFragment() {
         view.isDrawingCacheEnabled = true
         view.buildDrawingCache()
         var bitmap = Bitmap.createBitmap(view.drawingCache)
-        return BitmapUtil.blur(view.context, bitmap, radius)
+        return bitmap
     }
 
     override fun getTitleBar(): View? {

@@ -1,7 +1,7 @@
 package com.salton123.saltonframeworkdemo.mvp;
 
-import com.salton123.mvp.presenter.BasePresenter;
-import com.salton123.mvp.view.BaseView;
+import com.salton123.base.mvp.presenter.BasePresenter;
+import com.salton123.base.mvp.view.BaseView;
 
 /**
  * User: newSalton@outlook.com

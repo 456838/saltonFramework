@@ -2,8 +2,8 @@ package com.salton123.saltonframeworkdemo.test
 
 import android.content.Context
 import com.bumptech.glide.Glide
-import com.salton123.adapter.base.ViewHolder
-import com.salton123.adapter.recyclerview.CommonRvAdapter
+import com.salton123.view.adapter.base.ViewHolder
+import com.salton123.view.adapter.recyclerview.CommonRvAdapter
 import com.salton123.saltonframeworkdemo.R
 
 class RecyclerTestRvAdapter(mContext: Context, mLayoutId: Int)

@@ -4,8 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.salton123.mvp.ui.BaseSupportPresenterFragment;
-import com.salton123.util.RxUtils;
+import com.salton123.base.mvp.ui.BaseSupportPresenterFragment;
 import com.salton123.saltonframeworkdemo.R;
 
 import io.reactivex.functions.Consumer;
@@ -28,12 +27,6 @@ public class MvpTestFragment extends BaseSupportPresenterFragment<MvpTestContrac
 //            }
 //        }));
 //        .compose(RxUtils.rxSchedulerHelper()).subscribe();
-        RxUtils.createData("hello").compose(RxUtils.<String>rxSchedulerHelper()).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                longToast(s+"123456");
-            }
-        });
         pop();
 //               .subscribe(new Consumer<Observable<String>>() {
 //            @Override

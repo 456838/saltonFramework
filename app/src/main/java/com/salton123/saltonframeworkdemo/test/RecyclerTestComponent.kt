@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.salton123.adapter.recyclerview.MultiRvAdapter
+import com.salton123.view.adapter.recyclerview.MultiRvAdapter
 import com.salton123.base.BaseSupportFragment
 import com.salton123.base.FragmentDelegate
 import com.salton123.saltonframeworkdemo.R

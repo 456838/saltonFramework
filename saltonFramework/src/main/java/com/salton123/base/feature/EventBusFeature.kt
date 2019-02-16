@@ -1,6 +1,6 @@
 package com.salton123.base.feature
 
-import com.salton123.base.bus.EventFactory
+import com.salton123.util.EventFactory
 
 
 /**

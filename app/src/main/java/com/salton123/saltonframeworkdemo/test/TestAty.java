@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.salton123.base.BaseSupportActivity;
 import com.salton123.saltonframeworkdemo.R;
-import com.salton123.util.EventUtil;
+import com.salton123.util.EventFactory;
 
 /**
  * User: newSalton@outlook.com
@@ -20,7 +20,7 @@ public class TestAty extends BaseSupportActivity{
 
     @Override
     public void initVariable(Bundle savedInstanceState) {
-        EventUtil.sendEvent(new RxData(1,"小牛之家"));
+        EventFactory.sendEvent(new RxData(1,"小牛之家"));
     }
 
     @Override

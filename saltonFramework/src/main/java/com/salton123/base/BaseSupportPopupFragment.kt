@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.salton123.base.feature.IFeature
-import com.salton123.event.PopupStyle
+import com.salton123.util.PopupStyle
 import com.salton123.util.PopupStyleHelper
 import java.util.ArrayList
 
