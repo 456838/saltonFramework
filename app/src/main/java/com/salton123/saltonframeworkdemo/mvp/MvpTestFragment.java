@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.salton123.mvp.ui.BaseSupportPresenterFragment;
-import com.salton123.util.RxUtils;
+import com.salton123.base.mvp.ui.BaseMvpFragment;
 import com.salton123.saltonframeworkdemo.R;
+import com.salton123.util.RxUtils;
 
 import io.reactivex.functions.Consumer;
 
@@ -16,7 +16,7 @@ import io.reactivex.functions.Consumer;
  * ModifyTime: 21:32
  * Description:
  */
-public class MvpTestFragment extends BaseSupportPresenterFragment<MvpTestContract.Presenter> implements MvpTestContract.IView {
+public class MvpTestFragment extends BaseMvpFragment<MvpTestContract.Presenter> implements MvpTestContract.IView {
     @Override
     public void onHello() {
 
@@ -31,7 +31,7 @@ public class MvpTestFragment extends BaseSupportPresenterFragment<MvpTestContrac
         RxUtils.createData("hello").compose(RxUtils.<String>rxSchedulerHelper()).subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) throws Exception {
-                longToast(s+"123456");
+                longToast(s + "123456");
             }
         });
         pop();
@@ -45,7 +45,7 @@ public class MvpTestFragment extends BaseSupportPresenterFragment<MvpTestContrac
 
     }
 
-    TextView tv_hello ;
+    TextView tv_hello;
 
     @Override
     public int getLayout() {

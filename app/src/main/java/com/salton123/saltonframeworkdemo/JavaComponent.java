@@ -2,7 +2,7 @@ package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
 
-import com.salton123.base.BaseSupportFragment;
+import com.salton123.base.BaseFragment;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
  * ModifyTime: 18:17
  * Description:
  */
-public class JavaComponent extends BaseSupportFragment {
+public class JavaComponent extends BaseFragment {
     @Override
     public int getLayout() {
         return R.layout.cp_java;

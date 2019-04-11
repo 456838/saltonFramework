@@ -57,7 +57,7 @@ open class ApplicationBase : FutureTaskApplication() {
      */
     private fun initXlog() {
         var path = File(Environment.getExternalStorageDirectory(), "salton").path
-        path = path + File.separator + ApplicationBase.mInstance.packageName
+        path = path + File.separator + mInstance.packageName
         XLogConfig.init(XLogConfig.Builder()
                 .setSavePath(path)
                 .build())

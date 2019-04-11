@@ -6,7 +6,7 @@ import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.salton123.base.BaseSupportActivity;
+import com.salton123.base.BaseActivity;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
 import com.salton123.saltonframeworkdemo.UriProvider;
@@ -23,7 +23,7 @@ import static com.salton123.saltonframeworkdemo.video.StateType.STATE_PROGRESSIN
  * ModifyTime: 下午11:20
  * Description:
  */
-public class VideoTestAty extends BaseSupportActivity {
+public class VideoTestAty extends BaseActivity {
     private SaltonVideoView videoPlayer;
     private static final String TAG = "VideoTestAty";
 

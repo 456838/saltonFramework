@@ -3,7 +3,7 @@ package com.salton123.saltonframeworkdemo.ui.fm
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import com.salton123.base.BaseSupportPopupFragment
+import com.salton123.base.BaseDialogFragment
 import com.salton123.saltonframeworkdemo.R
 import com.salton123.util.BitmapUtil
 import kotlinx.android.synthetic.main.cp_popup_test.*
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.cp_popup_test.*
  * ModifyTime: 下午6:59
  * Description:
  */
-class TestPopupComp : BaseSupportPopupFragment() {
+class TestPopupComp : BaseDialogFragment() {
     override fun getLayout(): Int = R.layout.cp_popup_test
 
     override fun initVariable(savedInstanceState: Bundle?) {

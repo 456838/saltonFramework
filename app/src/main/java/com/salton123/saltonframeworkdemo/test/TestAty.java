@@ -2,7 +2,7 @@ package com.salton123.saltonframeworkdemo.test;
 
 import android.os.Bundle;
 
-import com.salton123.base.BaseSupportActivity;
+import com.salton123.base.BaseActivity;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.util.EventUtil;
 
@@ -12,7 +12,7 @@ import com.salton123.util.EventUtil;
  * ModifyTime: 19:27
  * Description:
  */
-public class TestAty extends BaseSupportActivity{
+public class TestAty extends BaseActivity {
     @Override
     public int getLayout() {
         return R.layout.aty_test;
@@ -20,7 +20,7 @@ public class TestAty extends BaseSupportActivity{
 
     @Override
     public void initVariable(Bundle savedInstanceState) {
-        EventUtil.sendEvent(new RxData(1,"小牛之家"));
+        EventUtil.sendEvent(new RxData(1, "小牛之家"));
     }
 
     @Override

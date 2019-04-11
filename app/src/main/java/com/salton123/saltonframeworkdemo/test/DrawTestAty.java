@@ -1,25 +1,24 @@
 package com.salton123.saltonframeworkdemo.test;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.gyf.barlibrary.BarHide;
 import com.gyf.barlibrary.ImmersionBar;
-import com.salton123.base.BaseSupportActivity;
-import com.salton123.base.FragmentDelegate;
+import com.salton123.base.BaseActivity;
+import com.salton123.base.feature.ImmersionFeature;
+import com.salton123.base.feature.PermissionFeature;
 import com.salton123.saltonframeworkdemo.R;
 import com.salton123.saltonframeworkdemo.SaltonVideoView;
 import com.salton123.saltonframeworkdemo.ui.fm.TestPopupComp;
+import com.salton123.util.FragmentUtils;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -29,10 +28,10 @@ import org.jetbrains.annotations.Nullable;
  * ModifyTime: 下午6:24
  * Description:
  */
-public class DrawTestAty extends BaseSupportActivity {
-    ImmersionBar mImmersionBar;
+public class DrawTestAty extends BaseActivity {
+
     private SaltonVideoView mVideoView;
-    private boolean hasPermission;
+
     private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
@@ -42,11 +41,25 @@ public class DrawTestAty extends BaseSupportActivity {
 
     @Override
     public void initVariable(@Nullable Bundle savedInstanceState) {
-        mImmersionBar = ImmersionBar.with(this)
-                .statusBarDarkFont(true)
-                .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
-                .transparentBar().transparentNavigationBar();
-        mImmersionBar.init();
+        addFeature(new ImmersionFeature(this) {
+            @Override
+            public ImmersionBar getImmersionBar() {
+                return super.getImmersionBar()
+                        .statusBarDarkFont(true)
+                        .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
+                        .transparentBar().transparentNavigationBar();
+            }
+        });
+        addFeature(new PermissionFeature(this) {
+            @Override
+            public String[] getPermissionArr() {
+                return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.CALL_PHONE,
+                        Manifest.permission.RECORD_AUDIO
+                };
+            }
+        });
         Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
         // openActivity(CrashPanelAty.class, new Bundle());
         // new CoolToast(this).show();
@@ -57,18 +70,9 @@ public class DrawTestAty extends BaseSupportActivity {
 
     @Override
     public void initViewAndData() {
-        FragmentDelegate.Companion.newInstance(TestPopupComp.class)
+        FragmentUtils.newInstance(TestPopupComp.class)
                 .show(getSupportFragmentManager()
                         , "TestPopupComp");
-        // Check permission.
-        hasPermission = hasPermission();
-        if (!hasPermission) {
-            if (shouldShowRequestPermissionRationale()) {
-                showPermissionRequestDialog(false);
-            } else {
-                requestPermission();
-            }
-        }
     }
 
     private boolean hasPermission() {
@@ -85,56 +89,6 @@ public class DrawTestAty extends BaseSupportActivity {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mImmersionBar != null) {
-            mImmersionBar.destroy();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                hasPermission = grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                if (!hasPermission) {
-                    if (shouldShowRequestPermissionRationale()) {
-                        showPermissionRequestDialog(false);
-                    } else {
-                        showPermissionRequestDialog(true);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Show a dialog for user to explain about the permission.
-     */
-    private void showPermissionRequestDialog(final boolean gotoSettings) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.permission_request)
-                .setMessage(R.string.permission_explanation)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(gotoSettings ? R.string.go_to_settings : R.string.allow,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (gotoSettings) {
-                                    startAppSettings();
-                                } else {
-                                    requestPermission();
-                                }
-                            }
-                        })
-                .show();
     }
 
     private void startAppSettings() {

@@ -4,4 +4,5 @@
     <item name="salton_id_top_layout" type="id" />
     <item name="salton_id_title_layout" type="id" />
     <item name="salton_id_content_layout" type="id" />
+    <item name="salton_id_multiple_status_view" type="id" />
 </resources>

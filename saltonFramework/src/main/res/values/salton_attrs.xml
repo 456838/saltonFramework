@@ -13,4 +13,12 @@
         <attr name="salton_border_overlay" format="boolean" />
         <attr name="salton_circle_background_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="salton_MultipleStatusView">
+        <attr name="salton_loadingView" format="reference"/>
+        <attr name="salton_errorView" format="reference"/>
+        <attr name="salton_emptyView" format="reference"/>
+        <attr name="salton_noNetworkView" format="reference"/>
+        <attr name="salton_contentView" format="reference"/>
+    </declare-styleable>
 </resources>

@@ -1,7 +1,7 @@
 package com.salton123.saltonframeworkdemo.mvp;
 
-import com.salton123.mvp.presenter.BasePresenter;
-import com.salton123.mvp.view.BaseView;
+import com.salton123.base.mvp.IBasePresenter;
+import com.salton123.base.mvp.IBaseView;
 
 /**
  * User: newSalton@outlook.com
@@ -11,11 +11,11 @@ import com.salton123.mvp.view.BaseView;
  */
 public interface MvpTestContract {
 
-    interface IView extends BaseView{
+    interface IView extends IBaseView {
         void onHello();
     }
 
-    interface  Presenter extends BasePresenter<IView>{
+    interface Presenter extends IBasePresenter<IView> {
         void sayHello();
     }
 }

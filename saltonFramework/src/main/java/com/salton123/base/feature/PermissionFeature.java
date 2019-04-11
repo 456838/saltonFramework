@@ -6,10 +6,15 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Process;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * User: newSalton@outlook.com
@@ -17,32 +22,38 @@ import android.widget.Toast;
  * ModifyTime: 4:59 PM
  * Description:
  */
-@SuppressLint("ValidFragment")
-public class PermissionFeature extends Fragment implements IFeature {
 
+public class PermissionFeature implements IFeature {
+
+    private String[] permissions = getPermissionArr();
     private AppCompatActivity mActivity;
+    private RxPermissions mPermissions;
 
     public PermissionFeature(AppCompatActivity activity) {
         this.mActivity = activity;
+
     }
 
-    private int REQUEST_CODE = 0x101;
-    private String[] permissions = getPermissionArr();
-
+    @SuppressLint("CheckResult")
     @Override
     public void onBind() {
-        mActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .add(this, "PermissionFeature")
-                .commit();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+        mPermissions = new RxPermissions(mActivity);
         if (!isPermissionGrant(mActivity)) {
             if (Build.VERSION.SDK_INT >= 23) {
-                requestPermissions(permissions, REQUEST_CODE);
+                mPermissions.requestEachCombined(permissions)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Permission>() {
+                            @Override
+                            public void accept(Permission permission) throws Exception {
+                                if (!permission.granted) {
+                                    Toast.makeText(mActivity,
+                                            "请授予全部权限",
+                                            Toast.LENGTH_LONG).show();
+                                    mActivity.finish();
+                                }
+                            }
+                        });
             }
         }
     }
@@ -55,11 +66,13 @@ public class PermissionFeature extends Fragment implements IFeature {
 
     @Override
     public void onUnBind() {
-
+        if (mPermissions != null) {
+            mPermissions = null;
+        }
     }
 
     private boolean isPermissionGrant(Context context) {
-        boolean result = false;
+        boolean result = true;
         for (String item : permissions) {
             result &= context.checkPermission(item, Process.myPid(),
                     Process.myUid()) == PackageManager.PERMISSION_GRANTED;
@@ -67,16 +80,4 @@ public class PermissionFeature extends Fragment implements IFeature {
         return result;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == this.REQUEST_CODE) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(mActivity,
-                        "请授予全部权限",
-                        Toast.LENGTH_LONG).show();
-                mActivity.finish();
-            }
-        }
-    }
 }

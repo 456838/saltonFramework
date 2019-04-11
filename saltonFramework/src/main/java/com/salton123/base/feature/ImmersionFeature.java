@@ -1,6 +1,7 @@
 package com.salton123.base.feature;
 
-import android.support.v7.app.AppCompatActivity;
+
+import android.app.Activity;
 
 import com.gyf.barlibrary.ImmersionBar;
 
@@ -12,9 +13,9 @@ import com.gyf.barlibrary.ImmersionBar;
  */
 public class ImmersionFeature implements IFeature {
     private ImmersionBar mImmersionBar;
-    private AppCompatActivity mActivity;
+    private Activity mActivity;
 
-    public ImmersionFeature(AppCompatActivity activity) {
+    public ImmersionFeature(Activity activity) {
         this.mActivity = activity;
     }
 
@@ -25,10 +26,14 @@ public class ImmersionFeature implements IFeature {
     }
 
     public ImmersionBar getImmersionBar() {
-        return ImmersionBar.with(mActivity)
-                .statusBarDarkFont(true)
-                .transparentBar()
-                .transparentNavigationBar();
+        if (mImmersionBar == null) {
+            mImmersionBar = ImmersionBar.with(mActivity);
+                    // .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
+                    // .transparentStatusBar()
+                    // .transparentBar()
+                    // .transparentNavigationBar();
+        }
+        return mImmersionBar;
     }
 
     @Override
@@ -38,4 +43,11 @@ public class ImmersionFeature implements IFeature {
         }
     }
 
+    public void dardFont() {
+        getImmersionBar().statusBarDarkFont(true).init();
+    }
+
+    public void lightFont() {
+        getImmersionBar().statusBarDarkFont(false).init();
+    }
 }

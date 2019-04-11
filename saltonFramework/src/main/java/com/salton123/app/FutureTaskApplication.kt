@@ -26,13 +26,6 @@ open class FutureTaskApplication : Application(), IFutureTaskPriority {
         if (isMainProcessType()) {
             runOnMainProcessMainThread()
             FutureTaskLoader.init(this, mCountDownLatch)
-//            InitializeLoader.init(this, mCountDownLatch).subscribe({
-//                Log.d(TAG, "[onNext] result:$it")
-//            }, {
-//                Log.d(TAG, "[onError] ex:${it.localizedMessage}")
-//            }, {
-//                Log.d(TAG, "[onComplete]")
-//            })
             mCountDownLatch.await()
             Log.d(TAG, "step three:" + Thread.currentThread().name)
         }
