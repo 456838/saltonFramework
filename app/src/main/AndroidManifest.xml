@@ -37,28 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity-alias
-            android:name="com.salton123.saltonframeworkdemo.MainTwoAty"
-            android:enabled="false"
-            android:icon="@mipmap/bv"
-            android:label="改变后的"
-            android:targetActivity=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-
-        <activity android:name=".test.DrawTestAty">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".test.TestAty" />
-        <activity android:name=".KotlinAty" />
     </application>
 
 </manifest>
