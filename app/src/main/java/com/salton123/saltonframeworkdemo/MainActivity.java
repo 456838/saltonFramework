@@ -1,47 +1,20 @@
 package com.salton123.saltonframeworkdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
-    public static final String TAG ="life.MainActivity";
-    //
+public class MainActivity extends FloatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG,"[onCreate]");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_main);
-    }
-
-    @Override
-    public void onStart() {
-        Log.i(TAG,"[onStart]");
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        Log.i(TAG,"[onResume]");
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        Log.i(TAG,"[onPause]");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.i(TAG,"[onStop]");
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.i(TAG,"[onDestroy]");
-        super.onDestroy();
+        findViewById(R.id.tvOpen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+            }
+        });
     }
 }
