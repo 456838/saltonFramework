@@ -23,8 +23,13 @@ public class FutureTaskApplication extends Application implements IFutureTaskPri
 
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (CommonUtils.isMainProcess()) {  //主进程
 
-
+        }
+    }
 
     @Override
     public void highPriority() {
