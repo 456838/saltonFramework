@@ -59,13 +59,15 @@ open class ApplicationBase : FutureTaskApplication() {
     private fun initXlog() {
         var path = File(Environment.getExternalStorageDirectory(), "salton").path
         path = path + File.separator + ApplicationBase.mInstance.packageName
-        XLogConfig.init(XLogConfig.Builder()
-                .setSavePath(path)
-                .build())
+//        XLogConfig.init(XLogConfig.Builder()
+//                .setSavePath(path)
+//                .build())
 
-//        XLog.config(XLogConfig()
-//            .setSavePath(path)
-//        )
+        XLog.config(XLogConfig()
+            .setSavePath(path)
+            .setDebugable(true)
+            .setWhetherToSaveLog(true)
+        )
     }
 
     @Suppress("UNCHECKED_CAST")
