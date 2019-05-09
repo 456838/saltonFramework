@@ -3,6 +3,7 @@ package com.salton123.base
 import android.os.Environment
 import android.util.Log
 import com.salton123.app.SaltonCrashHandler
+import com.salton123.log.XLog
 import com.salton123.log.XLogConfig
 import com.salton123.manager.lifecycle.IActivityLifeCycle
 import com.za.youth.FutureTaskApplication
@@ -61,6 +62,10 @@ open class ApplicationBase : FutureTaskApplication() {
         XLogConfig.init(XLogConfig.Builder()
                 .setSavePath(path)
                 .build())
+
+//        XLog.config(XLogConfig()
+//            .setSavePath(path)
+//        )
     }
 
     @Suppress("UNCHECKED_CAST")
