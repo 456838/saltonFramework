@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-
-import com.salton123.log.XLog;
 
 
 public class ScreenUtils {
@@ -158,8 +161,8 @@ public class ScreenUtils {
     }
 
     public static double getAspectRatio(Activity activity) {
-        int screentWidth = ScreenUtils.getScreenWidth();
-        int screenHeight = ScreenUtils.getScreenHeight();
+        int screentWidth = com.salton123.util.ScreenUtils.getScreenWidth();
+        int screenHeight = com.salton123.util.ScreenUtils.getScreenHeight();
         return screenHeight / screentWidth;
     }
 
@@ -168,7 +171,6 @@ public class ScreenUtils {
         double screenHeight = getScreenHeight();
         double temp = screentWidth * 2;
         double ratio = screenHeight / temp;
-        XLog.i(ScreenUtils.class, "getLandscapeAspectRatio=" + ratio);
         return ratio;
     }
 
@@ -199,6 +201,36 @@ public class ScreenUtils {
         if (imm.isActive()) {
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
                     InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    public static boolean checkDeviceHasNavigationBar(Context activity) {
+
+        //通过判断设备是否有返回键、菜单键(不是虚拟键,是手机屏幕外的按键)来确定是否有navigation bar
+        boolean hasMenuKey = ViewConfiguration.get(activity)
+                .hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap
+                .deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        if (!hasMenuKey && !hasBackKey) {
+            // 做任何你需要做的,这个设备有一个导航栏
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    public static void hideNavigationBar(Window window) {
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = window.getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            View decorView = window.getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
         }
     }
 

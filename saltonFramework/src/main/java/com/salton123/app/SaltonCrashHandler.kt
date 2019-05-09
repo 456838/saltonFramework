@@ -1,15 +1,15 @@
 package com.salton123.app
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
-import com.newsalton.BaseApplication
+import com.salton123.app.crash.CrashPanelAty.FLAG_INFO
+import com.salton123.app.crash.CrashService
 import com.salton123.io.FlushWriter
 import com.salton123.log.XLog
-import com.zhenai.crashpanel.CrashPanelAty.Companion.FLAG_INFO
-import com.zhenai.crashpanel.CrashService
 import java.io.File
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -51,7 +51,7 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
 
     private fun getWriter(ex: Throwable) {
         var path = File(Environment.getExternalStorageDirectory(), "crash").path
-        path = path + File.separator + BaseApplication.getInstance<BaseApplication>().packageName
+        path = path + File.separator + BaseApplication.getInstance<Application>().packageName
         val crashPath = path + File.separator + createFile()
         var flush = FlushWriter(path + File.separator + "crash_buf",
             8192,
@@ -70,7 +70,7 @@ object SaltonCrashHandler : Thread.UncaughtExceptionHandler {
         if (isShowCrashPanel) {
             var intent = Intent(BaseApplication.getInstance(), CrashService::class.java)
             intent.putExtra(FLAG_INFO, stringBuilder.toString())
-            BaseApplication.getInstance<BaseApplication>().startService(intent)
+            BaseApplication.getInstance<Application>().startService(intent)
         }
     }
 

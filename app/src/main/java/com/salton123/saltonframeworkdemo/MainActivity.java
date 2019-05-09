@@ -1,44 +1,61 @@
 package com.salton123.saltonframeworkdemo;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
-import android.widget.ScrollView;
+import android.os.Environment;
+import android.view.View;
 
-import com.salton123.saltonframeworkdemo.test.TestAty;
+import com.salton123.app.BaseApplication;
+import com.salton123.feature.PermissionFeature;
+import com.salton123.io.FlushWriter;
+import com.salton123.ui.base.BaseActivity;
 
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        startActivity(new Intent(MainActivity.this, TestAty.class));
-    }
-
-
-    public static Bitmap getScrollViewBitmap(ScrollView scrollView) {
-        int h = 0;
-        Bitmap bitmap;
-        for (int i = 0; i < scrollView.getChildCount(); i++) {
-            h += scrollView.getChildAt(i).getHeight();
-        }        // 创建对应大小的bitmap
-        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h, Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(bitmap);
-        scrollView.draw(canvas);
-        return bitmap;
+    public int getLayout() {
+        return R.layout.activity_main;
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return super.dispatchTouchEvent(ev);
+    public void initVariable(Bundle savedInstanceState) {
+        addFeature(new PermissionFeature(this));
+    }
+
+    @Override
+    public void initViewAndData() {
+        findViewById(R.id.tvHello).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // throw new RuntimeException("hello");
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("hello\n");
+
+                String path = new File(Environment.getExternalStorageDirectory(), "crash").getPath()
+                        + File.separator + BaseApplication.getInstance().getPackageName();
+                String crashPath = path + File.separator + createFile();
+                FlushWriter flush = new FlushWriter(path + File.separator + "crash_buf",
+                        8192 * 4,
+                        crashPath
+                        , false
+                );
+                flush.changeLogPath(crashPath);
+                flush.write(stringBuilder.toString());
+                flush.flushAsync();
+                flush.release();
+            }
+        });
+
+    }
+
+    private String createFile() {
+        DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
+        String time = formatter.format(new Date());
+        return "crash_" + time + ".txt";
     }
 }
