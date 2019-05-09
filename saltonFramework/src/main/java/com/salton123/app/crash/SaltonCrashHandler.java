@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 
+import com.salton123.C;
 import com.salton123.app.BaseApplication;
 import com.salton123.util.ThrowableUtils;
 import com.salton123.io.FlushWriter;
@@ -45,11 +46,10 @@ public enum SaltonCrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private boolean handleException(Thread thread, Throwable throwable) {
-        String path = new File(Environment.getExternalStorageDirectory(), "salton").getPath();
-        path = path + File.separator + BaseApplication.getInstance().getPackageName();
+        String path = C.BASE_PATH;
         String crashPath = path + File.separator + createFile();
         FlushWriter flush = new FlushWriter(path + File.separator + "crash_buf",
-                8192 * 4,
+                8192,
                 crashPath
                 , false
         );

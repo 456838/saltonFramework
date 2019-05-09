@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Process;
 
+import com.salton123.C;
 import com.salton123.app.crash.SaltonCrashHandler;
 import com.salton123.app.future.FutureTaskApplication;
 import com.salton123.log.XLog;
@@ -51,12 +52,10 @@ public class BaseApplication extends FutureTaskApplication {
     }
 
     public void openXLog() {
-        String path = new File(Environment.getExternalStorageDirectory(), "salton").getPath();
         boolean hasPermission = checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Process.myPid(),
                 Process.myUid()) == PackageManager.PERMISSION_GRANTED;
-        path = path + File.separator + sInstance.getPackageName();
         XLog.config(new XLogConfig()
                 .setWhetherToSaveLog(hasPermission)
-                .setSavePath(path));
+                .setSavePath(C.BASE_PATH));
     }
 }
