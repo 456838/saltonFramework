@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -31,15 +33,23 @@ public class PermissionFeature extends Fragment implements IFeature {
 
     @Override
     public void onBind() {
-        mActivity.getFragmentManager()
-                .beginTransaction()
-                .add(this, "PermissionFeature")
-                .commit();
+        FragmentManager manager = mActivity.getFragmentManager();
+        if (manager.findFragmentByTag("PermissionFeature") != null) {
+            startPermissionAction();
+        } else {
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.add(this, "PermissionFeature").commitAllowingStateLoss();
+        }
+        setRetainInstance(true);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        startPermissionAction();
+    }
+
+    private void startPermissionAction() {
         if (!CommonUtils.isPermissionGrant(mActivity, permissions)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(permissions, REQUEST_CODE);
