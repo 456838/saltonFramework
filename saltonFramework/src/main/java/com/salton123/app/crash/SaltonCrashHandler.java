@@ -45,7 +45,7 @@ public enum SaltonCrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private boolean handleException(Thread thread, Throwable throwable) {
-        String path = new File(Environment.getExternalStorageDirectory(), "crash").getPath();
+        String path = new File(Environment.getExternalStorageDirectory(), "salton").getPath();
         path = path + File.separator + BaseApplication.getInstance().getPackageName();
         String crashPath = path + File.separator + createFile();
         FlushWriter flush = new FlushWriter(path + File.separator + "crash_buf",
