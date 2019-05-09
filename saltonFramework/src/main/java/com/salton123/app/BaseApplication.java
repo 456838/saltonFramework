@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Process;
 
-import com.salton123.app.SaltonCrashHandler;
+import com.salton123.app.crash.SaltonCrashHandler;
 import com.salton123.app.future.FutureTaskApplication;
 import com.salton123.log.XLog;
 import com.salton123.log.XLogConfig;
@@ -47,7 +47,7 @@ public class BaseApplication extends FutureTaskApplication {
     }
 
     public void openCrashHanlder() {
-        SaltonCrashHandler.INSTANCE.setShowCrashPanel(true);
+        SaltonCrashHandler.INSTANCE.init(true);
     }
 
     public void openXLog() {

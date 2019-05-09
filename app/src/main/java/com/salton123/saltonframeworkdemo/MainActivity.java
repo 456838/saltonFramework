@@ -32,22 +32,21 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.tvHello).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // throw new RuntimeException("hello");
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("hello\n");
-
-                String path = new File(Environment.getExternalStorageDirectory(), "crash").getPath()
-                        + File.separator + BaseApplication.getInstance().getPackageName();
-                String crashPath = path + File.separator + createFile();
-                FlushWriter flush = new FlushWriter(path + File.separator + "crash_buf",
-                        8192 * 4,
-                        crashPath
-                        , false
-                );
-                flush.changeLogPath(crashPath);
-                flush.write(stringBuilder.toString());
-                flush.flushAsync();
-                flush.release();
+                throw new RuntimeException("hello");
+                // StringBuilder stringBuilder = new StringBuilder();
+                // stringBuilder.append("hello\n");
+                // String path = new File(Environment.getExternalStorageDirectory(), "salton").getPath()
+                //         + File.separator + BaseApplication.getInstance().getPackageName();
+                // String crashPath = path + File.separator + createFile();
+                // FlushWriter flush = new FlushWriter(path + File.separator + "crash_buf",
+                //         8192 * 4,
+                //         crashPath
+                //         , false
+                // );
+                // flush.changeLogPath(crashPath);
+                // flush.write(stringBuilder.toString());
+                // flush.flushAsync();
+                // flush.release();
             }
         });
 
