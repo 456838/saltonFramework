@@ -12,11 +12,11 @@ package com.salton123.base.feature
 class EventBusFeature(var obj: Any) : IFeature {
 
     override fun onBind() {
-        EventFactory.register(obj)
+//        EventFactory.register(obj)
     }
 
     override fun onUnBind() {
-        EventFactory.unregister(obj)
+//        EventFactory.unregister(obj)
     }
 
 }

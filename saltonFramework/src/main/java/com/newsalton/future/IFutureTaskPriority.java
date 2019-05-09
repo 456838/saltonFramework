@@ -1,4 +1,4 @@
-package com.newsalton;
+package com.newsalton.future;
 
 /**
  * User: newSalton@outlook.com

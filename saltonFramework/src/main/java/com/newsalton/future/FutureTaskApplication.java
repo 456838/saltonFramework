@@ -1,7 +1,9 @@
-package com.newsalton;
+package com.newsalton.future;
 
 import android.app.Application;
-import android.content.Context;
+
+import com.newsalton.util.CommonUtils;
+import com.salton123.log.XLog;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -16,19 +18,28 @@ public class FutureTaskApplication extends Application implements IFutureTaskPri
     //只有高优先级的任务需要和主线程保持同步，其他线程的任务异步处理，加快初始化过程。
     private CountDownLatch mCountDownLatch = new CountDownLatch(1);
 
-    //走在最前
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-        if (CommonUtils.isMainProcess()) {  //主进程
-
+        try {
+            if (CommonUtils.isMainProcess()) {  //主进程
+                runOnMainProcessMainThread();
+                FutureTaskLoader.INSTANCE.init(this, mCountDownLatch);
+                mCountDownLatch.await();
+            } else {
+                runOnAllProcessMainThread();
+            }
+        } catch (Throwable ignore) {
+            XLog.e(this, ignore.toString());
         }
+    }
+
+    private void runOnAllProcessMainThread() {
+
+    }
+
+    public void runOnMainProcessMainThread() {
+
     }
 
     @Override

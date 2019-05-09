@@ -1,5 +1,6 @@
-package com.newsalton;
+package com.newsalton.util;
 
+import com.newsalton.BaseApplication;
 import com.salton123.app.BaseApplication;
 
 import java.io.BufferedReader;
@@ -40,4 +41,5 @@ public class CommonUtils {
     public static boolean isMainProcess() {
         return BaseApplication.getInstance().getPackageName().equals(getCurrentProcessName());
     }
+
 }

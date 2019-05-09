@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Environment
+import com.newsalton.BaseApplication
 import com.salton123.io.FlushWriter
 import com.salton123.log.XLog
 import com.zhenai.crashpanel.CrashPanelAty.Companion.FLAG_INFO
