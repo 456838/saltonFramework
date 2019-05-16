@@ -1,5 +1,6 @@
 package com.salton123;
 
+import android.app.Application;
 import android.os.Environment;
 
 import com.salton123.app.BaseApplication;
@@ -13,6 +14,9 @@ import java.io.File;
  * Description:
  */
 public class C {
+    public static final String ARG_ITEM = "arg_item";
+    public static Application APP = BaseApplication.getInstance();
     public static String BASE_PATH = new File(Environment.getExternalStorageDirectory(), "salton").getPath()
             + File.separator + BaseApplication.getInstance().getPackageName();
+
 }

@@ -1,26 +1,24 @@
 package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.salton123.app.BaseApplication;
 import com.salton123.feature.PermissionFeature;
-import com.salton123.io.FlushWriter;
 import com.salton123.ui.base.BaseActivity;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<ImageView> {
 
     @Override
     public int getLayout() {
         return R.layout.activity_main;
     }
+
 
     @Override
     public void initVariable(Bundle savedInstanceState) {

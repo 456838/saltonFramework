@@ -19,7 +19,7 @@ import java.util.List;
  * ModifyTime: 19:01
  * Description:
  */
-public abstract class BaseDialogFragment extends DialogFragment implements IComponentLife {
+public abstract class BaseDialogFragment<TITLE extends View> extends DialogFragment implements IComponentLife {
     private FragmentDelegate mActivityDelegate;
     private List<IFeature> mFeatures = new ArrayList<>();
 
@@ -83,7 +83,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements IComp
     }
 
     @Override
-    public View getTitleBar() {
+    public TITLE getTitleBar() {
         return null;
     }
 

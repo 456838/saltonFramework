@@ -2,6 +2,7 @@ package com.salton123.ui.mvp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.salton123.ui.base.BaseActivity;
 
@@ -12,7 +13,8 @@ import com.salton123.ui.base.BaseActivity;
  * ModifyTime: 21:44
  * Description:
  */
-public abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActivity implements BaseView {
+public abstract class BaseMvpActivity<TITLE extends View, T extends BasePresenter>
+        extends BaseActivity<TITLE> implements BaseView {
     protected T mPresenter;
 
     @Override
@@ -24,6 +26,8 @@ public abstract class BaseMvpActivity<T extends BasePresenter> extends BaseActiv
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPresenter != null) mPresenter.detachView();
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
     }
 }

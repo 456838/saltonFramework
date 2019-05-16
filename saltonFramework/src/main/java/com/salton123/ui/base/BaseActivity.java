@@ -18,7 +18,7 @@ import me.yokeyword.fragmentation.SupportActivity;
  * ModifyTime: 19:01
  * Description:
  */
-public abstract class BaseActivity extends SupportActivity implements IComponentLife {
+public abstract class BaseActivity<TITLE extends View> extends SupportActivity implements IComponentLife {
     private ActivityDelegate mActivityDelegate = new ActivityDelegate(this);
     private List<IFeature> mFeatures = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public abstract class BaseActivity extends SupportActivity implements IComponent
     }
 
     @Override
-    public View getTitleBar() {
+    public TITLE getTitleBar() {
         return null;
     }
 

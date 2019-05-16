@@ -2,6 +2,7 @@ package com.salton123.ui.base;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * ModifyTime: 19:01
  * Description:
  */
-public abstract class BaseFragment extends SupportFragment implements IComponentLife {
+public abstract class BaseFragment<TITLE extends View> extends SupportFragment implements IComponentLife {
     private FragmentDelegate mActivityDelegate = new FragmentDelegate(this);
     private List<IFeature> mFeatures = new ArrayList<>();
 
@@ -27,7 +28,9 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
         this.mFeatures.add(feature);
     }
 
+    public Fragment newInstance(Class clz){
 
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mActivityDelegate.onCreate(savedInstanceState);
@@ -62,7 +65,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
     }
 
     @Override
-    public View getTitleBar() {
+    public TITLE getTitleBar() {
         return null;
     }
 
