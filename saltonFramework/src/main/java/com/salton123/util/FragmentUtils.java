@@ -1,5 +1,6 @@
 package com.salton123.util;
 
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -7,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+
+import com.salton123.C;
 
 /**
  * Fragment工具类, 包括fragment的Add, Remove, Hide, Show, Replace, Find操作<br/>
@@ -291,6 +294,47 @@ public class FragmentUtils {
             Log.i(TAG, "remove fragment fail");
         }
         transaction.commitAllowingStateLoss();
+    }
+
+    public static <T extends Fragment> T newInstance(Class<T> clz, Bundle bundle) {
+        if (clz == null) {
+            return null;
+        }
+        try {
+            T fragment = clz.newInstance();
+            if (bundle != null) {
+                fragment.setArguments(bundle);
+            }
+            return fragment;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static <T extends Fragment> T newInstance(Class<T> clz) {
+        if (clz == null) {
+            return null;
+        }
+        try {
+            T fragment = clz.newInstance();
+            return fragment;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static <T extends Fragment> T newInstance(Class<T> clz, int intValue) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(C.ARG_ITEM, intValue);
+        return newInstance(clz, bundle);
+    }
+
+    public static <T extends Fragment> T newInstance(Class<T> clz, String stringValue) {
+        Bundle bundle = new Bundle();
+        bundle.putString(C.ARG_ITEM, stringValue);
+        return newInstance(clz, bundle);
     }
 
     enum ActionType {
