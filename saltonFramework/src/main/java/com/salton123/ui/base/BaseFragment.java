@@ -28,9 +28,6 @@ public abstract class BaseFragment<TITLE extends View> extends SupportFragment i
         this.mFeatures.add(feature);
     }
 
-    public Fragment newInstance(Class clz){
-
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mActivityDelegate.onCreate(savedInstanceState);
@@ -112,6 +109,15 @@ public abstract class BaseFragment<TITLE extends View> extends SupportFragment i
     @Override
     public void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
         mActivityDelegate.openActivityForResult(clz, bundle, requestCode);
+    }
+
+    public void openActivity(Class<?> clz) {
+        mActivityDelegate.openActivity(clz, new Bundle());
+    }
+
+
+    public void openActivityForResult(Class<?> clz, int requestCode) {
+        mActivityDelegate.openActivityForResult(clz, new Bundle(), requestCode);
     }
 
     @Override

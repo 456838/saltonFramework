@@ -100,6 +100,9 @@ public abstract class BaseActivity<TITLE extends View> extends SupportActivity i
         mActivityDelegate.openActivity(clz, new Bundle());
     }
 
+    public void openActivityForResult(Class<?> clz, int requestCode) {
+        mActivityDelegate.openActivityForResult(clz, new Bundle(), requestCode);
+    }
     @Override
     public void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
         mActivityDelegate.openActivityForResult(clz, bundle, requestCode);
