@@ -1,6 +1,7 @@
 package com.salton123.ui.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Description:
  */
 public abstract class BaseFragment extends SupportFragment implements IComponentLife {
-    private FragmentDelegate mActivityDelegate = new FragmentDelegate(this);
+    private FragmentDelegate mLifeDelegate;
     private List<IFeature> mFeatures = new ArrayList<>();
 
     public void addFeature(IFeature feature) {
@@ -28,8 +29,30 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
     }
 
     @Override
+    public void onAttach(final Context context) {
+        super.onAttach(context);
+        mLifeDelegate = new FragmentDelegate(this) {
+            @Override
+            Activity activity() {
+                return (Activity) context;
+            }
+        };
+    }
+
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        mLifeDelegate = new FragmentDelegate(this) {
+            @Override
+            Activity activity() {
+                return activity;
+            }
+        };
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
-        mActivityDelegate.onCreate(savedInstanceState);
+        mLifeDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         for (IFeature item : mFeatures) {
             item.onBind();
@@ -38,13 +61,13 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return mActivityDelegate.onCreateView();
+        return mLifeDelegate.onCreateView();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mActivityDelegate.onViewCreated();
+        mLifeDelegate.onViewCreated();
     }
 
     @Override
@@ -57,7 +80,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
 
     @Override
     public View getRootView() {
-        return mActivityDelegate.getRootView();
+        return mLifeDelegate.getRootView();
     }
 
     @Override
@@ -67,17 +90,17 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
 
     @Override
     public Activity activity() {
-        return mActivityDelegate.activity();
+        return mLifeDelegate.activity();
     }
 
     @Override
     public LayoutInflater inflater() {
-        return mActivityDelegate.inflater();
+        return mLifeDelegate.inflater();
     }
 
     @Override
     public <T extends View> T f(int resId) {
-        return mActivityDelegate.f(resId);
+        return mLifeDelegate.f(resId);
     }
 
     @Override
@@ -87,56 +110,56 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
 
     @Override
     public void longToast(String toast) {
-        mActivityDelegate.longToast(toast);
+        mLifeDelegate.longToast(toast);
     }
 
     @Override
     public void shortToast(String toast) {
-        mActivityDelegate.shortToast(toast);
+        mLifeDelegate.shortToast(toast);
     }
 
     @Override
     public void log(String msg) {
-        mActivityDelegate.log(msg);
+        mLifeDelegate.log(msg);
     }
 
     @Override
     public void openActivity(Class<?> clz, Bundle bundle) {
-        mActivityDelegate.openActivity(clz, bundle);
+        mLifeDelegate.openActivity(clz, bundle);
     }
 
     @Override
     public void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
-        mActivityDelegate.openActivityForResult(clz, bundle, requestCode);
+        mLifeDelegate.openActivityForResult(clz, bundle, requestCode);
     }
 
     public void openActivity(Class<?> clz) {
-        mActivityDelegate.openActivity(clz, new Bundle());
+        mLifeDelegate.openActivity(clz, new Bundle());
     }
 
 
     public void openActivityForResult(Class<?> clz, int requestCode) {
-        mActivityDelegate.openActivityForResult(clz, new Bundle(), requestCode);
+        mLifeDelegate.openActivityForResult(clz, new Bundle(), requestCode);
     }
 
     @Override
     public void setListener(int... ids) {
-        mActivityDelegate.setListener(ids);
+        mLifeDelegate.setListener(ids);
     }
 
     @Override
     public void setListener(View... views) {
-        mActivityDelegate.setListener(views);
+        mLifeDelegate.setListener(views);
     }
 
     @Override
     public void show(View... views) {
-        mActivityDelegate.show(views);
+        mLifeDelegate.show(views);
     }
 
     @Override
     public void hide(View... views) {
-        mActivityDelegate.hide(views);
+        mLifeDelegate.hide(views);
     }
 
     @Override
