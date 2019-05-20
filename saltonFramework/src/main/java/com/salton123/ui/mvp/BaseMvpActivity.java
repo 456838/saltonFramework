@@ -13,8 +13,8 @@ import com.salton123.ui.base.BaseActivity;
  * ModifyTime: 21:44
  * Description:
  */
-public abstract class BaseMvpActivity<TITLE extends View, T extends BasePresenter>
-        extends BaseActivity<TITLE> implements BaseView {
+public abstract class BaseMvpActivity<T extends BasePresenter>
+        extends BaseActivity implements BaseView {
     protected T mPresenter;
 
     @Override

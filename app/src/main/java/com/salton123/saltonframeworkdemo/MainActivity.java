@@ -2,7 +2,6 @@ package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.salton123.feature.PermissionFeature;
 import com.salton123.ui.base.BaseActivity;
@@ -12,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity<ImageView> {
+public class MainActivity extends BaseActivity {
 
     @Override
     public int getLayout() {

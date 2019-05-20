@@ -1,7 +1,7 @@
 package com.salton123.ui.base;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 /**
  * User: newSalton@outlook.com
