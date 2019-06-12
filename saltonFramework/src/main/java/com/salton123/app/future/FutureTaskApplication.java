@@ -6,6 +6,7 @@ import com.salton123.util.CommonUtils;
 import com.salton123.log.XLog;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -25,7 +26,7 @@ public class FutureTaskApplication extends Application implements IFutureTaskPri
             if (CommonUtils.isMainProcess()) {  //主进程
                 runOnMainProcessMainThread();
                 FutureTaskLoader.INSTANCE.init(this, mCountDownLatch);
-                mCountDownLatch.await();
+                mCountDownLatch.await(1500, TimeUnit.MILLISECONDS);
             } else {
                 runOnAllProcessMainThread();
             }

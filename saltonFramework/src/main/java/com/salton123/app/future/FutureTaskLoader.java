@@ -39,7 +39,7 @@ public enum FutureTaskLoader {
             public void run() {
                 priority.lowPriority();
             }
-        }, "futureMedium");
+        }, "futureLow");
         futureLow.setPriority(FUTURE_PRIORITY_LOW);
         futureLow.start();
     }
