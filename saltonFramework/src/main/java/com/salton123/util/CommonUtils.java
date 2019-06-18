@@ -1,5 +1,6 @@
 package com.salton123.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Process;
@@ -36,13 +37,26 @@ public class CommonUtils {
         }
     }
 
+    public static String getCurrentProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager mActivityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : mActivityManager
+                .getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
     /**
      * Return whether app running in the main process.
      *
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean isMainProcess() {
-        return BaseApplication.getInstance().getPackageName().equals(getCurrentProcessName());
+        return BaseApplication.getInstance().getPackageName().equals(getCurrentProcessName(BaseApplication.getInstance()));
     }
 
     public static boolean isPermissionGrant(Context context, String[] permissions) {

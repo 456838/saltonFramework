@@ -1,5 +1,8 @@
 package com.salton123.saltonframeworkdemo;
 
+import android.content.Context;
+import android.os.Debug;
+
 import com.salton123.app.BaseApplication;
 
 /**
@@ -10,4 +13,16 @@ import com.salton123.app.BaseApplication;
  */
 public class SaltonBaseApplication extends BaseApplication {
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Debug.startMethodTracing("/sdcard/183/debug1.trace");
+    }
 }

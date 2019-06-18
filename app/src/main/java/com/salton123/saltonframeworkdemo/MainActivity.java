@@ -1,6 +1,7 @@
 package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.View;
 
 import com.salton123.feature.PermissionFeature;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity {
                 // flush.release();
             }
         });
-
+        Debug.stopMethodTracing();
     }
 
     private String createFile() {
