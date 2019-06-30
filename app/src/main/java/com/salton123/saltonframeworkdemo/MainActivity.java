@@ -1,23 +1,24 @@
 package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
+import android.os.Debug;
 import android.view.View;
 
-import com.salton123.base.BaseSupportActivity;
-import com.salton123.base.feature.PermissionFeature;
-import com.salton123.log.XLog;
+import com.salton123.feature.PermissionFeature;
+import com.salton123.ui.base.BaseActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseSupportActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     public int getLayout() {
         return R.layout.activity_main;
     }
+
 
     @Override
     public void initVariable(Bundle savedInstanceState) {
@@ -26,12 +27,6 @@ public class MainActivity extends BaseSupportActivity {
 
     @Override
     public void initViewAndData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                XLog.i(this,"helllo");
-            }
-        }).start();
         findViewById(R.id.tvHello).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +47,7 @@ public class MainActivity extends BaseSupportActivity {
                 // flush.release();
             }
         });
-
+        Debug.stopMethodTracing();
     }
 
     private String createFile() {

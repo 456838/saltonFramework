@@ -38,9 +38,9 @@ public class UriProvider {
     }
 
     public static String getVideoPathWithoutSuffix(String resNameWithSuffix) {
-        String packageName = SaltonApplication.getInstance().getPackageName();
+        String packageName = SaltonBaseApplication.getInstance().getPackageName();
         String resName = resNameWithSuffix.substring(0, resNameWithSuffix.lastIndexOf("."));
-        int resId = SaltonApplication.getInstance().getResources().getIdentifier(resName, "raw", packageName);
+        int resId = SaltonBaseApplication.getInstance().getResources().getIdentifier(resName, "raw", packageName);
         XLog.i(TAG, "[getVideoPathWithoutSuffix] uri=" + "android.resource://" + packageName + "/" + resId);
         return "android.resource://" + packageName + "/" + resId;//*R.raw.handle_02*//*;
     }

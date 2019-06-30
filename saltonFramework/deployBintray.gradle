@@ -4,7 +4,7 @@ publish {
     userOrg = '456838' // bintray.com 用户名
     groupId = 'com.salton123' // jcenter 上的路径
     artifactId = 'framework' // 项目名称
-    publishVersion = '1.0.0.3' // 版本号
+    publishVersion = '1.1.0.4' // 版本号
     desc = 'https://github.com/456838/saltonFramework.git' // 描述，不重要
     website = 'https://github.com/456838/saltonFramework' // 网站
 }
@@ -15,3 +15,4 @@ tasks.withType(Javadoc).all {
     options.addStringOption('encoding', 'UTF-8')
     options.addStringOption('charSet', 'UTF-8')
 }
+//gradlew clean build bintrayUpload -PbintrayUser=456838 -PbintrayKey=e2adbe5095b993e39e1fde558564eee4b8c0bffc -PdryRun=false

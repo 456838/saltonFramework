@@ -4,13 +4,13 @@ package com.salton123.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.salton123.base.ApplicationBase;
+import com.salton123.app.BaseApplication;
 
 import java.util.Set;
 
 public class PreferencesUtils {
 
-    public static final String PREFERENCE_NAME = ApplicationBase.getInstance().getPackageName();
+    public static final String PREFERENCE_NAME = BaseApplication.getInstance().getPackageName();
 
     /**
      * put string preferences
