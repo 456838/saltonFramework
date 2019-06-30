@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class CrashPanelAty extends Activity {
     private void updateLogic() {
         String info = getIntent().getStringExtra(FLAG_INFO);
         tvCrashInfo.setText("" + info);
+        Log.i("newsalton", "CrashPanelAty:" + info);
         btnShare.setOnClickListener(new View.OnClickListener() {
 
             @Override
