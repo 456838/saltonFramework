@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.salton123.saltonframework.R;
+import com.salton123.util.FileUtils;
 
 /**
  * User: newSalton@outlook.com
@@ -40,8 +41,9 @@ public class CrashPanelAty extends Activity {
 
     private void updateLogic() {
         String info = getIntent().getStringExtra(FLAG_INFO);
-        tvCrashInfo.setText("" + info);
-        Log.i("newsalton", "CrashPanelAty:" + info);
+        StringBuilder stringBuilder = FileUtils.readFile(info, "utf-8");
+        tvCrashInfo.setText("" + stringBuilder);
+        Log.i("newsalton", "CrashPanelAty:" + stringBuilder);
         btnShare.setOnClickListener(new View.OnClickListener() {
 
             @Override

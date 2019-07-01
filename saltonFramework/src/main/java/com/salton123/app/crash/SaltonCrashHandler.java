@@ -62,7 +62,7 @@ public enum SaltonCrashHandler implements Thread.UncaughtExceptionHandler {
         flush.release();
         if (isShowCrashPanel) {
             Intent intent = new Intent(BaseApplication.getInstance(), CrashService.class);
-            intent.putExtra(CrashPanelAty.FLAG_INFO, stringBuilder.toString());
+            intent.putExtra(CrashPanelAty.FLAG_INFO, crashPath);
             BaseApplication.getInstance().startService(intent);
         }
         return false;
