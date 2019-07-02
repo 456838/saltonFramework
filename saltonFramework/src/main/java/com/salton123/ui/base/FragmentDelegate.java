@@ -17,7 +17,7 @@ public class FragmentDelegate extends LifeDelegate {
         if (componentLife instanceof Fragment) {
             mHost = ((Fragment) componentLife).getActivity();
         } else {
-            throw new RuntimeException("instance must Activity");
+            throw new RuntimeException("instance must Fragment");
         }
     }
 
