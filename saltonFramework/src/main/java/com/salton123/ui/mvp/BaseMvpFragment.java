@@ -13,13 +13,18 @@ import com.salton123.ui.base.BaseFragment;
  */
 public abstract class BaseMvpFragment<T extends BasePresenter> extends BaseFragment implements BaseView {
 
-    protected T mPresenter;
+    public T mPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        mPresenter = getPresenter();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
         super.onCreate(savedInstanceState);
-        mPresenter.attachView(this);
     }
+
+    public abstract T getPresenter();
 
     @Override
     public void onDestroy() {
