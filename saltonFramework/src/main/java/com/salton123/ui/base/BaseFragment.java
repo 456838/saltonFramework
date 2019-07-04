@@ -84,7 +84,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
     }
 
     @Override
-    public View getTitleBar() {
+    public <B extends View> B getTitleBar() {
         return null;
     }
 

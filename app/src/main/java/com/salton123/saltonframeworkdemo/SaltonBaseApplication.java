@@ -23,6 +23,6 @@ public class SaltonBaseApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Debug.startMethodTracing("/sdcard/183/debug1.trace");
+        // Debug.startMethodTracing("/sdcard/183/debug1.trace");
     }
 }

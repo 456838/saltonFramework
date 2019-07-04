@@ -1,9 +1,11 @@
 package com.salton123.ui.base;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 
 import com.salton123.feature.IFeature;
 
@@ -21,7 +23,6 @@ import me.yokeyword.fragmentation.SupportActivity;
 public abstract class BaseActivity extends SupportActivity implements IComponentLife {
     private ActivityDelegate mActivityDelegate = new ActivityDelegate(this);
     private List<IFeature> mFeatures = new ArrayList<>();
-
     public void addFeature(IFeature feature) {
         this.mFeatures.add(feature);
     }
@@ -51,7 +52,7 @@ public abstract class BaseActivity extends SupportActivity implements IComponent
     }
 
     @Override
-    public View getTitleBar() {
+    public <B extends View> B getTitleBar() {
         return null;
     }
 

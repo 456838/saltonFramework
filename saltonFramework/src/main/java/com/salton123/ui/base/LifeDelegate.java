@@ -40,7 +40,9 @@ public abstract class LifeDelegate {
 
     private ViewGroup buildRootView() {
         View mainContentView = inflater().inflate(mComponentLife.getLayout(), null);
-        if (getTitleBar() != null) {
+        View titleBar = getTitleBar();
+        if (titleBar != null) {
+
             LinearLayout topLayout = new LinearLayout(activity());
             topLayout.setId(R.id.salton_id_top_layout);
             topLayout.setOrientation(LinearLayout.VERTICAL);
@@ -50,7 +52,7 @@ public abstract class LifeDelegate {
             titleLayout.setId(R.id.salton_id_title_layout);
             titleLayout.setOrientation(LinearLayout.VERTICAL);
             titleLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            titleLayout.addView(getTitleBar());
+            titleLayout.addView(titleBar);
             topLayout.addView(titleLayout);
 
             FrameLayout contentLayout = new FrameLayout(activity());
@@ -64,7 +66,7 @@ public abstract class LifeDelegate {
         }
     }
 
-    View getTitleBar() {
+    <B extends View> B getTitleBar() {
         return mComponentLife.getTitleBar();
     }
 

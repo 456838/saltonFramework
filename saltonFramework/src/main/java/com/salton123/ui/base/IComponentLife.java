@@ -17,7 +17,7 @@ public interface IComponentLife extends View.OnClickListener {
 
     View getRootView();
 
-    View getTitleBar();
+    <B extends View> B getTitleBar();
 
     Activity activity();
 

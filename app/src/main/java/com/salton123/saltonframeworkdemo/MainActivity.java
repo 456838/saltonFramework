@@ -5,14 +5,17 @@ import android.os.Debug;
 import android.view.View;
 
 import com.salton123.feature.PermissionFeature;
+import com.salton123.log.XLog;
 import com.salton123.ui.base.BaseActivity;
+import com.salton123.ui.business.TitleActivity;
 
+import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends TitleActivity {
 
     @Override
     public int getLayout() {
@@ -27,10 +30,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViewAndData() {
+        XLog.i(this, "titlebar one:" + getTitleBar());
         findViewById(R.id.tvHello).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                throw new RuntimeException("hello");
+                // throw new RuntimeException("hello");
                 // StringBuilder stringBuilder = new StringBuilder();
                 // stringBuilder.append("hello\n");
                 // String path = new File(Environment.getExternalStorageDirectory(), "salton").getPath()
@@ -47,12 +51,19 @@ public class MainActivity extends BaseActivity {
                 // flush.release();
             }
         });
-        Debug.stopMethodTracing();
+        XLog.i(this, "titlebar:" + getTitleBar());
+        //Debug.stopMethodTracing();
     }
 
     private String createFile() {
         DateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
         String time = formatter.format(new Date());
         return "crash_" + time + ".txt";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        XLog.i(this, "titlebar two:" + getTitleBar());
     }
 }

@@ -83,7 +83,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements IComp
     }
 
     @Override
-    public View getTitleBar() {
+    public <B extends View> B getTitleBar() {
         return null;
     }
 
