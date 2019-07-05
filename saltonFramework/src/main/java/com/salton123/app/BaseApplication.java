@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Process;
 
+import com.qw.soul.permission.SoulPermission;
 import com.salton123.C;
 import com.salton123.app.crash.SaltonCrashHandler;
 import com.salton123.app.future.FutureTaskApplication;
@@ -41,6 +42,7 @@ public class BaseApplication extends FutureTaskApplication {
         openXLog();
         openCrashHanlder();
         openLifeCycleHandler();
+        SoulPermission.init(this);
     }
 
     public void openLifeCycleHandler() {

@@ -34,6 +34,8 @@ dependencies {
     api 'com.android.support:multidex:1.0.2'
     api 'com.hjq:titlebar:5.0'
     implementation 'com.qw:soulpermission:1.1.8'
+    api 'com.hjq:titlebar:5.0'
+    api 'com.github.likaiyuan559:TouchEffects:0.1.1'
 }
 
 repositories {

@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewStub;
 
 import com.hjq.bar.TitleBar;
-import com.salton123.saltonframework.R;
+import com.salton123.saltonframeworkdemo.R;
 import com.salton123.ui.base.BaseActivity;
 
 /**
@@ -15,8 +15,6 @@ import com.salton123.ui.base.BaseActivity;
  * Description:
  */
 public abstract class TitleActivity extends BaseActivity {
-
-    public TitleBar mTitleBar;
     ViewStub stub;
 
     @Override
@@ -26,7 +24,7 @@ public abstract class TitleActivity extends BaseActivity {
             stub.setLayoutResource(R.layout.salton_normal_title_bar);
             return (B) stub;
         } else {
-            mTitleBar = f(R.id.titleBar);
+            TitleBar mTitleBar = f(R.id.titleBar);
             return (B) mTitleBar;
         }
     }
