@@ -3,6 +3,9 @@ package com.salton123.ui.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.view.AsyncLayoutInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +45,6 @@ public abstract class LifeDelegate {
         View mainContentView = inflater().inflate(mComponentLife.getLayout(), null);
         View titleBar = getTitleBar();
         if (titleBar != null) {
-
             LinearLayout topLayout = new LinearLayout(activity());
             topLayout.setId(R.id.salton_id_top_layout);
             topLayout.setOrientation(LinearLayout.VERTICAL);
@@ -52,9 +54,19 @@ public abstract class LifeDelegate {
             titleLayout.setId(R.id.salton_id_title_layout);
             titleLayout.setOrientation(LinearLayout.VERTICAL);
             titleLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            titleLayout.addView(titleBar);
             topLayout.addView(titleLayout);
 
+            if (titleBar instanceof ViewStub) {
+                ViewStub viewStub = (ViewStub) titleBar;
+                new AsyncLayoutInflater(activity()).inflate(viewStub.getLayoutResource(), titleLayout, new AsyncLayoutInflater.OnInflateFinishedListener() {
+                    @Override
+                    public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
+                        titleLayout.addView(titleBar);
+                    }
+                });
+            } else {
+                titleLayout.addView(titleBar);
+            }
             FrameLayout contentLayout = new FrameLayout(activity());
             contentLayout.setId(R.id.salton_id_content_layout);
             contentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
