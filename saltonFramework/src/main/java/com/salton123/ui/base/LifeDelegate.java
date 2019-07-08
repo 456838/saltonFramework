@@ -85,7 +85,6 @@ public abstract class LifeDelegate {
 
     void onViewCreated() {
         mComponentLife.initViewAndData();
-        mComponentLife.initListener();
     }
 
     void log(String msg) {
