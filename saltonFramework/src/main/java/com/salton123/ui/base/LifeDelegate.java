@@ -61,7 +61,7 @@ public abstract class LifeDelegate {
                 new AsyncLayoutInflater(activity()).inflate(viewStub.getLayoutResource(), titleLayout, new AsyncLayoutInflater.OnInflateFinishedListener() {
                     @Override
                     public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
-                        titleLayout.addView(titleBar);
+                        titleLayout.addView(view);
                         mComponentLife.initListener();
                     }
                 });
