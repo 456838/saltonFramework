@@ -62,6 +62,7 @@ public abstract class LifeDelegate {
                     @Override
                     public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
                         titleLayout.addView(titleBar);
+                        mComponentLife.initListener();
                     }
                 });
             } else {
