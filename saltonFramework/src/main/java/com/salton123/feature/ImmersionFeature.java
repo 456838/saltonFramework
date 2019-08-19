@@ -3,7 +3,8 @@ package com.salton123.feature;
 
 import android.app.Activity;
 
-import com.gyf.barlibrary.ImmersionBar;
+import com.gyf.immersionbar.ImmersionBar;
+
 
 /**
  * User: newSalton@outlook.com
@@ -38,9 +39,9 @@ public class ImmersionFeature implements IFeature {
 
     @Override
     public void onUnBind() {
-        if (mImmersionBar != null) {
-            mImmersionBar.destroy();
-        }
+        // if (mImmersionBar != null) {
+        //     mImmersionBar.destroy();
+        // }
     }
 
     public void dardFont() {

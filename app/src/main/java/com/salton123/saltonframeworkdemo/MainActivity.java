@@ -25,7 +25,7 @@ public class MainActivity extends TitleActivity {
 
     @Override
     public void initVariable(Bundle savedInstanceState) {
-        addFeature(new PermissionFeature(this));
+        addFeature(new PermissionFeature());
     }
 
     @Override
