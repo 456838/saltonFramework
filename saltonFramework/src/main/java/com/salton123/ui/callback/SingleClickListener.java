@@ -33,9 +33,9 @@ public abstract class SingleClickListener implements View.OnClickListener {
         }
     }
 
-    private void onDoubleClick(View v) {
+    public void onDoubleClick(View v) {
 
     }
 
-    abstract void onSingleClick(View v);
+    public abstract void onSingleClick(View v);
 }

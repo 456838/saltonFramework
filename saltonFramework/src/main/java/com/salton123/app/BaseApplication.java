@@ -4,18 +4,14 @@ import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.os.Process;
 
 import com.qw.soul.permission.SoulPermission;
 import com.salton123.C;
-import com.salton123.app.crash.SaltonCrashHandler;
 import com.salton123.app.future.FutureTaskApplication;
 import com.salton123.log.XLog;
 import com.salton123.log.XLogConfig;
 import com.salton123.model.manager.lifecycle.IActivityLifeCycle;
-
-import java.io.File;
 
 /**
  * User: newSalton@outlook.com
@@ -50,7 +46,6 @@ public class BaseApplication extends FutureTaskApplication {
     }
 
     public void openCrashHanlder() {
-        SaltonCrashHandler.INSTANCE.init(true);
     }
 
     public void openXLog() {
