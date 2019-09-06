@@ -7,9 +7,9 @@ android {
     defaultConfig {
         minSdkVersion "${min_sdk_version}" as Integer
         targetSdkVersion "${target_sdk_version}" as Integer
-        ndk {
-            abiFilters "armeabi-v7a"
-        }
+//        ndk {
+//            abiFilters "armeabi-v7a"
+//        }
         multiDexEnabled true
 
         resConfigs "xxhdpi"
