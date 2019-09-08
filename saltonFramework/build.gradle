@@ -64,7 +64,7 @@ uploadArchives {
             }
             pom.groupId = "com.salton123"
             pom.artifactId = "saltonFramework"
-            pom.version = "1.1.0.22"
+            pom.version = "1.1.0.23"
         }
         task androidSourcesJar(type: Jar) {
             classifier = 'sources'
