@@ -1,6 +1,7 @@
 package com.salton123.app.future;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.salton123.util.CommonUtils;
 import com.salton123.log.XLog;
@@ -31,7 +32,7 @@ public class FutureTaskApplication extends Application implements IFutureTaskPri
                 runOnAllProcessMainThread();
             }
         } catch (Throwable ignore) {
-            XLog.e(this, ignore.toString());
+            Log.e("FutureTaskApplication", ignore.toString());
         }
     }
 
