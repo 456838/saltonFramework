@@ -32,6 +32,7 @@ public class FutureTaskApplication extends Application implements IFutureTaskPri
                 runOnAllProcessMainThread();
             }
         } catch (Throwable ignore) {
+            ignore.fillInStackTrace();
             Log.e("FutureTaskApplication", ignore.toString());
         }
     }
