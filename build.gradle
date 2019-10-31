@@ -7,6 +7,13 @@ buildscript {
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.google.com/dl/android/maven2/' }
         mavenLocal()
+        maven {
+            credentials {
+                username '6XCT1E'
+                password 'XldVM4G6IO'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/43441-release-5ZHLZs/'
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
