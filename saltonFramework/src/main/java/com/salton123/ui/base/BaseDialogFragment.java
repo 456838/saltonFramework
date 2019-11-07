@@ -32,7 +32,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements IComp
         super.onAttach(context);
         mActivityDelegate = new FragmentDelegate(this) {
             @Override
-            Activity activity() {
+            public Activity activity() {
                 return (Activity) context;
             }
         };
@@ -43,7 +43,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements IComp
         super.onAttach(activity);
         mActivityDelegate = new FragmentDelegate(this) {
             @Override
-            Activity activity() {
+            public Activity activity() {
                 return activity;
             }
         };
