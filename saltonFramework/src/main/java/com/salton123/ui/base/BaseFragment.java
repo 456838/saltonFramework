@@ -3,6 +3,7 @@ package com.salton123.ui.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.FloatRange;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportFragment;
+import me.yokeyword.fragmentation.SwipeBackLayout;
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackFragment;
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate;
 
 /**
  * User: newSalton@outlook.com
@@ -20,7 +24,57 @@ import me.yokeyword.fragmentation.SupportFragment;
  * ModifyTime: 19:01
  * Description:
  */
-public abstract class BaseFragment extends SupportFragment implements IComponentLife {
+public abstract class BaseFragment extends SupportFragment implements IComponentLife, ISwipeBackFragment {
+    final SwipeBackFragmentDelegate mDelegate = new SwipeBackFragmentDelegate(this);
+
+
+    @Override
+    public View attachToSwipeBack(View view) {
+        return mDelegate.attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        mDelegate.onHiddenChanged(hidden);
+    }
+
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mDelegate.getSwipeBackLayout();
+    }
+
+    /**
+     * 是否可滑动
+     *
+     * @param enable
+     */
+    public void setSwipeBackEnable(boolean enable) {
+        mDelegate.setSwipeBackEnable(enable);
+    }
+
+    @Override
+    public void setEdgeLevel(SwipeBackLayout.EdgeLevel edgeLevel) {
+        mDelegate.setEdgeLevel(edgeLevel);
+    }
+
+    @Override
+    public void setEdgeLevel(int widthPixel) {
+        mDelegate.setEdgeLevel(widthPixel);
+    }
+
+    /**
+     * Set the offset of the parallax slip.
+     */
+    public void setParallaxOffset(@FloatRange(from = 0.0f, to = 1.0f) float offset) {
+        mDelegate.setParallaxOffset(offset);
+    }
+
+    @Override
+    public void onDestroyView() {
+        mDelegate.onDestroyView();
+        super.onDestroyView();
+    }
+
     private FragmentDelegate mLifeDelegate;
     private List<IFeature> mFeatures = new ArrayList<>();
 
@@ -33,7 +87,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
         super.onAttach(context);
         mLifeDelegate = new FragmentDelegate(this) {
             @Override
-            Activity activity() {
+            public Activity activity() {
                 return (Activity) context;
             }
         };
@@ -44,7 +98,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
         super.onAttach(activity);
         mLifeDelegate = new FragmentDelegate(this) {
             @Override
-            Activity activity() {
+            public Activity activity() {
                 return activity;
             }
         };
@@ -53,6 +107,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
     @Override
     public void onCreate(Bundle savedInstanceState) {
         mLifeDelegate.onCreate(savedInstanceState);
+        mDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         for (IFeature item : mFeatures) {
             item.onBind();
@@ -61,6 +116,7 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mDelegate.onViewCreated(container, savedInstanceState);
         return mLifeDelegate.onCreateView();
     }
 

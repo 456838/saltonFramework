@@ -1,11 +1,9 @@
 package com.salton123.ui.base;
 
 import android.app.Activity;
-import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 
 import com.salton123.feature.IFeature;
 
@@ -13,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.SwipeBackLayout;
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackActivity;
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackActivityDelegate;
 
 /**
  * User: newSalton@outlook.com
@@ -20,9 +21,53 @@ import me.yokeyword.fragmentation.SupportActivity;
  * ModifyTime: 19:01
  * Description:
  */
-public abstract class BaseActivity extends SupportActivity implements IComponentLife {
+public abstract class BaseActivity extends SupportActivity implements IComponentLife, ISwipeBackActivity {
+    final SwipeBackActivityDelegate mDelegate = new SwipeBackActivityDelegate(this);
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDelegate.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mDelegate.getSwipeBackLayout();
+    }
+
+    /**
+     * 是否可滑动
+     *
+     * @param enable
+     */
+    @Override
+    public void setSwipeBackEnable(boolean enable) {
+        mDelegate.setSwipeBackEnable(enable);
+    }
+
+    @Override
+    public void setEdgeLevel(SwipeBackLayout.EdgeLevel edgeLevel) {
+        mDelegate.setEdgeLevel(edgeLevel);
+    }
+
+    @Override
+    public void setEdgeLevel(int widthPixel) {
+        mDelegate.setEdgeLevel(widthPixel);
+    }
+
+    /**
+     * 限制SwipeBack的条件,默认栈内Fragment数 <= 1时 , 优先滑动退出Activity , 而不是Fragment
+     *
+     * @return true: Activity优先滑动退出;  false: Fragment优先滑动退出
+     */
+    @Override
+    public boolean swipeBackPriority() {
+        return mDelegate.swipeBackPriority();
+    }
+
     private ActivityDelegate mActivityDelegate = new ActivityDelegate(this);
     private List<IFeature> mFeatures = new ArrayList<>();
+
     public void addFeature(IFeature feature) {
         this.mFeatures.add(feature);
     }
@@ -30,6 +75,7 @@ public abstract class BaseActivity extends SupportActivity implements IComponent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mActivityDelegate.onCreate(savedInstanceState);
+        mDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         for (IFeature item : mFeatures) {
             item.onBind();
@@ -104,6 +150,7 @@ public abstract class BaseActivity extends SupportActivity implements IComponent
     public void openActivityForResult(Class<?> clz, int requestCode) {
         mActivityDelegate.openActivityForResult(clz, new Bundle(), requestCode);
     }
+
     @Override
     public void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
         mActivityDelegate.openActivityForResult(clz, bundle, requestCode);

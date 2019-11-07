@@ -67,6 +67,7 @@ public abstract class LifeDelegate {
                 });
             } else {
                 titleLayout.addView(titleBar);
+                mComponentLife.initListener();
             }
             FrameLayout contentLayout = new FrameLayout(activity());
             contentLayout.setId(R.id.salton_id_content_layout);

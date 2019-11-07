@@ -22,7 +22,7 @@ public class FragmentDelegate extends LifeDelegate {
     }
 
     @Override
-    Activity activity() {
+    public Activity activity() {
         return mHost;
     }
 
