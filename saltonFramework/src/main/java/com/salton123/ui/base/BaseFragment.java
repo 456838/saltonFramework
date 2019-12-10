@@ -121,12 +121,6 @@ public abstract class BaseFragment extends SupportFragment implements IComponent
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mLifeDelegate.onViewCreated();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         for (IFeature item : mFeatures) {

@@ -77,11 +77,7 @@ public abstract class BaseActivity extends SupportActivity implements IComponent
         mActivityDelegate.onCreate(savedInstanceState);
         mDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        for (IFeature item : mFeatures) {
-            item.onBind();
-        }
         setContentView(mActivityDelegate.onCreateView());
-        mActivityDelegate.onViewCreated();
     }
 
     @Override
@@ -119,7 +115,9 @@ public abstract class BaseActivity extends SupportActivity implements IComponent
 
     @Override
     public void initListener() {
-
+        for (IFeature item : mFeatures) {
+            item.onBind();
+        }
     }
 
     @Override

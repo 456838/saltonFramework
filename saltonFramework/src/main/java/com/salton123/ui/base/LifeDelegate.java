@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -42,50 +41,38 @@ public abstract class LifeDelegate {
     }
 
     private ViewGroup buildRootView() {
-        View mainContentView = inflater().inflate(mComponentLife.getLayout(), null);
-        View titleBar = getTitleBar();
-        if (titleBar != null) {
-            LinearLayout topLayout = new LinearLayout(activity());
-            topLayout.setId(R.id.salton_id_top_layout);
-            topLayout.setOrientation(LinearLayout.VERTICAL);
-            topLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        LinearLayout topLayout = new LinearLayout(activity());
+        topLayout.setId(R.id.salton_id_top_layout);
+        topLayout.setOrientation(LinearLayout.VERTICAL);
+        topLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        View titleBarView = getTitleBar();
+        if (titleBarView != null) {
             LinearLayout titleLayout = new LinearLayout(activity());
             titleLayout.setId(R.id.salton_id_title_layout);
             titleLayout.setOrientation(LinearLayout.VERTICAL);
             titleLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             topLayout.addView(titleLayout);
+            titleLayout.addView(titleBarView);
+        }
 
-            if (titleBar instanceof ViewStub) {
-                ViewStub viewStub = (ViewStub) titleBar;
-                new AsyncLayoutInflater(activity()).inflate(viewStub.getLayoutResource(), titleLayout, new AsyncLayoutInflater.OnInflateFinishedListener() {
-                    @Override
-                    public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
-                        titleLayout.addView(view);
-                        mComponentLife.initListener();
-                    }
-                });
-            } else {
-                titleLayout.addView(titleBar);
+        FrameLayout contentLayout = new FrameLayout(activity());
+        contentLayout.setId(R.id.salton_id_content_layout);
+        contentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        topLayout.addView(contentLayout);
+        new AsyncLayoutInflater(activity()).inflate(mComponentLife.getLayout(), contentLayout, new AsyncLayoutInflater.OnInflateFinishedListener() {
+            @Override
+            public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
+                contentLayout.addView(view);
+                mComponentLife.initViewAndData();
                 mComponentLife.initListener();
             }
-            FrameLayout contentLayout = new FrameLayout(activity());
-            contentLayout.setId(R.id.salton_id_content_layout);
-            contentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            contentLayout.addView(mainContentView);
-            topLayout.addView(contentLayout);
-            return topLayout;
-        } else {
-            return (ViewGroup) mainContentView;
-        }
+        });
+        return topLayout;
     }
 
     <B extends View> B getTitleBar() {
         return mComponentLife.getTitleBar();
-    }
-
-    void onViewCreated() {
-        mComponentLife.initViewAndData();
     }
 
     void log(String msg) {
