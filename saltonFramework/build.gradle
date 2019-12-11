@@ -2,11 +2,13 @@ apply plugin: 'com.android.library'
 //apply from: "deployBintray.gradle"
 apply plugin: 'maven'
 android {
-    compileSdkVersion "${compile_sdk_version}" as Integer
-    buildToolsVersion "${build_tools_version}"
+    compileSdkVersion "${rootProject.ext.android.compileSdkVersion}" as Integer
+    buildToolsVersion "${rootProject.ext.android.buildToolsVersion}"
     defaultConfig {
-        minSdkVersion "${min_sdk_version}" as Integer
-        targetSdkVersion "${target_sdk_version}" as Integer
+        minSdkVersion rootProject.ext.android.minSdkVersion as Integer
+        targetSdkVersion rootProject.ext.android.targetSdkVersion as Integer
+        versionName rootProject.ext.android.versionName
+        versionCode rootProject.ext.android.versionCode as Integer
 //        ndk {
 //            abiFilters "armeabi-v7a"
 //        }
@@ -38,20 +40,27 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api "com.android.support:appcompat-v7:${support_version}"
-    api "com.android.support:recyclerview-v7:${support_version}"
-    api 'com.google.code.gson:gson:2.8.5'
-    api 'io.reactivex.rxjava2:rxjava:2.2.10'
-    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'com.gyf.immersionbar:immersionbar:3.0.0-beta07'
-    api 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    api 'org.greenrobot:eventbus:3.1.1'
-    api 'com.qw:soulpermission:1.1.8'
-    api 'com.salton123:log:1.0.0.4'
-    api "com.trello.rxlifecycle2:rxlifecycle:2.2.2"
-    api "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2"
-    api "com.wuhenzhizao:titlebar:1.1.4"
+    api rootProject.ext.support["constraint-layout"]
+    api rootProject.ext.support["appcompat-v7"]
+    api rootProject.ext.support["recyclerview-v7"]
+    api rootProject.ext.dependencies["gson"]
+    api rootProject.ext.dependencies["rxlifecycle"]
+    api rootProject.ext.dependencies["rxlifecycle-components"]
+    api rootProject.ext.dependencies["lifecycle-extensions"]
+    api rootProject.ext.dependencies["rxjava"]
+    api rootProject.ext.dependencies["rxandroid"]
+    api rootProject.ext.dependencies["loadsir"]
+    api rootProject.ext.dependencies["titlebar"]
+    api rootProject.ext.dependencies["eventbus"]
+    api rootProject.ext.dependencies["glide"]
+    api rootProject.ext.dependencies["soulpermission"]
+    api rootProject.ext.dependencies["xlog"]
+    api rootProject.ext.dependencies["immersionbar"]
+    api rootProject.ext.dependencies["arouter-api"]
+    api rootProject.ext.dependencies["lottie"]
+
+    annotationProcessor rootProject.ext.dependencies["glide-compiler"]
+//    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
 }
 
 

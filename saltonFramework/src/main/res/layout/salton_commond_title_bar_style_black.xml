@@ -3,10 +3,10 @@
     xmlns:titlebar="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    titlebar:centerSubText="hello"
-    titlebar:centerText="hello"
+    titlebar:centerSubText=" "
+    titlebar:centerText=" "
     titlebar:centerType="textView"
     titlebar:fillStatusBar="true"
     titlebar:leftType="imageButton"
-    titlebar:rightText=""
+    titlebar:rightText=" "
     titlebar:rightType="textView" />

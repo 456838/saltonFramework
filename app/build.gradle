@@ -3,14 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion "${compile_sdk_version}" as Integer
-    buildToolsVersion "${build_tools_version}" as String
+
+    compileSdkVersion "${rootProject.ext.android.compileSdkVersion}" as Integer
+    buildToolsVersion "${rootProject.ext.android.buildToolsVersion}"
     defaultConfig {
-        minSdkVersion "${min_sdk_version}" as Integer
-        targetSdkVersion "${target_sdk_version}" as Integer
+        minSdkVersion rootProject.ext.android.minSdkVersion as Integer
+        targetSdkVersion rootProject.ext.android.targetSdkVersion as Integer
+        applicationId rootProject.ext.android.applicationId
+        versionName rootProject.ext.android.versionName
+        versionCode rootProject.ext.android.versionCode as Integer
         applicationId "com.salton123.saltonframeworkdemo"
-        versionCode 1
-        versionName "1.0"
         multiDexEnabled true
     }
     buildTypes {

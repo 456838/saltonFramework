@@ -3,6 +3,7 @@ package com.salton123.saltonframeworkdemo;
 import android.os.Bundle;
 
 import com.salton123.feature.BlackTitleFeature;
+import com.salton123.feature.LoadSirFeature;
 import com.salton123.feature.PermissionFeature;
 import com.salton123.ui.base.BaseActivity;
 
@@ -18,7 +19,6 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
-
     @Override
     public void initVariable(Bundle savedInstanceState) {
         addFeature(new PermissionFeature());
@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public String getRightText() {
-                return "确定";
+                return "";
             }
 
             @Override
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
                 return "距离100km";
             }
         });
+        addFeature(new LoadSirFeature(this){});
     }
 
     @Override
