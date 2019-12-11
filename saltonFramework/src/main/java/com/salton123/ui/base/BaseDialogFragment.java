@@ -1,17 +1,23 @@
 package com.salton123.ui.base;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.support.annotation.FloatRange;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.salton123.feature.IFeature;
+import com.trello.rxlifecycle2.components.support.RxDialogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.yokeyword.fragmentation.SwipeBackLayout;
+import me.yokeyword.fragmentation_swipeback.core.ISwipeBackFragment;
+import me.yokeyword.fragmentation_swipeback.core.SwipeBackFragmentDelegate;
 
 /**
  * User: newSalton@outlook.com
@@ -19,54 +25,21 @@ import java.util.List;
  * ModifyTime: 19:01
  * Description:
  */
-public abstract class BaseDialogFragment extends DialogFragment implements IComponentLife {
-    private FragmentDelegate mActivityDelegate;
-    private List<IFeature> mFeatures = new ArrayList<>();
+public abstract class BaseDialogFragment extends RxDialogFragment implements IComponentLife, ISwipeBackFragment {
+
+    private LifeDelegate mLifeDelegate = new LifeDelegate(this);
+    public List<IFeature> mFeatures = new ArrayList<>();
 
     public void addFeature(IFeature feature) {
         this.mFeatures.add(feature);
     }
 
     @Override
-    public void onAttach(final Context context) {
-        super.onAttach(context);
-        mActivityDelegate = new FragmentDelegate(this) {
-            @Override
-            public Activity activity() {
-                return (Activity) context;
-            }
-        };
-    }
-
-    @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-        mActivityDelegate = new FragmentDelegate(this) {
-            @Override
-            public Activity activity() {
-                return activity;
-            }
-        };
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
-        mActivityDelegate.onCreate(savedInstanceState);
+        mLifeDelegate.initVariable(savedInstanceState);
+        mDelegate.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
-        for (IFeature item : mFeatures) {
-            item.onBind();
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return mActivityDelegate.onCreateView();
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mActivityDelegate.onViewCreated();
+        setSwipeBackEnable(false);  //默认不开启滑动返回
     }
 
     @Override
@@ -79,77 +52,93 @@ public abstract class BaseDialogFragment extends DialogFragment implements IComp
 
     @Override
     public View getRootView() {
-        return mActivityDelegate.getRootView();
+        return mLifeDelegate.getRootView();
     }
 
     @Override
-    public <B extends View> B getTitleBar() {
-        return null;
+    public void asynTitleBar(View titleBarView) {
+        mLifeDelegate.asynTitleBar(titleBarView);
     }
 
     @Override
     public Activity activity() {
-        return mActivityDelegate.activity();
-    }
-
-    @Override
-    public LayoutInflater inflater() {
-        return mActivityDelegate.inflater();
+        return mLifeDelegate.activity();
     }
 
     @Override
     public <T extends View> T f(int resId) {
-        return mActivityDelegate.f(resId);
+        return mLifeDelegate.f(resId);
     }
 
     @Override
     public void initListener() {
-
+        bindFeature();
     }
 
     @Override
     public void longToast(String toast) {
-        mActivityDelegate.longToast(toast);
+        mLifeDelegate.longToast(toast);
     }
 
     @Override
     public void shortToast(String toast) {
-        mActivityDelegate.shortToast(toast);
+        mLifeDelegate.shortToast(toast);
     }
 
     @Override
     public void log(String msg) {
-        mActivityDelegate.log(msg);
+        mLifeDelegate.log(msg);
     }
 
     @Override
-    public void openActivity(Class<?> clz, Bundle bundle) {
-        mActivityDelegate.openActivity(clz, bundle);
+    public void openActivity(Class<?> clz, @Nullable Bundle bundle) {
+        mLifeDelegate.openActivity(clz, bundle);
     }
 
     @Override
-    public void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
-        mActivityDelegate.openActivityForResult(clz, bundle, requestCode);
+    public void openActivityForResult(Class<?> clz, @Nullable Bundle bundle, int requestCode) {
+        mLifeDelegate.openActivityForResult(clz, bundle, requestCode);
     }
+
+    public void openActivity(Class<?> clz) {
+        if (activity() != null) {
+            Intent intent = new Intent(activity(), clz);
+            activity().startActivity(intent);
+        }
+    }
+
+    public void openActivityForResult(Class<?> clz, int requestCode) {
+        if (activity() != null) {
+            Intent intent = new Intent(activity(), clz);
+            activity().startActivityForResult(intent, requestCode);
+        }
+    }
+
 
     @Override
     public void setListener(int... ids) {
-        mActivityDelegate.setListener(ids);
+        mLifeDelegate.setListener(ids);
     }
 
     @Override
     public void setListener(View... views) {
-        mActivityDelegate.setListener(views);
+        mLifeDelegate.setListener(views);
     }
 
     @Override
     public void show(View... views) {
-        mActivityDelegate.show(views);
+        mLifeDelegate.show(views);
     }
 
     @Override
     public void hide(View... views) {
-        mActivityDelegate.hide(views);
+        mLifeDelegate.hide(views);
+    }
+
+    public void bindFeature() {
+        for (IFeature item : mFeatures) {
+            item.onBind();
+        }
     }
 
     @Override
@@ -157,4 +146,59 @@ public abstract class BaseDialogFragment extends DialogFragment implements IComp
 
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mDelegate.onViewCreated(container, savedInstanceState);
+        return mLifeDelegate.getRootView();
+    }
+
+
+    final SwipeBackFragmentDelegate mDelegate = new SwipeBackFragmentDelegate(this);
+
+    @Override
+    public View attachToSwipeBack(View view) {
+        return mDelegate.attachToSwipeBack(view);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        mDelegate.onHiddenChanged(hidden);
+    }
+
+    public SwipeBackLayout getSwipeBackLayout() {
+        return mDelegate.getSwipeBackLayout();
+    }
+
+    /**
+     * 是否可滑动
+     *
+     * @param enable
+     */
+    public void setSwipeBackEnable(boolean enable) {
+        mDelegate.setSwipeBackEnable(enable);
+    }
+
+    @Override
+    public void setEdgeLevel(SwipeBackLayout.EdgeLevel edgeLevel) {
+        mDelegate.setEdgeLevel(edgeLevel);
+    }
+
+    @Override
+    public void setEdgeLevel(int widthPixel) {
+        mDelegate.setEdgeLevel(widthPixel);
+    }
+
+    /**
+     * Set the offset of the parallax slip.
+     */
+    public void setParallaxOffset(@FloatRange(from = 0.0f, to = 1.0f) float offset) {
+        mDelegate.setParallaxOffset(offset);
+    }
+
+    @Override
+    public void onDestroyView() {
+        mDelegate.onDestroyView();
+        super.onDestroyView();
+    }
 }

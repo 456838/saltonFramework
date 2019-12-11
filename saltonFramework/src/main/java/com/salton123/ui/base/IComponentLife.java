@@ -2,7 +2,7 @@ package com.salton123.ui.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 /**
@@ -17,15 +17,13 @@ public interface IComponentLife extends View.OnClickListener {
 
     View getRootView();
 
-    <B extends View> B getTitleBar();
+    void asynTitleBar(View titleBarView);
 
     Activity activity();
 
-    LayoutInflater inflater();
-
     <T extends View> T f(int resId);
 
-    void initVariable(Bundle savedInstanceState);    //在setContentView之前初始化数据
+    void initVariable(@Nullable Bundle savedInstanceState);    //在setContentView之前初始化数据
 
     void initViewAndData();  //初始化数据在View之后
 
@@ -37,9 +35,9 @@ public interface IComponentLife extends View.OnClickListener {
 
     void log(String msg);
 
-    void openActivity(Class<?> clz, Bundle bundle);
+    void openActivity(Class<?> clz, @Nullable Bundle bundle);
 
-    void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode);
+    void openActivityForResult(Class<?> clz, @Nullable Bundle bundle, int requestCode);
 
     void setListener(int... ids);
 

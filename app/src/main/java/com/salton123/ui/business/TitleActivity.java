@@ -16,21 +16,8 @@ import com.salton123.ui.base.BaseActivity;
  */
 public abstract class TitleActivity extends BaseActivity {
     ViewStub stub;
-
     @Override
-    public <B extends View> B getTitleBar() {
-        if (stub == null) {
-            stub = new ViewStub(activity());
-            stub.setLayoutResource(R.layout.salton_normal_title_bar);
-            return (B) stub;
-        } else {
-            TitleBar mTitleBar = f(R.id.titleBar);
-            return (B) mTitleBar;
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (stub != null) {
             stub.inflate();

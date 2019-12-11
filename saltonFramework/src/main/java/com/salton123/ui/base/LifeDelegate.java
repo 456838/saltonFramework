@@ -5,102 +5,129 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.AsyncLayoutInflater;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.salton123.app.BaseApplication;
+import com.salton123.log.XLog;
 import com.salton123.saltonframework.R;
-
 
 /**
  * User: newSalton@outlook.com
- * Date: 2019/3/19 10:13
- * ModifyTime: 10:13
+ * Date: 2019/12/11 9:29
+ * ModifyTime: 9:29
  * Description:
  */
-public abstract class LifeDelegate {
-    public IComponentLife mComponentLife;
-    private ViewGroup rootView;
+public class LifeDelegate implements IComponentLife {
+    private IComponentLife mComponentLife;
+    private Activity mHostActivity;
+    private LinearLayout rootView = new LinearLayout(BaseApplication.sInstance);
 
     public LifeDelegate(IComponentLife componentLife) {
         this.mComponentLife = componentLife;
     }
 
-    void onCreate(Bundle saveInstanceState) {
-        mComponentLife.initVariable(saveInstanceState);
+    @Override
+    public int getLayout() {
+        return mComponentLife.getLayout();
     }
 
-    View onCreateView() {
-        rootView = buildRootView();
-        return rootView;
-    }
-
-    private ViewGroup buildRootView() {
-        LinearLayout topLayout = new LinearLayout(activity());
-        topLayout.setId(R.id.salton_id_top_layout);
-        topLayout.setOrientation(LinearLayout.VERTICAL);
-        topLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        View titleBarView = getTitleBar();
-        if (titleBarView != null) {
-            LinearLayout titleLayout = new LinearLayout(activity());
-            titleLayout.setId(R.id.salton_id_title_layout);
-            titleLayout.setOrientation(LinearLayout.VERTICAL);
-            titleLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            topLayout.addView(titleLayout);
-            titleLayout.addView(titleBarView);
-        }
-
+    @Override
+    public View getRootView() {
+        rootView.setId(R.id.salton_id_top_layout);
+        rootView.setOrientation(LinearLayout.VERTICAL);
+        rootView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         FrameLayout contentLayout = new FrameLayout(activity());
         contentLayout.setId(R.id.salton_id_content_layout);
-        contentLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        topLayout.addView(contentLayout);
-        new AsyncLayoutInflater(activity()).inflate(mComponentLife.getLayout(), contentLayout, new AsyncLayoutInflater.OnInflateFinishedListener() {
-            @Override
-            public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
-                contentLayout.addView(view);
-                mComponentLife.initViewAndData();
-                mComponentLife.initListener();
-            }
-        });
-        return topLayout;
-    }
-
-    <B extends View> B getTitleBar() {
-        return mComponentLife.getTitleBar();
-    }
-
-    void log(String msg) {
-        Log.i(this.getClass().getSimpleName(), msg);
-    }
-
-    void longToast(String toast) {
-        Toast.makeText(mComponentLife.activity(), toast, Toast.LENGTH_LONG).show();
-    }
-
-    void shortToast(String toast) {
-        Toast.makeText(mComponentLife.activity(), toast, Toast.LENGTH_SHORT).show();
-    }
-
-    <T extends View> T f(int resId) {
-        return (T) rootView.findViewById(resId);
-    }
-
-    View getRootView() {
+        contentLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        rootView.addView(contentLayout);
+        new AsyncLayoutInflater(activity()).inflate(
+                mComponentLife.getLayout(),
+                contentLayout,
+                new AsyncLayoutInflater.OnInflateFinishedListener() {
+                    @Override
+                    public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
+                        contentLayout.addView(view);
+                        mComponentLife.initViewAndData();
+                        mComponentLife.initListener();
+                    }
+                });
         return rootView;
     }
 
-    LayoutInflater inflater() {
-        return LayoutInflater.from(mComponentLife.activity());
+    @Override
+    public void asynTitleBar(View titleBarView) {
+        View titleView = rootView.findViewById(R.id.salton_id_title_layout);
+        if (titleView != null) {    //防止重复加载
+            return;
+        }
+        LinearLayout titleLayout = new LinearLayout(activity());
+        titleLayout.setId(R.id.salton_id_title_layout);
+        titleLayout.setOrientation(LinearLayout.VERTICAL);
+        rootView.addView(titleLayout, 0);
+        if (titleBarView != null) {
+            titleLayout.addView(titleBarView);
+            titleLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        }
     }
 
-    abstract Activity activity();
+    @Override
+    public Activity activity() {
+        if (mComponentLife instanceof Fragment) {
+            mHostActivity = ((Fragment) mComponentLife).getActivity();
+        } else if (mComponentLife instanceof Activity) {
+            mHostActivity = (Activity) mComponentLife;
+        } else {
+            throw new RuntimeException("instance must Fragment or Activity");
+        }
+        return mHostActivity;
+    }
 
+    @Override
+    public <T extends View> T f(int resId) {
+        return rootView.findViewById(resId);
+    }
+
+    @Override
+    public void initVariable(@Nullable Bundle savedInstanceState) {
+        mComponentLife.initVariable(savedInstanceState);
+    }
+
+    @Override
+    public void initViewAndData() {
+        mComponentLife.initViewAndData();
+    }
+
+    @Override
+    public void initListener() {
+        mComponentLife.initListener();
+    }
+
+    @Override
+    public void longToast(String toast) {
+        if (activity() != null) {
+            Toast.makeText(activity(), toast, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void shortToast(String toast) {
+        if (activity() != null) {
+            Toast.makeText(activity(), toast, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void log(String msg) {
+        XLog.i(getClass(), msg);
+    }
+
+    @Override
     public void openActivity(Class<?> clz, Bundle bundle) {
         if (activity() != null) {
             Intent intent = new Intent(activity(), clz);
@@ -111,6 +138,7 @@ public abstract class LifeDelegate {
         }
     }
 
+    @Override
     public void openActivityForResult(Class<?> clz, Bundle bundle, int requestCode) {
         if (activity() != null) {
             Intent intent = new Intent(activity(), clz);
@@ -121,27 +149,37 @@ public abstract class LifeDelegate {
         }
     }
 
+    @Override
     public void setListener(int... ids) {
         for (int id : ids) {
-            f(id).setOnClickListener(mComponentLife);
+            f(id).setOnClickListener(this);
         }
     }
 
+    @Override
     public void setListener(View... views) {
         for (View view : views) {
-            view.setOnClickListener(mComponentLife);
+            view.setOnClickListener(this);
         }
     }
 
+    @Override
     public void show(View... views) {
         for (View view : views) {
             view.setVisibility(View.VISIBLE);
         }
     }
 
+    @Override
     public void hide(View... views) {
         for (View view : views) {
             view.setVisibility(View.GONE);
         }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        mComponentLife.onClick(v);
     }
 }

@@ -1,15 +1,11 @@
 package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
-import android.os.Debug;
-import android.view.View;
 
+import com.salton123.feature.BlackTitleFeature;
 import com.salton123.feature.PermissionFeature;
-import com.salton123.log.XLog;
 import com.salton123.ui.base.BaseActivity;
-import com.salton123.ui.business.TitleActivity;
 
-import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,33 +22,32 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initVariable(Bundle savedInstanceState) {
         addFeature(new PermissionFeature());
+        addFeature(new BlackTitleFeature(this) {
+            @Override
+            public String getLeftText() {
+                return "返回";
+            }
+
+            @Override
+            public String getRightText() {
+                return "确定";
+            }
+
+            @Override
+            public String getTitle() {
+                return "和明天的聊天";
+            }
+
+            @Override
+            public String getSubTitle() {
+                return "距离100km";
+            }
+        });
     }
 
     @Override
     public void initViewAndData() {
-        XLog.i(this, "titlebar one:" + getTitleBar());
-        findViewById(R.id.tvHello).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // throw new RuntimeException("hello");
-                // StringBuilder stringBuilder = new StringBuilder();
-                // stringBuilder.append("hello\n");
-                // String path = new File(Environment.getExternalStorageDirectory(), "salton").getPath()
-                //         + File.separator + BaseApplication.getInstance().getPackageName();
-                // String crashPath = path + File.separator + createFile();
-                // FlushWriter flush = new FlushWriter(path + File.separator + "crash_buf",
-                //         8192 * 4,
-                //         crashPath
-                //         , false
-                // );
-                // flush.changeLogPath(crashPath);
-                // flush.write(stringBuilder.toString());
-                // flush.flushAsync();
-                // flush.release();
-            }
-        });
-        XLog.i(this, "titlebar:" + getTitleBar());
-        //Debug.stopMethodTracing();
+
     }
 
     private String createFile() {
@@ -62,8 +57,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        XLog.i(this, "titlebar two:" + getTitleBar());
+
     }
 }
