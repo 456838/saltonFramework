@@ -5,6 +5,7 @@ import android.view.View;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.salton123.saltonframework.R;
 import com.salton123.ui.base.IComponentLife;
 import com.salton123.util.FP;
 
@@ -38,7 +39,8 @@ public class LoadSirFeature implements IFeature, Callback.OnReloadListener {
                 builder.addCallback(callback);
             }
         }
-        mBaseLoadService = builder.build().register(mIComponentLife.getRootView(), this);
+        mBaseLoadService = builder.build().register(mIComponentLife.getRootView()
+                .findViewById(R.id.salton_id_content_layout), this);
         mBaseLoadService.showCallback(getInitStatus().getClass());
     }
 

@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.salton123.app.BaseApplication;
 import com.salton123.log.XLog;
 import com.salton123.saltonframework.R;
 
@@ -26,7 +25,7 @@ import com.salton123.saltonframework.R;
 public class LifeDelegate implements IComponentLife {
     private IComponentLife mComponentLife;
     private Activity mHostActivity;
-    private LinearLayout rootView = new LinearLayout(BaseApplication.sInstance);
+    private LinearLayout rootView;
 
     public LifeDelegate(IComponentLife componentLife) {
         this.mComponentLife = componentLife;
@@ -39,24 +38,27 @@ public class LifeDelegate implements IComponentLife {
 
     @Override
     public View getRootView() {
-        rootView.setId(R.id.salton_id_top_layout);
-        rootView.setOrientation(LinearLayout.VERTICAL);
-        rootView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        FrameLayout contentLayout = new FrameLayout(activity());
-        contentLayout.setId(R.id.salton_id_content_layout);
-        contentLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        rootView.addView(contentLayout);
-        new AsyncLayoutInflater(activity()).inflate(
-                mComponentLife.getLayout(),
-                contentLayout,
-                new AsyncLayoutInflater.OnInflateFinishedListener() {
-                    @Override
-                    public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
-                        contentLayout.addView(view);
-                        mComponentLife.initViewAndData();
-                        mComponentLife.initListener();
-                    }
-                });
+        if (rootView == null) {
+            rootView = new LinearLayout(activity());
+            rootView.setId(R.id.salton_id_top_layout);
+            rootView.setOrientation(LinearLayout.VERTICAL);
+            rootView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            FrameLayout contentLayout = new FrameLayout(activity());
+            contentLayout.setId(R.id.salton_id_content_layout);
+            contentLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            rootView.addView(contentLayout);
+            new AsyncLayoutInflater(activity()).inflate(
+                    mComponentLife.getLayout(),
+                    contentLayout,
+                    new AsyncLayoutInflater.OnInflateFinishedListener() {
+                        @Override
+                        public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
+                            contentLayout.addView(view);
+                            mComponentLife.initViewAndData();
+                            mComponentLife.initListener();
+                        }
+                    });
+        }
         return rootView;
     }
 
