@@ -3,6 +3,8 @@ package com.salton123.feature;
 import android.view.View;
 
 import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.callback.HintCallback;
+import com.kingja.loadsir.callback.ProgressCallback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.salton123.saltonframework.R;
@@ -17,12 +19,12 @@ import java.util.List;
  * ModifyTime: 17:18
  * Description:
  */
-public class LoadSirFeature implements IFeature, Callback.OnReloadListener {
+public class MultiStatusFeature implements IFeature, Callback.OnReloadListener {
     public IComponentLife mIComponentLife;
     //状态页管理
     public LoadService mBaseLoadService;
 
-    public LoadSirFeature(IComponentLife componentLife) {
+    public MultiStatusFeature(IComponentLife componentLife) {
         this.mIComponentLife = componentLife;
     }
 
@@ -45,7 +47,10 @@ public class LoadSirFeature implements IFeature, Callback.OnReloadListener {
     }
 
     Callback getInitStatus() {
-        return new BlankStatus();
+        ProgressCallback loadingCallback = new ProgressCallback.Builder()
+                .setTitle("Loading", R.style.salton_hint_title)
+                .build();
+        return loadingCallback;
     }
 
     Callback getLoadingStatus() {
@@ -57,7 +62,12 @@ public class LoadSirFeature implements IFeature, Callback.OnReloadListener {
     }
 
     Callback getEmptyStatus() {
-        return new BlankStatus();
+        HintCallback hintCallback = new HintCallback.Builder()
+                .setTitle("Error", R.style.salton_hint_title)
+                .setSubTitle("Sorry, buddy, I will try it again.")
+                .setHintImg(R.drawable.salton_load_pic_failed)
+                .build();
+        return hintCallback;
     }
 
     @Override

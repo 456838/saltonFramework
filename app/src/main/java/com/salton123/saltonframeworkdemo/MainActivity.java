@@ -3,7 +3,7 @@ package com.salton123.saltonframeworkdemo;
 import android.os.Bundle;
 
 import com.salton123.feature.BlackTitleFeature;
-import com.salton123.feature.LoadSirFeature;
+import com.salton123.feature.MultiStatusFeature;
 import com.salton123.feature.PermissionFeature;
 import com.salton123.ui.base.BaseActivity;
 
@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
                 return "距离100km";
             }
         });
-        addFeature(new LoadSirFeature(this){});
+        addFeature(new MultiStatusFeature(this){});
     }
 
     @Override

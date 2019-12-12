@@ -31,4 +31,9 @@
         <item name="android:windowEnterAnimation">@anim/v_fragment_pop_enter</item>
         <item name="android:windowExitAnimation">@anim/v_fragment_pop_exit</item>
     </style>
+
+    <style name="salton_hint_title">
+        <item name="android:textColor">#666666</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>
