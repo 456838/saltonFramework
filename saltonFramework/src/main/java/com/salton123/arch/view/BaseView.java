@@ -1,4 +1,4 @@
-package com.salton123.ui.mvp;
+package com.salton123.arch.view;
 
 /**
  * User: 巫金生(newSalton@outlook.com)
@@ -6,5 +6,6 @@ package com.salton123.ui.mvp;
  * Time: 11:06
  * Description:
  */
-public interface BaseView {
+public interface BaseView{
+
 }

@@ -9,6 +9,7 @@ import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.salton123.saltonframework.R;
 import com.salton123.ui.base.IComponentLife;
+import com.salton123.arch.view.IMultiStatusView;
 import com.salton123.util.FP;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  * ModifyTime: 17:18
  * Description:
  */
-public class MultiStatusFeature implements IFeature, Callback.OnReloadListener {
+public class MultiStatusFeature implements IFeature, Callback.OnReloadListener, IMultiStatusView {
     public IComponentLife mIComponentLife;
     //状态页管理
     public LoadService mBaseLoadService;
@@ -46,22 +47,22 @@ public class MultiStatusFeature implements IFeature, Callback.OnReloadListener {
         mBaseLoadService.showCallback(getInitStatus().getClass());
     }
 
-    Callback getInitStatus() {
+    public Callback getInitStatus() {
         ProgressCallback loadingCallback = new ProgressCallback.Builder()
                 .setTitle("Loading", R.style.salton_hint_title)
                 .build();
         return loadingCallback;
     }
 
-    Callback getLoadingStatus() {
+    public Callback getLoadingStatus() {
         return new BlankStatus();
     }
 
-    Callback getErrorStatus() {
+    public Callback getErrorStatus() {
         return new BlankStatus();
     }
 
-    Callback getEmptyStatus() {
+    public Callback getEmptyStatus() {
         HintCallback hintCallback = new HintCallback.Builder()
                 .setTitle("Error", R.style.salton_hint_title)
                 .setSubTitle("Sorry, buddy, I will try it again.")
@@ -82,5 +83,25 @@ public class MultiStatusFeature implements IFeature, Callback.OnReloadListener {
     @Override
     public void onReload(View v) {
         mBaseLoadService.showSuccess();
+    }
+
+    @Override
+    public void showInitLoadView(boolean show) {
+        mBaseLoadService.showCallback(getInitStatus().getClass());
+    }
+
+    @Override
+    public void showNoDataView(boolean show) {
+        mBaseLoadService.showCallback(getEmptyStatus().getClass());
+    }
+
+    @Override
+    public void showTransLoadingView(boolean show) {
+        mBaseLoadService.showCallback(getLoadingStatus().getClass());
+    }
+
+    @Override
+    public void showNetWorkErrView(boolean show) {
+        mBaseLoadService.showCallback(getErrorStatus().getClass());
     }
 }

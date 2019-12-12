@@ -1,6 +1,5 @@
 package com.salton123.feature;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.AsyncLayoutInflater;
@@ -10,9 +9,8 @@ import android.view.ViewGroup;
 
 import com.salton123.saltonframework.R;
 import com.salton123.ui.base.IComponentLife;
+import com.salton123.arch.view.ITitleView;
 import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
-
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * User: newSalton@outlook.com
@@ -20,7 +18,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * ModifyTime: 11:33
  * Description:
  */
-public class BlackTitleFeature implements IFeature, CommonTitleBar.OnTitleBarListener {
+public class BlackTitleFeature implements IFeature, ITitleView {
     public IComponentLife mIComponentLife;
     private CommonTitleBar mCommonTitleBar;
 
@@ -37,18 +35,6 @@ public class BlackTitleFeature implements IFeature, CommonTitleBar.OnTitleBarLis
                     @Override
                     public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
                         mCommonTitleBar = (CommonTitleBar) view;
-                        if (mCommonTitleBar.getLeftTextView() != null && !TextUtils.isEmpty(getLeftText())) {
-                            mCommonTitleBar.getLeftTextView().setText(getLeftText());
-                        }
-                        if (mCommonTitleBar.getCenterTextView() != null && !TextUtils.isEmpty(getTitle())) {
-                            mCommonTitleBar.getCenterTextView().setText(getTitle());
-                        }
-                        if (mCommonTitleBar.getCenterSubTextView() != null && !TextUtils.isEmpty(getSubTitle())) {
-                            mCommonTitleBar.getCenterSubTextView().setText(getSubTitle());
-                        }
-                        if (mCommonTitleBar.getRightTextView() != null && !TextUtils.isEmpty(getRightText())) {
-                            mCommonTitleBar.getRightTextView().setText(getRightText());
-                        }
                         mIComponentLife.asynTitleBar(view);
                         mCommonTitleBar.setListener(BlackTitleFeature.this);
                     }
@@ -60,36 +46,37 @@ public class BlackTitleFeature implements IFeature, CommonTitleBar.OnTitleBarLis
 
     }
 
-    public void onBackClick() {
-        if (mIComponentLife instanceof Activity) {
-            mIComponentLife.activity().onBackPressed();
-        } else if (mIComponentLife instanceof SupportFragment) {
-            ((SupportFragment) mIComponentLife).onBackPressedSupport();
+    @Override
+    public void setLeftText(String leftText) {
+        if (mCommonTitleBar.getLeftTextView() != null && !TextUtils.isEmpty(leftText)) {
+            mCommonTitleBar.getLeftTextView().setText(leftText);
+        }
+
+    }
+
+    @Override
+    public void setRightText(String rightText) {
+        if (mCommonTitleBar.getRightTextView() != null && !TextUtils.isEmpty(rightText)) {
+            mCommonTitleBar.getRightTextView().setText(rightText);
         }
     }
 
-    public String getLeftText() {
-        return "";
+    @Override
+    public void setTitleText(String titleText) {
+        if (mCommonTitleBar.getCenterTextView() != null && !TextUtils.isEmpty(titleText)) {
+            mCommonTitleBar.getCenterTextView().setText(titleText);
+        }
     }
 
-    public String getRightText() {
-        return "";
+    @Override
+    public void setSubTitleText(String subTitleText) {
+        if (mCommonTitleBar.getCenterSubTextView() != null && !TextUtils.isEmpty(subTitleText)) {
+            mCommonTitleBar.getCenterSubTextView().setText(subTitleText);
+        }
     }
-
-    public String getTitle() {
-        return "";
-    }
-
-    public String getSubTitle() {
-        return "";
-    }
-
 
     @Override
     public void onClicked(View v, int action, String extra) {
-        if (action == CommonTitleBar.ACTION_LEFT_BUTTON
-                || action == CommonTitleBar.ACTION_LEFT_TEXT) {
-            onBackClick();
-        }
+
     }
 }

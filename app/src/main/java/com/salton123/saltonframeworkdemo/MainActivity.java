@@ -5,14 +5,14 @@ import android.os.Bundle;
 import com.salton123.feature.BlackTitleFeature;
 import com.salton123.feature.MultiStatusFeature;
 import com.salton123.feature.PermissionFeature;
-import com.salton123.ui.base.BaseActivity;
+import com.salton123.ui.base.LifeDelegateActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends LifeDelegateActivity {
 
     @Override
     public int getLayout() {

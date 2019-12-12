@@ -1,27 +1,27 @@
 package com.salton123.feature;
 
-import com.salton123.util.EventUtil;
+import com.alibaba.android.arouter.launcher.ARouter;
 
 /**
  * User: newSalton@outlook.com
- * Date: 2019/5/16 10:11
- * ModifyTime: 10:11
+ * Date: 2019/12/12 14:06
+ * ModifyTime: 14:06
  * Description:
  */
-public class EventBusFeature implements IFeature {
+public class ArouterFeature implements IFeature {
     private Object target;
 
-    public EventBusFeature(Object target) {
+    public ArouterFeature(Object target) {
         this.target = target;
     }
 
     @Override
     public void onBind() {
-        EventUtil.register(target);
+        ARouter.getInstance().inject(target);
     }
 
     @Override
     public void onUnBind() {
-        EventUtil.unregister(target);
+
     }
 }
