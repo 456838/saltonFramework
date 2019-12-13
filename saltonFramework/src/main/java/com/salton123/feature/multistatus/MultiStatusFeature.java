@@ -4,17 +4,12 @@ import android.view.View;
 
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.callback.HintCallback;
-import com.kingja.loadsir.callback.ProgressCallback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.salton123.arch.view.IMultiStatusView;
 import com.salton123.feature.IFeature;
-import com.salton123.feature.multistatus.BlankStatus;
 import com.salton123.saltonframework.R;
 import com.salton123.ui.base.IComponentLife;
-import com.salton123.arch.view.IMultiStatusView;
-import com.salton123.util.FP;
-
-import java.util.List;
 
 /**
  * User: newSalton@outlook.com
@@ -39,25 +34,17 @@ public class MultiStatusFeature implements IFeature, Callback.OnReloadListener, 
                 .addCallback(getErrorStatus())
                 .addCallback(getLoadingStatus())
                 .setDefaultCallback(getInitStatus().getClass());
-        if (!FP.empty(getExtraStatus())) {
-            for (Callback callback : getExtraStatus()) {
-                builder.addCallback(callback);
-            }
-        }
         mBaseLoadService = builder.build().register(mIComponentLife.getRootView()
                 .findViewById(R.id.salton_id_content_layout), this);
         mBaseLoadService.showCallback(getInitStatus().getClass());
     }
 
     public Callback getInitStatus() {
-        ProgressCallback loadingCallback = new ProgressCallback.Builder()
-                .setTitle("Loading", R.style.salton_hint_title)
-                .build();
-        return loadingCallback;
+        return new InitStatus();
     }
 
     public Callback getLoadingStatus() {
-        return new BlankStatus();
+        return new LoadingStatus();
     }
 
     public Callback getErrorStatus() {
@@ -78,12 +65,14 @@ public class MultiStatusFeature implements IFeature, Callback.OnReloadListener, 
 
     }
 
-    List<Callback> getExtraStatus() {
-        return null;
-    }
 
     @Override
     public void onReload(View v) {
+        // if (mBaseLoadService.getCurrentCallback() == getInitStatus().getClass()) {
+        //     mBaseLoadService.showCallback(getLoadingStatus().getClass());
+        // } else {
+        //     mBaseLoadService.showSuccess();
+        // }
         mBaseLoadService.showSuccess();
     }
 

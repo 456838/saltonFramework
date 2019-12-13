@@ -32,16 +32,7 @@ public class MainActivity extends BaseActivity {
 
     public MultiStatusFeature getMultiStatusFeature() {
         return new MultiStatusFeature(this) {
-            @Override
-            public Callback getInitStatus() {
-                LoadingStatus loadingStatus = new LoadingStatus();
-                // HintCallback hintCallback = new HintCallback.Builder()
-                //         .setTitle("Error", com.salton123.saltonframework.R.style.salton_hint_title)
-                //         .setSubTitle("Sorry, buddy, I will try it again.")
-                //         .setHintImg(com.salton123.saltonframework.R.drawable.salton_load_pic_failed)
-                //         .build();
-                return loadingStatus;
-            }
+
         };
     }
 
