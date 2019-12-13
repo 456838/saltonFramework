@@ -1,4 +1,4 @@
-package com.salton123.feature;
+package com.salton123.feature.multistatus;
 
 import com.kingja.loadsir.callback.Callback;
 import com.salton123.saltonframework.R;
@@ -9,9 +9,9 @@ import com.salton123.saltonframework.R;
  * ModifyTime: 18:00
  * Description:
  */
-public class BlankStatus extends Callback {
+public class LoadingStatus extends Callback {
     @Override
     protected int onCreateView() {
-        return R.layout.salton_view_no_data;
+        return R.layout.salton_common_multi_status_loading;
     }
 }

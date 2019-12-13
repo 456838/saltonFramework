@@ -3,10 +3,11 @@ package com.salton123.ui.base;
 import android.os.Bundle;
 import android.view.View;
 
-import com.salton123.feature.BlackTitleFeature;
-import com.salton123.feature.MultiStatusFeature;
 import com.salton123.arch.view.IMultiStatusView;
 import com.salton123.arch.view.ITitleView;
+import com.salton123.feature.BlackTitleFeature;
+import com.salton123.feature.ImmersionFeature;
+import com.salton123.feature.multistatus.MultiStatusFeature;
 import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 
 /**
@@ -18,14 +19,22 @@ import com.wuhenzhizao.titlebar.widget.CommonTitleBar;
 public abstract class BaseActivity extends LifeDelegateActivity implements IMultiStatusView, ITitleView {
     private BlackTitleFeature mBlackTitleFeature;
     private MultiStatusFeature mMultiStatusFeature;
+    private ImmersionFeature mImmersionFeature;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBlackTitleFeature = getTitleFeature();
         mMultiStatusFeature = getMultiStatusFeature();
+        mImmersionFeature = getImmersionFeature();
         addFeature(mBlackTitleFeature);
         addFeature(mMultiStatusFeature);
+        addFeature(mImmersionFeature);
+        mImmersionFeature.dardFont();
+    }
+
+    private ImmersionFeature getImmersionFeature() {
+        return new ImmersionFeature(this);
     }
 
     public MultiStatusFeature getMultiStatusFeature() {

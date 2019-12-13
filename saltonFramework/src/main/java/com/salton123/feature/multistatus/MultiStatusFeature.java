@@ -1,4 +1,4 @@
-package com.salton123.feature;
+package com.salton123.feature.multistatus;
 
 import android.view.View;
 
@@ -7,6 +7,8 @@ import com.kingja.loadsir.callback.HintCallback;
 import com.kingja.loadsir.callback.ProgressCallback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+import com.salton123.feature.IFeature;
+import com.salton123.feature.multistatus.BlankStatus;
 import com.salton123.saltonframework.R;
 import com.salton123.ui.base.IComponentLife;
 import com.salton123.arch.view.IMultiStatusView;

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.salton123.feature.BlackTitleFeature;
-import com.salton123.feature.MultiStatusFeature;
+import com.salton123.feature.multistatus.MultiStatusFeature;
 import com.salton123.arch.view.IMultiStatusView;
 import com.salton123.arch.view.ITitleView;
 import com.wuhenzhizao.titlebar.widget.CommonTitleBar;

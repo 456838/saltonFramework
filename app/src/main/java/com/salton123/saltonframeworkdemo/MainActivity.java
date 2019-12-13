@@ -2,17 +2,18 @@ package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
 
-import com.salton123.feature.BlackTitleFeature;
-import com.salton123.feature.MultiStatusFeature;
+import com.kingja.loadsir.callback.Callback;
 import com.salton123.feature.PermissionFeature;
-import com.salton123.ui.base.LifeDelegateActivity;
+import com.salton123.feature.multistatus.LoadingStatus;
+import com.salton123.feature.multistatus.MultiStatusFeature;
+import com.salton123.ui.base.BaseActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends LifeDelegateActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     public int getLayout() {
@@ -22,33 +23,26 @@ public class MainActivity extends LifeDelegateActivity {
     @Override
     public void initVariable(Bundle savedInstanceState) {
         addFeature(new PermissionFeature());
-        addFeature(new BlackTitleFeature(this) {
-            @Override
-            public String getLeftText() {
-                return "返回";
-            }
-
-            @Override
-            public String getRightText() {
-                return "";
-            }
-
-            @Override
-            public String getTitle() {
-                return "和明天的聊天";
-            }
-
-            @Override
-            public String getSubTitle() {
-                return "距离100km";
-            }
-        });
-        addFeature(new MultiStatusFeature(this){});
     }
 
     @Override
     public void initViewAndData() {
+        asynTitleBar(null);
+    }
 
+    public MultiStatusFeature getMultiStatusFeature() {
+        return new MultiStatusFeature(this) {
+            @Override
+            public Callback getInitStatus() {
+                LoadingStatus loadingStatus = new LoadingStatus();
+                // HintCallback hintCallback = new HintCallback.Builder()
+                //         .setTitle("Error", com.salton123.saltonframework.R.style.salton_hint_title)
+                //         .setSubTitle("Sorry, buddy, I will try it again.")
+                //         .setHintImg(com.salton123.saltonframework.R.drawable.salton_load_pic_failed)
+                //         .build();
+                return loadingStatus;
+            }
+        };
     }
 
     private String createFile() {
