@@ -26,6 +26,7 @@ public class LifeDelegate implements IComponentLife {
     private IComponentLife mComponentLife;
     private Activity mHostActivity;
     private LinearLayout rootView;
+    private LinearLayout titleLayout;
 
     public LifeDelegate(IComponentLife componentLife) {
         this.mComponentLife = componentLife;
@@ -42,17 +43,24 @@ public class LifeDelegate implements IComponentLife {
             rootView = new LinearLayout(activity());
             rootView.setId(R.id.salton_id_top_layout);
             rootView.setOrientation(LinearLayout.VERTICAL);
-            rootView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            rootView.setLayoutParams(new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT));
             FrameLayout contentLayout = new FrameLayout(activity());
             contentLayout.setId(R.id.salton_id_content_layout);
-            contentLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            contentLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT));
             rootView.addView(contentLayout);
             new AsyncLayoutInflater(activity()).inflate(
                     mComponentLife.getLayout(),
                     contentLayout,
                     new AsyncLayoutInflater.OnInflateFinishedListener() {
                         @Override
-                        public void onInflateFinished(@NonNull View view, int i, @Nullable ViewGroup viewGroup) {
+                        public void onInflateFinished(
+                                @NonNull View view,
+                                int i,
+                                @Nullable ViewGroup viewGroup) {
                             contentLayout.addView(view);
                             mComponentLife.initViewAndData();
                             mComponentLife.initListener();
@@ -64,20 +72,27 @@ public class LifeDelegate implements IComponentLife {
 
     @Override
     public void asynTitleBar(View titleBarView) {
-        View titleView = rootView.findViewById(R.id.salton_id_title_layout);
-        if (titleView != null) {    //防止重复加载
-            return;
-        }
-        LinearLayout titleLayout = new LinearLayout(activity());
-        titleLayout.setId(R.id.salton_id_title_layout);
-        titleLayout.setOrientation(LinearLayout.VERTICAL);
-        rootView.addView(titleLayout, 0);
-        if (titleBarView != null) {
-            titleLayout.addView(titleBarView);
-            titleLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        if (titleBarView == null) {
+            if (titleLayout != null) {  //title布局已经初始化过，清空标题布局
+                titleLayout.removeAllViews();
+            }
+        } else {
+            if (titleLayout == null) {
+                titleLayout = new LinearLayout(activity());
+                titleLayout.setId(R.id.salton_id_title_layout);
+                titleLayout.setOrientation(LinearLayout.VERTICAL);
+                rootView.addView(titleLayout, 0);
+                titleLayout.addView(titleBarView);
+                titleLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+            } else {
+                titleLayout.removeAllViews();
+                titleLayout.addView(titleBarView);
+            }
         }
     }
-
+    
     @Override
     public Activity activity() {
         if (mComponentLife instanceof Fragment) {

@@ -2,9 +2,8 @@ package com.salton123.saltonframeworkdemo;
 
 import android.os.Bundle;
 
-import com.kingja.loadsir.callback.Callback;
+import com.salton123.feature.BlackTitleFeature;
 import com.salton123.feature.PermissionFeature;
-import com.salton123.feature.multistatus.LoadingStatus;
 import com.salton123.feature.multistatus.MultiStatusFeature;
 import com.salton123.ui.base.BaseActivity;
 
@@ -27,7 +26,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViewAndData() {
-        asynTitleBar(null);
+    }
+
+
+    @Override
+    public BlackTitleFeature getTitleFeature() {
+        return null;
     }
 
     public MultiStatusFeature getMultiStatusFeature() {

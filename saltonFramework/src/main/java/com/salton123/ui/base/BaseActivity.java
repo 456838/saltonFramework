@@ -27,10 +27,16 @@ public abstract class BaseActivity extends LifeDelegateActivity implements IMult
         mBlackTitleFeature = getTitleFeature();
         mMultiStatusFeature = getMultiStatusFeature();
         mImmersionFeature = getImmersionFeature();
-        addFeature(mBlackTitleFeature);
-        addFeature(mMultiStatusFeature);
-        addFeature(mImmersionFeature);
-        mImmersionFeature.dardFont();
+        if (mBlackTitleFeature != null) {
+            addFeature(mBlackTitleFeature);
+        }
+        if (mMultiStatusFeature != null) {
+            addFeature(mMultiStatusFeature);
+        }
+        if (mImmersionFeature != null) {
+            addFeature(mImmersionFeature);
+            mImmersionFeature.dardFont();
+        }
     }
 
     private ImmersionFeature getImmersionFeature() {
